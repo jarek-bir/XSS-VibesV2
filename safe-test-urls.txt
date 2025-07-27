@@ -1,0 +1,30 @@
+# Bezpieczne URLe do testowania funkcjonalności XSS Vibes
+# Te URLe są bezpieczne i nie zawierają prawdziwych luk XSS
+
+# Podstawowe testy HTTP
+https://httpbin.org/get?search=test123
+https://httpbin.org/post
+https://httpbin.org/put
+https://httpbin.org/delete
+https://httpbin.org/patch
+
+# Testy z różnymi parametrami
+https://httpbin.org/get?q=hello&lang=pl&format=json
+https://httpbin.org/get?user=admin&password=test&action=login
+https://httpbin.org/get?id=1&category=books&sort=title
+
+# Testy nagłówków i cookies
+https://httpbin.org/headers
+https://httpbin.org/cookies
+https://httpbin.org/user-agent
+
+# Testy redirectów i statusów
+https://httpbin.org/redirect/3
+https://httpbin.org/status/200
+https://httpbin.org/status/404
+
+# Przykłady do testowania różnych formatów odpowiedzi
+https://httpbin.org/json
+https://httpbin.org/xml
+https://httpbin.org/html
+https://httpbin.org/robots.txt

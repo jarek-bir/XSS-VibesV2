@@ -81,7 +81,7 @@ def cli(ctx, version):
 
 
 @cli.command()
-@click.argument("urls", nargs=-1, required=True)
+@click.argument("urls", nargs=-1, required=False)
 @click.option("-u", "--url", "single_url", help="Single URL to scan")
 @click.option(
     "-l",
@@ -409,11 +409,11 @@ def scan(
     # Setup logging
     try:
         setup_logging(
-            level=getattr(logging, log_level),
+            level=log_level,
             log_file=Path(log_file) if log_file else None,
             enable_colors=not no_colors,
         )
-    except Exception as e:
+    except (AttributeError, ValueError) as e:
         click.echo(f"Logging setup error: {e}")
         logging.basicConfig(level=logging.INFO)
 
@@ -434,7 +434,14 @@ def scan(
                     target_urls.append(line)
 
     if not target_urls:
-        click.echo(f"{Fore.RED}Error: No URLs provided{Style.RESET_ALL}", err=True)
+        click.echo(
+            f"{Fore.RED}Error: No URLs provided. Use URLs as arguments, -u for single URL, or -l for file{Style.RESET_ALL}",
+            err=True,
+        )
+        click.echo(f"{Fore.YELLOW}Examples:")
+        click.echo(f"  xss-vibes scan https://example.com")
+        click.echo(f"  xss-vibes scan -u https://example.com")
+        click.echo(f"  xss-vibes scan -l urls.txt{Style.RESET_ALL}")
         return
 
     # Setup rate limiter

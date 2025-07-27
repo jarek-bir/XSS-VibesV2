@@ -1,0 +1,8 @@
+# Quick Test URLs - najlepsze URLe do szybkiego testowania XSS Vibes
+# Tylko 5 najlepszych URLi do podstawowych testów
+
+https://httpbin.org/get?search=<script>alert(1)</script>
+https://httpbin.org/get?name="><img src=x onerror=alert(1)>
+https://httpbin.org/html?content=<svg onload=alert(1)>
+https://postman-echo.com/get?test=<script>alert(document.domain)</script>
+https://httpbin.org/anything?xss='><script>alert(1)</script>
