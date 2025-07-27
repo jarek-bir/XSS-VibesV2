@@ -52,13 +52,19 @@ class ArjunIntegration:
             return []
 
         try:
+            # Create a temporary file for Arjun output
+            with tempfile.NamedTemporaryFile(
+                mode="w", suffix=".json", delete=False
+            ) as temp_file:
+                output_file = temp_file.name
+
             # Prepare Arjun command
             cmd = [
                 "arjun",
                 "-u",
                 url,
                 "-oJ",
-                "/tmp/arjun_output.json",  # Specify output file
+                output_file,  # Use temporary file
                 "--stable",  # More stable detection
                 "-t",
                 str(min(self.config.max_threads, 5)),  # Limit threads
@@ -90,7 +96,6 @@ class ArjunIntegration:
                 return []
 
             # Read Arjun JSON output from file
-            output_file = "/tmp/arjun_output.json"
             parameters = []
 
             if Path(output_file).exists():

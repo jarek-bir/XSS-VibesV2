@@ -56,6 +56,8 @@ class XSSScanner:
         custom_waf: Optional[str] = None,
         waf_mode: bool = False,
         target_waf: Optional[str] = None,
+        use_enhanced_payloads: bool = False,
+        payload_category: Optional[str] = None,
     ) -> ScanResult:
         """
         Perform async XSS scan on a single URL.
@@ -163,6 +165,8 @@ class XSSScanner:
         custom_waf: Optional[str] = None,
         waf_mode: bool = False,
         target_waf: Optional[str] = None,
+        use_enhanced_payloads: bool = False,
+        payload_category: Optional[str] = None,
     ) -> ScanResult:
         """
         Perform synchronous XSS scan on a single URL.

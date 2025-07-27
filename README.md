@@ -4,16 +4,17 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
-**XSS Vibes** is a cutting-edge Cross-Site Scripting (XSS) vulnerability scanner with advanced detection capabilities, intelligent payload mutation, and comprehensive reporting features.
+**XSS Vibes** is a cutting-edge Cross-Site Scripting (XSS) vulnerability scanner with advanced detection capabilities, intelligent payload mutation, KnoxSS Pro API integration, and comprehensive reporting features.
 
 ## 🚀 Features
 
 ### 🎯 **Core Scanning**
 - **Multi-threaded scanning** with async support
-- **Advanced payload detection** with 500+ XSS vectors
+- **Advanced payload detection** with 3,144+ XSS vectors
 - **Context-aware payload generation** for different injection points
-- **WAF detection and bypass** for 10+ major WAF providers
+- **WAF detection and bypass** for 12+ major WAF providers
 - **Parameter discovery** integration with Arjun and ParamSpider
+- **KnoxSS Pro API** integration for professional-grade testing
 
 ### 🧬 **Payload Mutation** ⭐ NEW!
 - **Genetic algorithm-based payload evolution**
@@ -106,6 +107,222 @@ xss-vibes scan https://target.com \
   --callback-url https://your-server.com/callback
 ```
 
+## 💡 Practical Examples
+
+### 🎯 **Real-World Scanning Scenarios**
+
+#### Basic Web Application Testing
+
+```bash
+# Test a search form for XSS
+python -m xss_vibes.cli scan "https://example.com/search?q=test" \
+  --threads 3 \
+  --output results.json
+
+# Scan with specific WAF targeting
+python -m xss_vibes.cli scan "https://protected-site.com/search" \
+  --detect-waf \
+  --waf-mode cloudflare \
+  --encoding-level 2
+```
+
+#### Parameter Discovery & Analysis
+
+```bash
+# Discover hidden parameters
+python -m xss_vibes.cli discover "https://app.com/api/search" \
+  --wordlist common-params.txt
+
+# Analyze response patterns for XSS potential
+python -m xss_vibes.cli pattern-analyze \
+  --url "https://site.com/page?input=TEST" \
+  --payload "TEST"
+```
+
+#### KnoxSS Pro Integration
+
+```bash
+# Configure KnoxSS Pro credentials
+python -m xss_vibes.cli knoxss-config
+
+# Single URL scan with KnoxSS
+python -m xss_vibes.cli knoxss-scan \
+  --url "https://target.com/search?q=test" \
+  --method GET
+
+# Mass scanning with KnoxSS Pro
+python -m xss_vibes.cli knoxss-mass \
+  --file target-urls.txt \
+  --method POST \
+  --concurrent 5
+
+# Generate personalized blind XSS payloads
+python -m xss_vibes.cli knoxss-payloads \
+  --type svg \
+  --custom-text "MyBountyHunt"
+```
+
+#### Intelligent Payload Mutation
+
+```bash
+# Generate payload variants using genetic algorithms
+python -m xss_vibes.cli mutation \
+  --payload "<script>alert(1)</script>" \
+  --generations 5 \
+  --population 20 \
+  --mutation-rate 0.3
+
+# Context-aware payload generation
+python -m xss_vibes.cli mutation \
+  --payload "alert(1)" \
+  --context "html_attribute" \
+  --variants 15
+```
+
+### 🎯 **Bug Bounty Hunting Examples**
+
+#### Quick Assessment Workflow
+
+```bash
+# 1. Discover parameters
+python -m xss_vibes.cli discover "https://target.com/search" \
+  --output discovered-params.txt
+
+# 2. Detect WAF protection
+python -m xss_vibes.cli detect-waf "https://target.com"
+
+# 3. Scan with appropriate evasion
+python -m xss_vibes.cli scan "https://target.com/search?q=test" \
+  --waf-mode \
+  --encoding-level 2 \
+  --output bounty-results.json
+
+# 4. Generate professional report
+python -m xss_vibes.cli generate-report \
+  --input bounty-results.json \
+  --format html \
+  --output xss-report.html
+```
+
+#### Mass Scanning Campaign
+
+```bash
+# Prepare target list with subdomains
+echo "https://app.target.com/search?q=test" > targets.txt
+echo "https://api.target.com/v1/search?query=test" >> targets.txt
+echo "https://admin.target.com/panel?search=test" >> targets.txt
+
+# Mass scan with KnoxSS Pro
+python -m xss_vibes.cli knoxss-mass \
+  --file targets.txt \
+  --concurrent 3 \
+  --output-dir campaign-results/
+
+# Aggregate and analyze results
+python -m xss_vibes.cli generate-report \
+  --input-dir campaign-results/ \
+  --format comprehensive \
+  --output final-assessment.html
+```
+
+### 🔬 **Advanced Testing Scenarios**
+
+#### Session Management & Authentication
+
+```bash
+# Test authenticated areas
+python -m xss_vibes.cli session \
+  --login-url "https://app.com/login" \
+  --username "admin" \
+  --password "secret123" \
+  --test-url "https://app.com/dashboard?search=test"
+
+# Session persistence for multiple scans
+python -m xss_vibes.cli session \
+  --login-url "https://portal.com/auth" \
+  --username "user@company.com" \
+  --password "mypass" \
+  --save-session portal-session.json
+```
+
+#### WAF Evasion Techniques
+
+```bash
+# Advanced encoding for WAF bypass
+python -m xss_vibes.cli encoding \
+  --payload "<script>alert('XSS')</script>" \
+  --types unicode,html_entities,url,base64
+
+# WAF-specific testing
+python -m xss_vibes.cli scan "https://protected.com/search" \
+  --waf-type cloudflare \
+  --encoding-level 3 \
+  --obfuscate
+```
+
+#### Pattern Matching & Analysis
+
+```bash
+# List available XSS detection patterns
+python -m xss_vibes.cli pattern-list
+
+# Match content against XSS patterns
+python -m xss_vibes.cli pattern-match \
+  --url "vulnerable-site.com" \
+  --pattern "reflection"
+
+# Get payload suggestions based on response
+python -m xss_vibes.cli pattern-suggest \
+  --url "https://site.com/test" \
+  --input-payload "test123"
+
+# Generate comprehensive pattern report
+python -m xss_vibes.cli pattern-report \
+  --url "https://target.com/api/endpoint" \
+  --output pattern-analysis.html
+```
+
+### 🛠️ **Integration Examples**
+
+#### CI/CD Pipeline Integration
+
+```bash
+#!/bin/bash
+# security-scan.sh for CI/CD
+
+# Quick security check
+python -m xss_vibes.cli scan $TARGET_URL \
+  --format json \
+  --output security-results.json \
+  --timeout 300
+
+# Check if vulnerabilities found
+if grep -q '"status": "vulnerable"' security-results.json; then
+    echo "❌ XSS vulnerabilities detected!"
+    exit 1
+else
+    echo "✅ No XSS vulnerabilities found"
+    exit 0
+fi
+```
+
+#### Automated Reporting
+
+```bash
+# Generate executive summary
+python -m xss_vibes.cli generate-report \
+  --input scan-results.json \
+  --format executive \
+  --output executive-summary.pdf
+
+# Technical report for developers
+python -m xss_vibes.cli generate-report \
+  --input scan-results.json \
+  --format technical \
+  --include-payloads \
+  --output technical-report.html
+```
+
 ## 📊 Advanced Features
 
 ### WAF Detection & Bypass
@@ -185,8 +402,10 @@ xss-vibes session [OPTIONS]
 
 - **Speed**: Up to 1000 requests/minute
 - **Accuracy**: 95%+ detection rate  
-- **Coverage**: 500+ XSS payload variants
+- **Coverage**: 3,144 XSS payload variants (enhanced collection)
 - **Scalability**: Multi-threaded + async support
+- **WAF Support**: 12 major WAF providers
+- **KnoxSS Pro**: Full API integration with professional features
 
 ## 📄 License
 
@@ -198,4 +417,4 @@ This tool is for authorized security testing only. Users are responsible for com
 
 ---
 
-**Made with ❤️ for the security community**
+Made with ❤️ for the security community

@@ -44,6 +44,9 @@ class PayloadManager:
         self,
         payload_file: Path = Path(__file__).parent / "data" / "payloads.json",
         waf_payload_file: Path = Path(__file__).parent / "data" / "waf_payloads.json",
+        enhanced_payload_file: Path = Path(__file__).parent
+        / "data"
+        / "payloads_enhanced.json",
     ):
         """
         Initialize payload manager.
@@ -51,13 +54,17 @@ class PayloadManager:
         Args:
             payload_file: Path to the JSON file containing standard payloads
             waf_payload_file: Path to the JSON file containing WAF-specific payloads
+            enhanced_payload_file: Path to enhanced payload database with 2800+ payloads
         """
         self.payload_file = payload_file
         self.waf_payload_file = waf_payload_file
+        self.enhanced_payload_file = enhanced_payload_file
         self._payloads: List[Payload] = []
         self._waf_payloads: List[Payload] = []
+        self._enhanced_payloads: List[Payload] = []
         self._load_payloads()
         self._load_waf_payloads()
+        self._load_enhanced_payloads()
 
     def _load_payloads(self) -> None:
         """Load payloads from JSON file."""
@@ -120,6 +127,40 @@ class PayloadManager:
         except Exception as e:
             logger.error(f"Error loading WAF payloads: {e}")
             self._waf_payloads = []
+
+    def _load_enhanced_payloads(self) -> None:
+        """Load enhanced payloads from integrated payload database."""
+        if not self.enhanced_payload_file.exists():
+            logger.warning(
+                f"Enhanced payload file {self.enhanced_payload_file} not found"
+            )
+            self._enhanced_payloads = []
+            return
+
+        try:
+            with open(self.enhanced_payload_file, "r", encoding="utf-8") as f:
+                payload_data = json.load(f)
+
+            self._enhanced_payloads = []
+            for data in payload_data:
+                payload = Payload(
+                    content=data.get("Payload", ""),
+                    attributes=data.get("Attribute", []),
+                    waf=data.get("waf"),
+                    count=data.get("count", 0),
+                    description=data.get(
+                        "description",
+                        f"Enhanced payload - {data.get('type', 'unknown')}",
+                    ),
+                    level=VulnerabilityLevel(data.get("level", "medium")),
+                )
+                self._enhanced_payloads.append(payload)
+
+            logger.info(f"Loaded {len(self._enhanced_payloads)} enhanced payloads")
+
+        except Exception as e:
+            logger.error(f"Error loading enhanced payloads: {e}")
+            self._enhanced_payloads = []
 
     def save_payloads(self) -> None:
         """Save payloads to JSON file."""
@@ -208,6 +249,8 @@ class PayloadManager:
         reflected_chars: Set[str],
         waf: Optional[str] = None,
         min_match_ratio: float = 0.5,
+        use_enhanced: bool = False,
+        category: Optional[str] = None,
     ) -> List[Payload]:
         """
         Get payloads filtered by reflected characters and WAF.
@@ -216,6 +259,8 @@ class PayloadManager:
             reflected_chars: Set of characters that are reflected in responses
             waf: WAF type to filter for (None for general payloads)
             min_match_ratio: Minimum ratio of payload chars that must be reflected
+            use_enhanced: Use enhanced payload database
+            category: Enhanced payload category to use
 
         Returns:
             List of filtered payloads sorted by effectiveness
@@ -223,22 +268,32 @@ class PayloadManager:
         if not reflected_chars:
             return []
 
-        # Filter by WAF from both standard and WAF-specific payloads
-        if waf:
-            # Try WAF-specific payloads first
-            waf_specific = [
-                p for p in self._waf_payloads if p.waf and waf.lower() in p.waf.lower()
-            ]
-            standard_waf = [
-                p for p in self._payloads if p.waf and waf.lower() in p.waf.lower()
-            ]
-            candidate_payloads = waf_specific + standard_waf
-
-            if not candidate_payloads:
-                logger.warning(f"No payloads found for WAF: {waf}")
-                return []
+        # Get base payloads
+        if use_enhanced:
+            if category:
+                enhanced_payloads = self.get_enhanced_payloads(category=category)
+                candidate_payloads = enhanced_payloads
+            else:
+                candidate_payloads = self._enhanced_payloads
         else:
-            candidate_payloads = [p for p in self._payloads if not p.waf]
+            # Filter by WAF from both standard and WAF-specific payloads
+            if waf:
+                # Try WAF-specific payloads first
+                waf_specific = [
+                    p
+                    for p in self._waf_payloads
+                    if p.waf and waf.lower() in p.waf.lower()
+                ]
+                standard_waf = [
+                    p for p in self._payloads if p.waf and waf.lower() in p.waf.lower()
+                ]
+                candidate_payloads = waf_specific + standard_waf
+
+                if not candidate_payloads:
+                    logger.warning(f"No payloads found for WAF: {waf}")
+                    return []
+            else:
+                candidate_payloads = [p for p in self._payloads if not p.waf]
 
         # Score payloads based on character matches
         scored_payloads = []
@@ -289,9 +344,16 @@ class PayloadManager:
         return len(self._waf_payloads)
 
     @property
+    def enhanced_payload_count(self) -> int:
+        """Get the total number of enhanced payloads."""
+        return len(self._enhanced_payloads)
+
+    @property
     def total_payload_count(self) -> int:
         """Get the total number of all payloads."""
-        return len(self._payloads) + len(self._waf_payloads)
+        return (
+            len(self._payloads) + len(self._waf_payloads) + len(self._enhanced_payloads)
+        )
 
     def get_waf_types(self) -> List[str]:
         """Get list of all WAF types in payloads."""
@@ -332,6 +394,100 @@ class PayloadManager:
             all_payloads = [p for p in all_payloads if p.level == level]
 
         return all_payloads
+
+    def get_enhanced_payloads(
+        self,
+        category: Optional[str] = None,
+        payload_type: Optional[str] = None,
+        encoding: Optional[str] = None,
+        max_count: Optional[int] = None,
+    ) -> List[Payload]:
+        """
+        Get enhanced payloads with advanced filtering options.
+
+        Args:
+            category: Filter by payload category (basic_xss, advanced_evasion, etc.)
+            payload_type: Filter by payload type (tag_based, event_based, etc.)
+            encoding: Filter by encoding type (url_encoded, html_entity, etc.)
+            max_count: Maximum number of payloads to return
+
+        Returns:
+            Filtered list of enhanced payloads
+        """
+        filtered_payloads = self._enhanced_payloads.copy()
+
+        # Category filtering would require loading category files
+        if category:
+            category_file = (
+                Path(__file__).parent / "data" / "categories" / f"{category}.json"
+            )
+            if category_file.exists():
+                try:
+                    with open(category_file, "r") as f:
+                        category_data = json.load(f)
+                    category_payloads = {p["Payload"] for p in category_data}
+                    filtered_payloads = [
+                        p for p in filtered_payloads if p.content in category_payloads
+                    ]
+                except Exception as e:
+                    logger.warning(f"Error loading category {category}: {e}")
+
+        if max_count:
+            filtered_payloads = filtered_payloads[:max_count]
+
+        return filtered_payloads
+
+    def get_all_payloads_ultimate(
+        self,
+        include_standard: bool = True,
+        include_waf: bool = True,
+        include_enhanced: bool = True,
+        waf_type: Optional[str] = None,
+        level: Optional[VulnerabilityLevel] = None,
+        category: Optional[str] = None,
+    ) -> List[Payload]:
+        """
+        Get ultimate combined payload list with all options.
+
+        Args:
+            include_standard: Include standard payloads
+            include_waf: Include WAF-specific payloads
+            include_enhanced: Include enhanced payloads (2800+)
+            waf_type: Filter by WAF type
+            level: Filter by vulnerability level
+            category: Filter enhanced payloads by category
+
+        Returns:
+            Ultimate combined list of filtered payloads
+        """
+        all_payloads = []
+
+        if include_standard:
+            all_payloads.extend(self._payloads)
+
+        if include_waf:
+            all_payloads.extend(self._waf_payloads)
+
+        if include_enhanced:
+            enhanced = self.get_enhanced_payloads(category=category)
+            all_payloads.extend(enhanced)
+
+        # Apply filters
+        if waf_type:
+            all_payloads = [p for p in all_payloads if p.waf == waf_type]
+
+        if level:
+            all_payloads = [p for p in all_payloads if p.level == level]
+
+        # Remove duplicates by content
+        seen = set()
+        unique_payloads = []
+        for payload in all_payloads:
+            if payload.content not in seen:
+                seen.add(payload.content)
+                unique_payloads.append(payload)
+
+        return unique_payloads
 
     def generate_encoded_payloads(
         self,

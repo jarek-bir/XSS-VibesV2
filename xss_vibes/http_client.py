@@ -27,9 +27,11 @@ class ScannerConfig:
     rate_limiter: Optional[RateLimiter] = None
     default_headers: Optional[Dict[str, str]] = None
 
-    def get_proxy_dict(self) -> Optional[str]:
-        """Get proxy configuration for aiohttp."""
-        return self.proxy_url
+    def get_proxy_dict(self) -> Optional[Dict[str, str]]:
+        """Get proxy configuration for requests."""
+        if self.proxy_url:
+            return {"http": self.proxy_url, "https": self.proxy_url}
+        return None
 
 
 @dataclass
@@ -254,6 +256,12 @@ class SyncHTTPClient:
             if headers:
                 request_headers.update(headers)
 
+            # Add User-Agent if not specified
+            if "User-Agent" not in request_headers:
+                request_headers["User-Agent"] = ua_manager.get_random_ua(
+                    self.config.user_agent_type
+                )
+
             # Setup request kwargs
             request_kwargs = {
                 "params": params,
@@ -267,13 +275,15 @@ class SyncHTTPClient:
             if proxy_dict:
                 request_kwargs["proxies"] = proxy_dict
 
-            response = requests.get(url, **request_kwargs)
+            response = requests.get(
+                url, timeout=self.config.default_timeout, **request_kwargs
+            )
 
             return HTTPResponse(
                 status=response.status_code,
                 content=response.text,
                 headers=dict(response.headers),
-                url=response.url,
+                url=str(response.url),
             )
 
         except requests.exceptions.Timeout:

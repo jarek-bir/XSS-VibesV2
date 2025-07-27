@@ -36,6 +36,15 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# Private configuration files
+xss_vibes/xss
+knoxss_config.json
+
+# Python
+knoxss_payloads.txt
+private_payloads/
+*.knoxss
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
