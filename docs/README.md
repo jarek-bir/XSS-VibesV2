@@ -1,292 +1,32 @@
-# 🔥 XSS Vibes - Ultimate Multi-Vulnerability Testing Platform
+# 🔥 XSS Vibes - Advanced XSS Detection Scanner
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Global Commands](https://img.shields.io/badge/global%20commands-9-orange.svg)]()
 
-**XSS Vibes** is a revolutionary multi-vulnerability testing platform with **GOD TIER payloads**, global command system, and intelligent service monitoring. From XSS to SQLi, CORS to SSRF - we've got you covered!
+**XSS Vibes** is a cutting-edge Cross-Site Scripting (XSS) vulnerability scanner with advanced detection capabilities, intelligent payload mutation, KnoxSS Pro API integration, and comprehensive reporting features.
 
-## 🌟 **What's NEW in V2**
+## 🚀 Features
 
-### 🔥 **GOD TIER Payloads**
-- **🏺 Cuneiform XSS** - 4000-year-old script bypass techniques
-- **👻 Unicode zero-width** - invisible character injection
-- **🔗 Constructor chain exploitation** - advanced JavaScript bypass
-- **🎨 SVG vector attacks** - multimedia XSS vectors
-- **📱 Template literal injection** - modern ES6 exploitation
+### 🎯 **Core Scanning**
+- **Multi-threaded scanning** with async support
+- **Advanced payload detection** with 3,144+ XSS vectors
+- **Context-aware payload generation** for different injection points
+- **WAF detection and bypass** for 12+ major WAF providers
+- **Parameter discovery** integration with Arjun and ParamSpider
+- **KnoxSS Pro API** integration for professional-grade testing
 
-### 🌍 **Global Command System**
-```bash
-xss-ultimate -t target.com -w cloudflare -m god_tier  # Ultimate testing
-xss-smart -u target.com                              # Smart analysis  
-xss-encoder -p "payload" -w akamai                   # Advanced encoding
-xss-service                                          # Service monitoring
-xss-oneliners                                        # Bug bounty commands
-```
+### 🧬 **Payload Mutation** ⭐ NEW!
+- **Genetic algorithm-based payload evolution**
+- **Intelligent mutation engine** with 10+ mutation types
+- **Context-aware payload adaptation**
+- **Machine learning-guided bypass techniques**
 
-### 🛡️ **Multi-Vulnerability Testing**
-- **XSS** - Cross-Site Scripting with 3,144+ vectors
-- **SQLi** - SQL Injection detection and exploitation
-- **CORS** - Cross-Origin Resource Sharing bypass
-- **SSRF** - Server-Side Request Forgery testing
-- **LFI** - Local File Inclusion discovery
-- **Open Redirect** - URL redirection vulnerabilities
-- **Subdomain Takeover** - DNS hijacking detection
-
-## 🚀 **Quick Start**
-
-### 📦 **Installation**
-
-**Step 1: Clone Repository**
-```bash
-git clone https://github.com/jarek-bir/XSS-VibesV2.git
-cd XSS-VibesV2
-```
-
-**Step 2: Install Dependencies**
-```bash
-pip install -r requirements.txt
-# or for virtual environment:
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-pip install -r requirements.txt
-```
-
-**Step 3: Setup Global Commands (IMPORTANT!)**
-```bash
-cd scripts
-./setup_aliases.sh
-```
-
-**Step 4: Verify Installation**
-```bash
-xss-help                    # Should show all commands
-xss-service                 # Check service availability
-```
-
-### ⚡ **Quick Test**
-```bash
-# Test basic functionality
-xss-quick -u https://testphp.vulnweb.com
-
-# Run GOD TIER scan
-xss-ultimate -t testphp.vulnweb.com -w cloudflare -m god_tier
-```
-
-### 🔧 **Requirements**
-
-**Essential Tools:**
-```bash
-# Install required external tools:
-go install -v github.com/tomnomnom/waybackurls@latest
-go install -v github.com/lc/gau/v2/cmd/gau@latest  
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-```
-
-**Python Dependencies:**
-- Python 3.8+
-- requests, beautifulsoup4, lxml
-- colorama, tqdm, asyncio
-- aiohttp, urllib3
-
-### 🎯 **Usage Examples**
-
-```bash
-# Quick vulnerability scan
-xss-quick -u https://target.com
-
-# Ultimate GOD TIER testing with WAF bypass
-xss-ultimate -t target.com -w cloudflare -m god_tier
-
-# Smart payload analysis
-xss-smart -u https://target.com
-
-# Advanced payload encoding
-xss-encoder -p '<script>alert(1)</script>' -w akamai
-
-# Monitor external services
-xss-service
-
-# Bug bounty oneliners
-xss-oneliners
-```
-
-## 🛡️ **WAF Detection & Bypass**
-
-Supports 12+ major WAF providers:
-
-- **Cloudflare** - Advanced bypass techniques
-- **Akamai** - Kona Site Defender evasion
-- **AWS WAF** - Application load balancer bypass
-- **Imperva** - Incapsula and SecureSphere
-- **F5 BIG-IP** - ASM and Advanced WAF
-- **ModSecurity** - OWASP Core Rule Set bypass
-- **Sucuri** - Website firewall evasion
-- **Barracuda** - Web application firewall
-- **Fortinet** - FortiWeb bypass techniques
-- **Citrix** - NetScaler application firewall
-
-## 🏆 **GOD TIER Payload Arsenal**
-
-### 🏺 **Cuneiform XSS** (LEGENDARY)
-```javascript
-𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒇺=𒀀+{},𒌐=𒉺[𒀀++]
-```
-*First XSS using 4000-year-old script!*
-
-### 👻 **Zero-Width Characters**
-```javascript
-ale‌rt(1)  // Contains invisible characters
-```
-
-### 🔗 **Constructor Chain Exploitation**
-```javascript
-constructor[constructor](alert(1))()
-```
-
-### 🎨 **Advanced SVG Vectors**
-```xml
-<svg><use href="#x"></use><symbol id="x"><foreignObject>
-<iframe xmlns="http://www.w3.org/1999/xhtml" src="javascript:alert(1)">
-```
-
-## 📊 **Service Monitoring**
-
-Real-time monitoring of 11+ external services:
-
-- ✅ **Wayback Machine** - Historical URL discovery
-- ✅ **GAU** - GetAllUrls service
-- ✅ **Subfinder** - Subdomain enumeration  
-- ✅ **AlienVault OTX** - Threat intelligence
-- ✅ **URLScan.io** - URL analysis service
-- ✅ **Virustotal** - File and URL scanning
-- ✅ **Shodan** - Internet-connected device search
-- ✅ **SecurityTrails** - DNS intelligence
-- ✅ **Rapid7** - Forward DNS dataset
-
-## 🗂️ **Project Structure**
-
-```
-XSS-VibesV2/
-├── xss_vibes/           # Core application module
-├── scripts/             # All executable scripts  
-├── payloads/            # Payload collections
-├── tools/               # Development tools
-├── docs/                # Documentation
-├── test_results/        # Test outputs (ignored)
-├── temp/                # Temporary files (ignored)
-└── README.md           # This file
-```
-
-## 🔧 **Troubleshooting**
-
-### ❌ **"Command not found: xss-*"**
-```bash
-# Solution 1: Re-run setup
-cd scripts && ./setup_aliases.sh
-
-# Solution 2: Check PATH
-echo $PATH | grep -q "$HOME/.local/bin" || echo 'PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-
-# Solution 3: Manual verification
-ls -la ~/.local/bin/xss-*
-```
-
-### ❌ **"Permission denied"**
-```bash
-# Fix script permissions
-chmod +x scripts/*.sh
-chmod +x ~/.local/bin/xss-*
-```
-
-### ❌ **"Module not found" errors**
-```bash
-# Install missing dependencies
-pip install -r requirements.txt
-
-# For specific modules:
-pip install requests beautifulsoup4 colorama tqdm aiohttp
-```
-
-### ❌ **External tools missing**
-```bash
-# Install Go tools
-go install github.com/tomnomnom/waybackurls@latest
-go install github.com/lc/gau/v2/cmd/gau@latest
-go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-
-# Check installation
-which waybackurls gau subfinder httpx
-```
-
-### ❌ **Service connection failures**
-```bash
-# Check service status
-xss-service
-
-# Use offline mode
-xss-ultimate -t target.com --offline
-```
-
-## ❓ **FAQ**
-
-### **Q: Why do I need to run setup_aliases.sh?**
-A: This creates global symlinks so you can run `xss-*` commands from anywhere without navigating to the project folder.
-
-### **Q: Can I use XSS Vibes without global commands?**
-A: Yes! Use the scripts directly:
-```bash
-cd XSS-VibesV2/scripts
-./ultimate_tester.sh -t target.com
-python smart_payload_selector.py -u target.com
-```
-
-### **Q: Do I need all external tools?**
-A: No, but they enhance functionality:
-- **Essential**: httpx, waybackurls
-- **Recommended**: gau, subfinder, dalfox
-- **Optional**: amass, nuclei, sqlmap
-
-### **Q: How do I update XSS Vibes?**
-```bash
-git pull origin main
-cd scripts && ./setup_aliases.sh  # Refresh symlinks
-```
-
-### **Q: Can I run this in Docker?**
-A: Not yet, but you can create a simple Dockerfile:
-```dockerfile
-FROM python:3.9
-WORKDIR /app
-COPY . .
-RUN pip install -r requirements.txt
-RUN cd scripts && ./setup_aliases.sh
-```
-
-## 🎯 **Advanced Features**
-
-### 🧬 **Payload Mutation Engine**
-
-- **210+ encoding variants** per payload
-- **Genetic algorithm-based evolution**
-- **Context-aware adaptation**
-- **Machine learning-guided bypass**
-
-### 🔐 **Session Management**
-
-- **Multi-authentication support**
-- **Cookie jar persistence**  
-- **CSRF token handling**
-- **Authenticated workflows**
-
-### 📈 **Intelligent Reporting**
-
-- **Multiple output formats**
-- **Executive summaries**
-- **Technical deep-dives**
-- **Remediation guidance**
+### 🔐 **Session Management** ⭐ NEW!
+- **Multi-authentication support** (Form, Basic, Digest, Bearer)
+- **Session persistence** with cookie jar management
+- **CSRF token handling** and automatic extraction
+- **Authenticated scanning workflows**
 
 ### 🛡️ **Advanced Evasion**
 - **WAF-specific payload optimization**

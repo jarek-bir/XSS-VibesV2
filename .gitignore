@@ -3,6 +3,53 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# XSS Vibes - Test Results & Temporary Files
+*.txt
+!requirements.txt
+!README*.txt
+*_test_*/
+*_results*/
+*_report_*/
+status_report_*/
+system_test_*/
+oneliner_results/
+xss_vibes_test_*/
+service_status.json
+*_output.json
+*.log
+temp/
+
+# Generated URLs and scan results
+*_urls.txt
+subdomains.txt
+all_unique_urls.txt
+gau_urls.txt
+wayback_urls.txt
+param_urls.txt
+admin_urls.txt
+
+# Generated payload files
+unicode_payloads.json
+advanced_obfuscated_payloads.json
+god_tier_encoded_matrix.json
+service_status.json
+
+# Merge scripts and temporary tools  
+merge_*.py
+*_mutator.py
+
+# Development files
+.venv/
+*.egg-info/
+
+# Original payload file
+onlinery
+
+# Images
+*.png
+*.jpg
+*.jpeg
+
 # C extensions
 *.so
 
