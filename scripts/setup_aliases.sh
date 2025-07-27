@@ -6,6 +6,13 @@
 echo "🔥 Setting up XSS Vibes Global Commands"
 echo "======================================="
 
+# First, remove any conflicting aliases
+echo "🧹 Removing conflicting aliases..."
+unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help xss-vibes 2>/dev/null || true
+
+# Clear shell hash table
+hash -r 2>/dev/null || true
+
 # XSS Vibes directory  
 XSS_VIBES_DIR="/home/jarek/xss_vibes"
 SCRIPTS_DIR="$XSS_VIBES_DIR/scripts"
@@ -49,12 +56,31 @@ cat > "$LOCAL_BIN/xss-multi" << EOF
 cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/multi_vuln_tester.py" "\$@"
 EOF
 
-# Create symlinks for bash scripts  
-ln -sf "$SCRIPTS_DIR/ultimate_tester.sh" "$LOCAL_BIN/xss-ultimate"
-ln -sf "$SCRIPTS_DIR/god_tier_tester.sh" "$LOCAL_BIN/xss-god-tier"
-ln -sf "$SCRIPTS_DIR/quick_multi_test.sh" "$LOCAL_BIN/xss-quick"
-ln -sf "$SCRIPTS_DIR/project_status.sh" "$LOCAL_BIN/xss-status"
-ln -sf "$SCRIPTS_DIR/robust_oneliners.sh" "$LOCAL_BIN/xss-oneliners"
+# Create wrapper scripts for bash scripts (better compatibility)
+cat > "$LOCAL_BIN/xss-ultimate" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/ultimate_tester.sh" "\$@"
+EOF
+
+cat > "$LOCAL_BIN/xss-god-tier" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/god_tier_tester.sh" "\$@"
+EOF
+
+cat > "$LOCAL_BIN/xss-quick" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/quick_multi_test.sh" "\$@"
+EOF
+
+cat > "$LOCAL_BIN/xss-status" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/project_status.sh" "\$@"
+EOF
+
+cat > "$LOCAL_BIN/xss-oneliners" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/robust_oneliners.sh" "\$@"
+EOF
 
 # Create help command
 cat > "$LOCAL_BIN/xss-help" << 'EOF'
@@ -97,8 +123,9 @@ ls -la "$LOCAL_BIN"/xss-* | while read line; do echo "  🔗 $line"; done
 
 # Fix permissions for tools that need it
 echo "🔧 Fixing permissions..."
-chmod +x "$XSS_VIBES_DIR/multi_vuln_tester.py"
-chmod +x "$XSS_VIBES_DIR/quick_multi_test.sh"
+chmod +x "$SCRIPTS_DIR"/*.py 2>/dev/null || true
+chmod +x "$SCRIPTS_DIR"/*.sh 2>/dev/null || true
+chmod +x "$XSS_VIBES_DIR/tools"/*.py 2>/dev/null || true
 
 # Check if ~/.local/bin is in PATH
 if [[ ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
@@ -110,6 +137,30 @@ else
     echo ""
     echo "🔧 Or run this command now:"
     echo "   echo 'export PATH=\"\$HOME/.local/bin:\$PATH\"' >> ~/.zshrc"
+fi
+
+# Add permanent alias prevention to shell config
+echo "🛡️ Adding permanent alias conflict prevention..."
+ANTI_ALIAS_LINE='unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help xss-vibes 2>/dev/null || true'
+
+if [ -f ~/.zshrc ]; then
+    if ! grep -q "unalias xss-ultimate" ~/.zshrc; then
+        echo "# XSS Vibes - Prevent alias conflicts" >> ~/.zshrc
+        echo "$ANTI_ALIAS_LINE" >> ~/.zshrc
+        echo "✅ Added alias conflict prevention to ~/.zshrc"
+    else
+        echo "✅ Alias conflict prevention already in ~/.zshrc"
+    fi
+fi
+
+if [ -f ~/.bashrc ]; then
+    if ! grep -q "unalias xss-ultimate" ~/.bashrc; then
+        echo "# XSS Vibes - Prevent alias conflicts" >> ~/.bashrc
+        echo "$ANTI_ALIAS_LINE" >> ~/.bashrc
+        echo "✅ Added alias conflict prevention to ~/.bashrc"
+    else
+        echo "✅ Alias conflict prevention already in ~/.bashrc"
+    fi
 fi
 
 echo ""
