@@ -57,37 +57,43 @@ pip install -e .
 
 ## 🏃‍♂️ Quick Start
 
+> **Note**: You can run XSS Vibes in two ways:
+>
+> - Direct command: `xss-vibes [command]` (after installation)
+> - Module execution: `python -m xss_vibes [command]` (from source)
+
 ### Basic Scanning
+
 ```bash
 # Single URL scan
-xss-vibes scan https://example.com/search?q=test
+python -m xss_vibes scan https://example.com/search?q=test
 
 # Multiple URLs from file
-xss-vibes scan -l urls.txt
+python -m xss_vibes scan -l urls.txt
 
 # Advanced scan with WAF detection
-xss-vibes scan https://target.com --waf-mode --threads 5
+python -m xss_vibes scan https://target.com --waf-mode --threads 5
 ```
 
 ### 🧬 Payload Mutation
 ```bash
 # Generate intelligent payload variants
-xss-vibes mutation --payload "<script>alert(1)</script>" --context html_text --variants 10
+python -m xss_vibes mutation --payload "<script>alert(1)</script>" --context html_text --variants 10
 
 # Advanced genetic algorithm evolution
-xss-vibes mutation --payload "alert(1)" --generations 5 --population 20
+python -m xss_vibes mutation --payload "alert(1)" --generations 5 --population 20
 ```
 
 ### 🔐 Authenticated Scanning
 ```bash
 # Form-based authentication
-xss-vibes scan https://app.com/dashboard \
+python -m xss_vibes scan https://app.com/dashboard \
   --login-url https://app.com/login \
   --username admin --password secret \
   --auth-type form
 
 # Session with saved profile
-xss-vibes session --login-url https://app.com/login \
+python -m xss_vibes session --login-url https://app.com/login \
   --username admin --password secret \
   --save-profile app-session.json
 ```
@@ -95,14 +101,14 @@ xss-vibes session --login-url https://app.com/login \
 ### 🛡️ Advanced Evasion
 ```bash
 # Maximum evasion mode
-xss-vibes scan https://target.com \
+python -m xss_vibes scan https://target.com \
   --encoding-level 3 \
   --obfuscate \
   --stealth \
   --target-waf cloudflare
 
 # Blind XSS testing
-xss-vibes scan https://target.com \
+python -m xss_vibes scan https://target.com \
   --blind \
   --callback-url https://your-server.com/callback
 ```
@@ -115,12 +121,12 @@ xss-vibes scan https://target.com \
 
 ```bash
 # Test a search form for XSS
-python -m xss_vibes.cli scan "https://example.com/search?q=test" \
+python -m xss_vibes scan "https://example.com/search?q=test" \
   --threads 3 \
   --output results.json
 
 # Scan with specific WAF targeting
-python -m xss_vibes.cli scan "https://protected-site.com/search" \
+python -m xss_vibes scan "https://protected-site.com/search" \
   --detect-waf \
   --waf-mode cloudflare \
   --encoding-level 2
@@ -130,11 +136,11 @@ python -m xss_vibes.cli scan "https://protected-site.com/search" \
 
 ```bash
 # Discover hidden parameters
-python -m xss_vibes.cli discover "https://app.com/api/search" \
+python -m xss_vibes discover "https://app.com/api/search" \
   --wordlist common-params.txt
 
 # Analyze response patterns for XSS potential
-python -m xss_vibes.cli pattern-analyze \
+python -m xss_vibes pattern-analyze \
   --url "https://site.com/page?input=TEST" \
   --payload "TEST"
 ```
@@ -143,21 +149,21 @@ python -m xss_vibes.cli pattern-analyze \
 
 ```bash
 # Configure KnoxSS Pro credentials
-python -m xss_vibes.cli knoxss-config
+python -m xss_vibes knoxss-config
 
 # Single URL scan with KnoxSS
-python -m xss_vibes.cli knoxss-scan \
+python -m xss_vibes knoxss-scan \
   --url "https://target.com/search?q=test" \
   --method GET
 
 # Mass scanning with KnoxSS Pro
-python -m xss_vibes.cli knoxss-mass \
+python -m xss_vibes knoxss-mass \
   --file target-urls.txt \
   --method POST \
   --concurrent 5
 
 # Generate personalized blind XSS payloads
-python -m xss_vibes.cli knoxss-payloads \
+python -m xss_vibes knoxss-payloads \
   --type svg \
   --custom-text "MyBountyHunt"
 ```
@@ -166,14 +172,14 @@ python -m xss_vibes.cli knoxss-payloads \
 
 ```bash
 # Generate payload variants using genetic algorithms
-python -m xss_vibes.cli mutation \
+python -m xss_vibes mutation \
   --payload "<script>alert(1)</script>" \
   --generations 5 \
   --population 20 \
   --mutation-rate 0.3
 
 # Context-aware payload generation
-python -m xss_vibes.cli mutation \
+python -m xss_vibes mutation \
   --payload "alert(1)" \
   --context "html_attribute" \
   --variants 15
@@ -185,20 +191,20 @@ python -m xss_vibes.cli mutation \
 
 ```bash
 # 1. Discover parameters
-python -m xss_vibes.cli discover "https://target.com/search" \
+python -m xss_vibes discover "https://target.com/search" \
   --output discovered-params.txt
 
 # 2. Detect WAF protection
-python -m xss_vibes.cli detect-waf "https://target.com"
+python -m xss_vibes detect-waf "https://target.com"
 
 # 3. Scan with appropriate evasion
-python -m xss_vibes.cli scan "https://target.com/search?q=test" \
+python -m xss_vibes scan "https://target.com/search?q=test" \
   --waf-mode \
   --encoding-level 2 \
   --output bounty-results.json
 
 # 4. Generate professional report
-python -m xss_vibes.cli generate-report \
+python -m xss_vibes generate-report \
   --input bounty-results.json \
   --format html \
   --output xss-report.html
@@ -213,13 +219,13 @@ echo "https://api.target.com/v1/search?query=test" >> targets.txt
 echo "https://admin.target.com/panel?search=test" >> targets.txt
 
 # Mass scan with KnoxSS Pro
-python -m xss_vibes.cli knoxss-mass \
+python -m xss_vibes knoxss-mass \
   --file targets.txt \
   --concurrent 3 \
   --output-dir campaign-results/
 
 # Aggregate and analyze results
-python -m xss_vibes.cli generate-report \
+python -m xss_vibes generate-report \
   --input-dir campaign-results/ \
   --format comprehensive \
   --output final-assessment.html
@@ -231,14 +237,14 @@ python -m xss_vibes.cli generate-report \
 
 ```bash
 # Test authenticated areas
-python -m xss_vibes.cli session \
+python -m xss_vibes session \
   --login-url "https://app.com/login" \
   --username "admin" \
   --password "secret123" \
   --test-url "https://app.com/dashboard?search=test"
 
 # Session persistence for multiple scans
-python -m xss_vibes.cli session \
+python -m xss_vibes session \
   --login-url "https://portal.com/auth" \
   --username "user@company.com" \
   --password "mypass" \
@@ -249,12 +255,12 @@ python -m xss_vibes.cli session \
 
 ```bash
 # Advanced encoding for WAF bypass
-python -m xss_vibes.cli encoding \
+python -m xss_vibes encoding \
   --payload "<script>alert('XSS')</script>" \
   --types unicode,html_entities,url,base64
 
 # WAF-specific testing
-python -m xss_vibes.cli scan "https://protected.com/search" \
+python -m xss_vibes scan "https://protected.com/search" \
   --waf-type cloudflare \
   --encoding-level 3 \
   --obfuscate
@@ -264,20 +270,20 @@ python -m xss_vibes.cli scan "https://protected.com/search" \
 
 ```bash
 # List available XSS detection patterns
-python -m xss_vibes.cli pattern-list
+python -m xss_vibes pattern-list
 
 # Match content against XSS patterns
-python -m xss_vibes.cli pattern-match \
+python -m xss_vibes pattern-match \
   --url "vulnerable-site.com" \
   --pattern "reflection"
 
 # Get payload suggestions based on response
-python -m xss_vibes.cli pattern-suggest \
+python -m xss_vibes pattern-suggest \
   --url "https://site.com/test" \
   --input-payload "test123"
 
 # Generate comprehensive pattern report
-python -m xss_vibes.cli pattern-report \
+python -m xss_vibes pattern-report \
   --url "https://target.com/api/endpoint" \
   --output pattern-analysis.html
 ```
@@ -291,7 +297,7 @@ python -m xss_vibes.cli pattern-report \
 # security-scan.sh for CI/CD
 
 # Quick security check
-python -m xss_vibes.cli scan $TARGET_URL \
+python -m xss_vibes scan $TARGET_URL \
   --format json \
   --output security-results.json \
   --timeout 300
@@ -310,13 +316,13 @@ fi
 
 ```bash
 # Generate executive summary
-python -m xss_vibes.cli generate-report \
+python -m xss_vibes generate-report \
   --input scan-results.json \
   --format executive \
   --output executive-summary.pdf
 
 # Technical report for developers
-python -m xss_vibes.cli generate-report \
+python -m xss_vibes generate-report \
   --input scan-results.json \
   --format technical \
   --include-payloads \
@@ -348,13 +354,13 @@ python -m xss_vibes.cli generate-report \
 ### Main Commands
 ```bash
 # Scan command with all options
-xss-vibes scan [URL] [OPTIONS]
+python -m xss_vibes scan [URL] [OPTIONS]
 
 # Mutation engine
-xss-vibes mutation [OPTIONS]
+python -m xss_vibes mutation [OPTIONS]
 
 # Session management  
-xss-vibes session [OPTIONS]
+python -m xss_vibes session [OPTIONS]
 ```
 
 ### Key Options
