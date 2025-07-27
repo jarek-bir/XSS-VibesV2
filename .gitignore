@@ -45,6 +45,9 @@ knoxss_payloads.txt
 private_payloads/
 *.knoxss
 
+# Session notes and temporary files
+SESSION_NOTES.md
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
