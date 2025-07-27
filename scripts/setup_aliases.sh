@@ -22,6 +22,13 @@ echo "🔧 Creating command symlinks in $LOCAL_BIN..."
 rm -f "$LOCAL_BIN"/xss-*
 
 # Create wrapper scripts for Python tools (better than direct symlinks)
+
+# Main XSS Vibes command
+cat > "$LOCAL_BIN/xss-vibes" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && python3 -m xss_vibes "\$@"
+EOF
+
 cat > "$LOCAL_BIN/xss-smart" << EOF
 #!/bin/bash
 cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/smart_payload_selector.py" "\$@"
@@ -55,6 +62,9 @@ cat > "$LOCAL_BIN/xss-help" << 'EOF'
 echo "🔥 XSS Vibes Advanced Commands (Global Access):"
 echo "=============================================="
 echo ""
+echo "🎯 Main Scanner:"
+echo "  xss-vibes         - Original XSS Vibes scanner (full features)"
+echo ""
 echo "🎯 Core Testing Tools:"
 echo "  xss-ultimate      - Complete vulnerability assessment"
 echo "  xss-god-tier      - GOD TIER payload testing"
@@ -69,12 +79,14 @@ echo "  xss-status        - Project status report"
 echo "  xss-oneliners     - Robust hunting with fallbacks"
 echo ""
 echo "📖 Usage Examples:"
+echo "  xss-vibes --help                               - Full scanner help"
+echo "  xss-vibes scan -u target.com                   - Basic XSS scan"
 echo "  xss-ultimate -t target.com -w cloudflare -m god_tier"
 echo "  xss-smart target.com"
 echo "  xss-encoder '<script>alert(1)</script>' cloudflare"
 echo "  xss-service"
 echo ""
-echo "💡 Original XSS Vibes: xss-vibes --help"
+echo "💡 Full XSS Vibes help: xss-vibes --help"
 EOF
 
 # Make all wrapper scripts executable
