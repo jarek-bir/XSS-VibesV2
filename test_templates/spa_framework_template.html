@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SPA Framework - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Single Page Application Test</h2>
+    <div id="app"></div>
+    <div id="router"></div>
+    
+    <script>
+        // Simulated SPA framework patterns
+        var appState = {
+            user: {
+                name: "{{PAYLOAD}}",
+                bio: "{{PAYLOAD}}"
+            },
+            route: "{{PAYLOAD}}"
+        };
+        
+        // Template rendering (Vue.js style)
+        var template = `
+            <div class="user-profile">
+                <h3>{{PAYLOAD}}</h3>
+                <p>Bio: {{PAYLOAD}}</p>
+            </div>
+        `;
+        document.getElementById('app').innerHTML = template;
+        
+        // Router injection (React Router style)
+        var route = "{{PAYLOAD}}";
+        history.pushState({}, "", route);
+        
+        // Component props injection
+        var component = {
+            props: {
+                title: "{{PAYLOAD}}",
+                content: "{{PAYLOAD}}"
+            },
+            render: function() {
+                return "<div><h4>" + this.props.title + "</h4><p>" + this.props.content + "</p></div>";
+            }
+        };
+        
+        // Virtual DOM injection
+        var vdom = {
+            type: "div",
+            props: {
+                dangerouslySetInnerHTML: {
+                    __html: "{{PAYLOAD}}"
+                }
+            }
+        };
+        
+        // Event listener injection
+        document.addEventListener('custom-event', function(e) {
+            console.log('Custom event data:', e.detail);
+            document.getElementById('router').innerHTML = "Event: " + e.detail;
+        });
+        
+        // Dispatch custom event with payload
+        var customEvent = new CustomEvent('custom-event', {
+            detail: "{{PAYLOAD}}"
+        });
+        document.dispatchEvent(customEvent);
+        
+        // Module import simulation
+        var moduleCode = `
+            export function processData() {
+                return "{{PAYLOAD}}";
+            }
+        `;
+    </script>
+</body>
+</html>

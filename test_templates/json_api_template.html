@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON API - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>JSON API Test</h2>
+    <div id="output"></div>
+    <div id="apiResult"></div>
+    
+    <script>
+        // JSON API payload injection
+        var apiData = {
+            "user": "{{PAYLOAD}}",
+            "role": "admin",
+            "settings": {
+                "theme": "{{PAYLOAD}}",
+                "language": "en"
+            }
+        };
+        
+        // Fetch API injection
+        fetch('/api/user', {
+            method: 'POST',
+            body: JSON.stringify(apiData),
+            headers: {'Content-Type': 'application/json'}
+        }).then(response => response.text())
+        .then(data => {
+            // Response handling injection
+            document.getElementById('apiResult').innerHTML = "Response: {{PAYLOAD}}";
+        }).catch(error => {
+            console.error('API Error:', error);
+        });
+        
+        // WebSocket injection
+        var wsData = JSON.stringify({
+            "action": "subscribe",
+            "channel": "{{PAYLOAD}}"
+        });
+        
+        // LocalStorage injection
+        localStorage.setItem('user', '{{PAYLOAD}}');
+        var storedUser = localStorage.getItem('user');
+        document.getElementById('output').innerHTML = "Stored: " + storedUser;
+        
+        // PostMessage injection
+        window.postMessage({
+            "type": "userUpdate",
+            "data": "{{PAYLOAD}}"
+        }, "*");
+        
+        // Cookie injection
+        document.cookie = "user={{PAYLOAD}}; path=/";
+    </script>
+</body>
+</html>

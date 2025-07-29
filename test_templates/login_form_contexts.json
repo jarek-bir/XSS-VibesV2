@@ -1,0 +1,15 @@
+{
+  "template": "login_form",
+  "contexts": [
+    "attribute_value",
+    "js_string",
+    "dom_innerHTML",
+    "eval_context",
+    "event_handler",
+    "setTimeout"
+  ],
+  "payload_marker": "{{PAYLOAD}}",
+  "description": "Login form with multiple XSS injection points",
+  "generated_at": "2025-07-29",
+  "file": "test_templates/login_form_template.html"
+}

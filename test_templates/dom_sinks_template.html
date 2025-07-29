@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Sinks - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>DOM Sinks Comprehensive Test</h2>
+    <div id="output"></div>
+    <div id="results"></div>
+    
+    <script>
+        var payload = "{{PAYLOAD}}";
+        
+        // innerHTML sink
+        document.getElementById('output').innerHTML = payload;
+        
+        // outerHTML sink
+        document.getElementById('results').outerHTML = "<div id='results'>" + payload + "</div>";
+        
+        // document.write sink
+        document.write("<p>Document write: " + payload + "</p>");
+        
+        // insertAdjacentHTML sink
+        document.body.insertAdjacentHTML('beforeend', "<div>Adjacent: " + payload + "</div>");
+        
+        // eval sink
+        eval("var testVar = '" + payload + "';");
+        
+        // Function constructor sink
+        new Function("return '" + payload + "'")();
+        
+        // setTimeout string sink
+        setTimeout("console.log('Timeout: {{PAYLOAD}}')", 100);
+        
+        // setInterval string sink
+        setInterval("console.log('Interval: {{PAYLOAD}}')", 1000);
+        
+        // location sinks
+        // location.href = "javascript:" + payload;
+        // location.assign("javascript:" + payload);
+        
+        // window.open sink
+        // window.open("javascript:" + payload);
+        
+        // Script element injection
+        var script = document.createElement('script');
+        script.textContent = "console.log('Script: {{PAYLOAD}}')";
+        document.head.appendChild(script);
+        
+        // CSS injection
+        var style = document.createElement('style');
+        style.textContent = "body { background-image: url('{{PAYLOAD}}'); }";
+        document.head.appendChild(style);
+        
+        // Range API sink
+        var range = document.createRange();
+        range.createContextualFragment("<div>Range: " + payload + "</div>");
+    </script>
+</body>
+</html>

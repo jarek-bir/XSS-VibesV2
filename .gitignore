@@ -48,6 +48,10 @@ onlinery
 # Images
 *.png
 *.jpg
+
+# PDF files - AI and documentation
+*.pdf
+ai-for-ethical-hacking*.pdf
 *.jpeg
 
 # C extensions

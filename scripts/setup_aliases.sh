@@ -13,6 +13,9 @@ unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xs
 # Clear shell hash table
 hash -r 2>/dev/null || true
 
+# Remove conflicting aliases for new commands too
+unalias xss-context xss-polyglot xss-ultimate-gen 2>/dev/null || true
+
 # XSS Vibes directory  
 XSS_VIBES_DIR="/home/jarek/xss_vibes"
 SCRIPTS_DIR="$XSS_VIBES_DIR/scripts"
@@ -51,6 +54,11 @@ cat > "$LOCAL_BIN/xss-service" << EOF
 cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/service_checker.py" "\$@"
 EOF
 
+cat > "$LOCAL_BIN/xss-context" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/contextual_generator.py" "\$@"
+EOF
+
 cat > "$LOCAL_BIN/xss-multi" << EOF
 #!/bin/bash
 cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/multi_vuln_tester.py" "\$@"
@@ -72,9 +80,19 @@ cat > "$LOCAL_BIN/xss-quick" << EOF
 cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/quick_multi_test.sh" "\$@"
 EOF
 
+cat > "$LOCAL_BIN/xss-polyglot" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/hackvault_polyglot_tester.sh" "\$@"
+EOF
+
 cat > "$LOCAL_BIN/xss-status" << EOF
 #!/bin/bash
 cd "$XSS_VIBES_DIR" && bash "$SCRIPTS_DIR/project_status.sh" "\$@"
+EOF
+
+cat > "$LOCAL_BIN/xss-ultimate-gen" << EOF
+#!/bin/bash
+cd "$XSS_VIBES_DIR" && python3 "$SCRIPTS_DIR/ultimate_generator.py" "\$@"
 EOF
 
 cat > "$LOCAL_BIN/xss-oneliners" << EOF
@@ -91,11 +109,15 @@ echo ""
 echo "🎯 Main Scanner:"
 echo "  xss-vibes         - Original XSS Vibes scanner (full features)"
 echo ""
+echo "🎯 Context-Aware Tools:"
+echo "  xss-context       - Contextual payload generator"
+echo "  xss-polyglot      - HackVault ultimate polyglot tester"
+echo "  xss-ultimate-gen  - Ultimate payload generator (all techniques)"
+echo "  xss-multi         - Multi-vulnerability scanner"
 echo "🎯 Core Testing Tools:"
 echo "  xss-ultimate      - Complete vulnerability assessment"
 echo "  xss-god-tier      - GOD TIER payload testing"
 echo "  xss-smart         - Intelligent payload selection"
-echo "  xss-multi         - Multi-vulnerability scanner"
 echo "  xss-quick         - Quick multi-vuln test"
 echo ""
 echo "🔧 Utility Tools:"
@@ -109,6 +131,8 @@ echo "  xss-vibes --help                               - Full scanner help"
 echo "  xss-vibes scan -u target.com                   - Basic XSS scan"
 echo "  xss-ultimate -t target.com -w cloudflare -m god_tier"
 echo "  xss-smart target.com"
+echo "  xss-context --context login_form --field username"
+echo "  xss-polyglot                                   - Test HackVault polyglot"
 echo "  xss-encoder '<script>alert(1)</script>' cloudflare"
 echo "  xss-service"
 echo ""
@@ -141,7 +165,7 @@ fi
 
 # Add permanent alias prevention to shell config
 echo "🛡️ Adding permanent alias conflict prevention..."
-ANTI_ALIAS_LINE='unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help xss-vibes 2>/dev/null || true'
+ANTI_ALIAS_LINE='unalias xss-ultimate xss-god-tier xss-smart xss-encoder xss-service xss-multi xss-quick xss-status xss-oneliners xss-help xss-vibes xss-context xss-polyglot xss-ultimate-gen 2>/dev/null || true'
 
 if [ -f ~/.zshrc ]; then
     if ! grep -q "unalias xss-ultimate" ~/.zshrc; then
@@ -170,6 +194,8 @@ echo "🔥 Global XSS Vibes Commands:"
 echo "   xss-help          - Show all commands"
 echo "   xss-ultimate -t target.com"
 echo "   xss-smart target.com"
+echo "   xss-context --context login_form"
+echo "   xss-polyglot      - HackVault ultimate polyglot"
 echo "   xss-god-tier"
 echo "   xss-encoder '<script>alert(1)</script>' cloudflare"
 echo "   xss-service"

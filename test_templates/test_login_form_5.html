@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Login Form Test</h2>
+    <form method="post" action="/login" id="loginForm">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" value="">alert(1)</script>" id="username" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" value="test123" />
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    
+    <div id="welcome"></div>
+    <div id="debug"></div>
+    
+    <script>
+        // Multiple injection contexts for comprehensive testing
+        var username = "">alert(1)</script>";
+        var userData = {
+            name: "">alert(1)</script>",
+            role: "user"
+        };
+        
+        // DOM manipulation sink
+        if (username) {
+            document.getElementById('welcome').innerHTML = "Hello " + username;
+        }
+        
+        // Eval sink
+        try {
+            eval("var userRole = '" + username + "';");
+            document.getElementById('debug').innerText = "Role: " + userRole;
+        } catch(e) {
+            document.getElementById('debug').innerText = "Error: " + e.message;
+        }
+        
+        // Event handler sink
+        document.getElementById('username').setAttribute('onerror', '">alert(1)</script>');
+        
+        // setTimeout sink
+        setTimeout("console.log('User: ">alert(1)</script>')", 100);
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+#!/bin/bash
+# XSS Vibes - DPE Template Generator Global Command
+
+# Get the directory of the original script in xss_vibes
+XSS_VIBES_DIR="/home/jarek/xss_vibes"
+cd "$XSS_VIBES_DIR"
+
+python3 scripts/dpe_template_generator.py "$@"
