@@ -1,0 +1,30 @@
+{
+  "project": "XSS Vibes V2",
+  "last_cleanup": "2025-07-29T20:02:22.444530",
+  "structure": {
+    "analysis_results/": {
+      "github/": "GitHub HTML analysis results",
+      "ai_tools/": "AI tools testing results",
+      "reports/": "Generated HTML reports"
+    },
+    "tools/": {
+      "integration/": "Payload integration scripts",
+      "analysis/": "Code analysis tools",
+      "automation/": "Automated testing scripts"
+    },
+    "xss_vibes/": "Main package code",
+    "scripts/": "Core project scripts",
+    "docs/": "Documentation files"
+  },
+  "ai_tools": {
+    "ai_context_extractor.py": "AI-powered context analysis",
+    "ai_domfuzz.py": "Smart DOM fuzzing tool",
+    "report_gen.py": "HTML report generator"
+  },
+  "cleanup_stats": {
+    "files_moved": 23,
+    "directories_created": 10,
+    "files_removed": 2579,
+    "files_optimized": 69
+  }
+}

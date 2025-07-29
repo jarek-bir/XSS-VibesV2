@@ -1,0 +1,1 @@
+{"template":"iframe_sandbox","contexts":["iframe.srcdoc","iframe.src data URL","sandbox bypass","postMessage injection"],"description":"Enhanced DPE template for iframe_sandbox testing"}

@@ -1626,7 +1626,7 @@ def mutation_cmd(
             cache_path.mkdir(parents=True, exist_ok=True)
 
             # Create cache key from payload + context + waf + blind
-            cache_key = hashlib.md5(
+            cache_key = hashlib.sha256(
                 f"{payload}:{context}:{waf}:{blind}".encode()
             ).hexdigest()
             cache_file = cache_path / f"mutation_{cache_key}.json"
@@ -2453,6 +2453,73 @@ def advanced_payload_cmd(payload_type, context, blind_server, colab, variants, s
         click.echo(
             f"{Fore.RED}❌ Advanced payload generation failed: {e}{Style.RESET_ALL}"
         )
+
+
+@cli.command("ai-domfuzz")
+@click.option("--input", "-i", help="JavaScript file to analyze")
+@click.option("--content", "-c", help="Content string to analyze")
+@click.option("--max-payloads", "-m", default=50, help="Maximum payloads to generate")
+@click.option(
+    "--format",
+    "-f",
+    default="json",
+    type=click.Choice(["json", "txt", "burp", "curl"]),
+    help="Output format",
+)
+@click.option("--output", "-o", help="Output file")
+@click.option("--data-dir", "-d", help="Payload data directory")
+def ai_domfuzz(input, content, max_payloads, format, output, data_dir):
+    """🧠 AI-powered DOM fuzzing - automatically selects optimal payloads for useEffect, shadowRoot, eval, etc."""
+    from .ai_domfuzz import AIDOMFuzzer
+
+    click.echo(f"{Fore.CYAN}🧠 XSS Vibes - AI DOM Fuzzer{Style.RESET_ALL}")
+    click.echo("=" * 50)
+
+    if input:
+        with open(input, "r", encoding="utf-8") as f:
+            analyze_content = f.read()
+    elif content:
+        analyze_content = content
+    else:
+        click.echo(
+            f"{Fore.RED}❌ No input provided. Use --input or --content{Style.RESET_ALL}"
+        )
+        return
+
+    fuzzer = AIDOMFuzzer(data_dir)
+    result = fuzzer.fuzz_content(analyze_content, max_payloads)
+
+    # Show summary
+    click.echo(f"{Fore.CYAN}📊 Analysis Results:{Style.RESET_ALL}")
+    click.echo(f"   Detected contexts: {len(result['detected_contexts'])}")
+    click.echo(f"   Selected payloads: {result['payload_count']}")
+    click.echo(f"   Coverage score: {result['coverage_score']:.1f}%")
+
+    # Show top contexts
+    if result["detected_contexts"]:
+        click.echo(f"\n{Fore.CYAN}🎯 Top Contexts:{Style.RESET_ALL}")
+        for ctx in result["detected_contexts"][:5]:
+            click.echo(
+                f"   {ctx['context']} (priority: {ctx['priority']}, matches: {ctx['matches']})"
+            )
+
+    # Show recommendations
+    click.echo(f"\n{Fore.CYAN}💡 Recommendations:{Style.RESET_ALL}")
+    for rec in result["recommendations"]:
+        click.echo(f"   {rec}")
+
+    # Export results
+    output_content = fuzzer.export_payloads(result, format, output)
+
+    if output:
+        click.echo(f"\n{Fore.GREEN}📄 Results saved to: {output}{Style.RESET_ALL}")
+    else:
+        click.echo(f"\n{Fore.CYAN}📋 Generated Payloads ({format}):{Style.RESET_ALL}")
+        click.echo("=" * 50)
+        if len(output_content) > 1000:  # Truncate long output
+            click.echo(output_content[:1000] + "\n... (truncated)")
+        else:
+            click.echo(output_content)
 
 
 def main():

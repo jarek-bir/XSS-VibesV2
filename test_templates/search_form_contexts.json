@@ -1,17 +1,1 @@
-{
-  "template": "search_form",
-  "contexts": [
-    "attribute_value",
-    "js_string",
-    "template_literal",
-    "document_title",
-    "eval_context",
-    "json_value",
-    "document_write",
-    "javascript_protocol"
-  ],
-  "payload_marker": "{{PAYLOAD}}",
-  "description": "Search form with URL parameters and JSON API testing",
-  "generated_at": "2025-07-29",
-  "file": "test_templates/search_form_template.html"
-}
+{"template":"search_form","contexts":["attribute_value","js_string","template_literal","document_title","eval_context","json_value","document_write","javascript_protocol"],"payload_marker":"{{PAYLOAD}}","description":"Search form with URL parameters and JSON API testing","generated_at":"2025-07-29","file":"test_templates/search_form_template.html"}

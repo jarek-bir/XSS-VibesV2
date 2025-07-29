@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web Components - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Web Components XSS Test</h2>
+    
+    <custom-element data-payload="{{PAYLOAD}}"></custom-element>
+    <shadow-element>{{PAYLOAD}}</shadow-element>
+    
+    <script>
+        // Custom Element with vulnerabilities
+        class CustomElement extends HTMLElement {
+            connectedCallback() {
+                const payload = this.getAttribute('data-payload');
+                
+                // Vulnerable: Direct innerHTML
+                this.innerHTML = payload;
+                
+                // Vulnerable: Shadow DOM injection
+                const shadow = this.attachShadow({mode: 'open'});
+                shadow.innerHTML = '<style>:host { color: red; }</style>' + payload;
+            }
+        }
+        
+        customElements.define('custom-element', CustomElement);
+        
+        // Shadow DOM element
+        class ShadowElement extends HTMLElement {
+            constructor() {
+                super();
+                const shadow = this.attachShadow({mode: 'open'});
+                const payload = this.textContent;
+                shadow.innerHTML = payload;
+            }
+        }
+        
+        customElements.define('shadow-element', ShadowElement);
+    </script>
+</body>
+</html>

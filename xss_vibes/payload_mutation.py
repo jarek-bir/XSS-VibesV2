@@ -10,7 +10,7 @@ This module provides advanced payload mutation capabilities including:
 """
 
 import logging
-import random
+import secrets  # Secure random generator
 import re
 from dataclasses import dataclass, field
 from typing import List, Dict, Set, Optional, Tuple, Any
@@ -320,18 +320,20 @@ class PayloadMutationEngine:
     def _apply_character_substitution(self, payload: str) -> str:
         """Aplikuje substytucję znaków."""
         mutated = payload
+        secure_random = secrets.SystemRandom()
         for char, substitutions in self.character_substitutions.items():
             if char in mutated:
-                substitution = random.choice(substitutions)
+                substitution = secure_random.choice(substitutions)
                 mutated = mutated.replace(char, substitution, 1)
         return mutated
 
     def _apply_tag_variation(self, payload: str) -> str:
         """Aplikuje warianty tagów."""
         mutated = payload
+        secure_random = secrets.SystemRandom()
         for tag, variations in self.tag_variations.items():
             if f"<{tag}" in mutated.lower():
-                variation = random.choice(variations)
+                variation = secure_random.choice(variations)
                 mutated = re.sub(
                     f"<{tag}", f"<{variation}", mutated, flags=re.IGNORECASE
                 )
@@ -354,9 +356,10 @@ class PayloadMutationEngine:
     def _apply_event_mutation(self, payload: str) -> str:
         """Aplikuje mutacje eventów."""
         mutated = payload
+        secure_random = secrets.SystemRandom()
         for event, variations in self.event_variations.items():
             if event in mutated.lower():
-                variation = random.choice(variations)
+                variation = secure_random.choice(variations)
                 mutated = re.sub(event, variation, mutated, flags=re.IGNORECASE)
         return mutated
 
@@ -372,7 +375,8 @@ class PayloadMutationEngine:
             lambda p: p.replace("alert(1)", 'Function("alert(1)")()'),
         ]
 
-        variation = random.choice(variations)
+        secure_random = secrets.SystemRandom()
+        variation = secure_random.choice(variations)
         return variation(payload)
 
     def _apply_encoding_mutation(self, payload: str) -> str:
@@ -388,10 +392,11 @@ class PayloadMutationEngine:
         }
 
         mutated = payload
+        secure_random = secrets.SystemRandom()
         for char, encoding in encoded_chars.items():
             if char in mutated:
                 # Zakoduj losowo wybrane wystąpienia
-                if random.random() < 0.3:
+                if secure_random.random() < 0.3:
                     mutated = mutated.replace(char, encoding, 1)
 
         return mutated
@@ -422,16 +427,18 @@ class PayloadMutationEngine:
             lambda p: p.replace("src=", "src/**/="),
         ]
 
-        mutation = random.choice(comment_mutations)
+        secure_random = secrets.SystemRandom()
+        mutation = secure_random.choice(comment_mutations)
         return mutation(payload)
 
     def _apply_case_variation(self, payload: str) -> str:
         """Aplikuje warianty wielkości liter."""
         # Losowa zmiana wielkości liter
         result = ""
+        secure_random = secrets.SystemRandom()
         for char in payload:
             if char.isalpha():
-                if random.random() < 0.5:
+                if secure_random.random() < 0.5:
                     result += char.upper()
                 else:
                     result += char.lower()
@@ -451,9 +458,10 @@ class PayloadMutationEngine:
             "data:": ["data:", "data%3A", "data&colon;", "dat&#97;:"],
         }
 
+        secure_random = secrets.SystemRandom()
         for protocol, variations in protocol_mutations.items():
             if protocol in payload.lower():
-                variation = random.choice(variations)
+                variation = secure_random.choice(variations)
                 payload = payload.replace(protocol, variation, 1)
 
         return payload
@@ -466,10 +474,13 @@ class PayloadMutationEngine:
         num_combinations = min(intensity, 3)
 
         mutation_types = list(MutationType)
+        secure_random = secrets.SystemRandom()
 
         for _ in range(num_combinations):
             # Wybierz 2-3 losowe typy mutacji
-            selected_types = random.sample(mutation_types, random.randint(2, 3))
+            selected_types = secure_random.sample(
+                mutation_types, secure_random.randint(2, 3)
+            )
 
             mutated = payload
             applied_mutations = []

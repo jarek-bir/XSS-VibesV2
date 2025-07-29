@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Iframe Sandbox - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Iframe Sandbox Bypass Test</h2>
+    
+    <!-- Different sandbox configurations for testing -->
+    <iframe id="frame1" sandbox="allow-scripts" srcdoc="&lt;script&gt;{{PAYLOAD}}&lt;/script&gt;"></iframe>
+    <iframe id="frame2" sandbox="allow-same-origin allow-scripts" src="data:text/html,&lt;script&gt;{{PAYLOAD}}&lt;/script&gt;"></iframe>
+    <iframe id="frame3" sandbox srcdoc="{{PAYLOAD}}"></iframe>
+    
+    <div id="output"></div>
+    
+    <script>
+        // Try to inject into iframe contexts
+        var payload = "{{PAYLOAD}}";
+        
+        // Method 1: Direct srcdoc manipulation
+        document.getElementById('frame1').srcdoc = "<script>" + payload + "</script>";
+        
+        // Method 2: Data URL injection
+        var dataUrl = "data:text/html," + encodeURIComponent("<script>" + payload + "</script>");
+        document.getElementById('frame2').src = dataUrl;
+        
+        // Method 3: Sandbox attribute manipulation
+        var frame3 = document.getElementById('frame3');
+        frame3.setAttribute('sandbox', 'allow-scripts');
+        frame3.srcdoc = payload;
+        
+        // Method 4: postMessage injection
+        window.addEventListener('message', function(e) {
+            document.getElementById('output').innerHTML = e.data;
+        });
+        
+        // Try to send payload via postMessage
+        setTimeout(() => {
+            frames[0].postMessage(payload, '*');
+        }, 100);
+    </script>
+</body>
+</html>

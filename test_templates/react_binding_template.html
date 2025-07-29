@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Data Binding - DPE Test</title>
+    <meta charset="utf-8">
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <h2>React Data Binding XSS Test</h2>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        function App() {
+            const [userInput, setUserInput] = useState("{{PAYLOAD}}");
+            const [dangerousHTML, setDangerousHTML] = useState("{{PAYLOAD}}");
+            
+            // Vulnerable: Direct JSX injection
+            const VulnerableComponent = () => {
+                return React.createElement('div', {
+                    dangerouslySetInnerHTML: { __html: dangerousHTML }
+                });
+            };
+            
+            // Vulnerable: eval in useEffect
+            useEffect(() => {
+                try {
+                    eval("console.log('" + userInput + "');");
+                } catch (e) {}
+            }, [userInput]);
+            
+            return React.createElement('div', null,
+                React.createElement('h3', null, 'User Input: ' + userInput),
+                React.createElement(VulnerableComponent)
+            );
+        }
+        
+        ReactDOM.render(React.createElement(App), document.getElementById('root'));
+    </script>
+</body>
+</html>

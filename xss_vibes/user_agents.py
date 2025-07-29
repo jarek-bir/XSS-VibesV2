@@ -1,6 +1,6 @@
 """User-Agent management for better blending with normal traffic."""
 
-import random
+import secrets  # Secure random generator
 from typing import List, Optional
 
 
@@ -75,18 +75,19 @@ class UserAgentManager:
     def __init__(self):
         """Initialize User-Agent manager."""
         self.current_ua = None
+        self.secure_random = secrets.SystemRandom()
 
     def get_random_browser_ua(self) -> str:
         """Get a random browser User-Agent."""
-        return random.choice(self.BROWSER_USER_AGENTS)
+        return self.secure_random.choice(self.BROWSER_USER_AGENTS)
 
     def get_random_security_tool_ua(self) -> str:
         """Get a random security tool User-Agent."""
-        return random.choice(self.SECURITY_TOOL_USER_AGENTS)
+        return self.secure_random.choice(self.SECURITY_TOOL_USER_AGENTS)
 
     def get_random_bot_ua(self) -> str:
         """Get a random bot User-Agent."""
-        return random.choice(self.BOT_USER_AGENTS)
+        return self.secure_random.choice(self.BOT_USER_AGENTS)
 
     def get_random_ua(self, ua_type: str = "browser") -> str:
         """
@@ -110,7 +111,7 @@ class UserAgentManager:
                 + self.SECURITY_TOOL_USER_AGENTS
                 + self.BOT_USER_AGENTS
             )
-            return random.choice(all_uas)
+            return self.secure_random.choice(all_uas)
         else:
             return self.get_random_browser_ua()
 
@@ -173,7 +174,9 @@ class UserAgentManager:
             platform_uas = chrome_uas
 
         return (
-            random.choice(platform_uas) if platform_uas else random.choice(chrome_uas)
+            self.secure_random.choice(platform_uas)
+            if platform_uas
+            else self.secure_random.choice(chrome_uas)
         )
 
     def get_firefox_ua(self, platform: str = "windows") -> str:
@@ -198,7 +201,9 @@ class UserAgentManager:
             platform_uas = firefox_uas
 
         return (
-            random.choice(platform_uas) if platform_uas else random.choice(firefox_uas)
+            self.secure_random.choice(platform_uas)
+            if platform_uas
+            else self.secure_random.choice(firefox_uas)
         )
 
     def get_mobile_ua(self) -> str:
@@ -208,7 +213,7 @@ class UserAgentManager:
             for ua in self.BROWSER_USER_AGENTS
             if any(keyword in ua for keyword in ["Mobile", "iPhone", "Android"])
         ]
-        return random.choice(mobile_uas)
+        return self.secure_random.choice(mobile_uas)
 
     @classmethod
     def get_ua_info(cls, user_agent: str) -> dict:

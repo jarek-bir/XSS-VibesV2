@@ -1,0 +1,1 @@
+{"template":"csp_blocked","contexts":["iframe srcdoc bypass","object data bypass","base tag manipulation"],"description":"Enhanced DPE template for csp_blocked testing"}

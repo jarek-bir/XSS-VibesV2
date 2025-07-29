@@ -6,7 +6,7 @@ import urllib.parse
 import base64
 import binascii
 import json
-import random
+import secrets  # Secure random generator
 from typing import List, Dict, Optional, Callable, Tuple
 from dataclasses import dataclass
 from enum import Enum
@@ -174,9 +174,10 @@ class AdvancedEncoder:
         """
         variants = []
         encoding_types = list(self.encoding_functions.keys())
+        secure_random = secrets.SystemRandom()
 
         # Single encodings
-        for encoding_type in random.sample(
+        for encoding_type in secure_random.sample(
             encoding_types, min(count // 2, len(encoding_types))
         ):
             try:
@@ -188,8 +189,8 @@ class AdvancedEncoder:
         # Multi-encodings
         remaining = count - len(variants)
         for _ in range(remaining):
-            chain_length = random.randint(2, 4)
-            encoding_chain = random.sample(encoding_types, chain_length)
+            chain_length = secure_random.randint(2, 4)
+            encoding_chain = secure_random.sample(encoding_types, chain_length)
             try:
                 result = self.multi_encode(payload, encoding_chain)
                 variants.append(result)
@@ -277,9 +278,10 @@ class AdvancedEncoder:
     def _character_substitution(self, payload: str) -> str:
         """Random character substitution."""
         result = payload
+        secure_random = secrets.SystemRandom()
         for char, substitutions in self.char_substitutions.items():
             if char in result:
-                substitution = random.choice(substitutions)
+                substitution = secure_random.choice(substitutions)
                 result = result.replace(
                     char, substitution, 1
                 )  # Replace only first occurrence
@@ -288,16 +290,21 @@ class AdvancedEncoder:
     def _comment_insertion(self, payload: str) -> str:
         """Insert HTML/JS comments for obfuscation."""
         comments = ["/**/", "<!---->", "/*x*/", "<!--x-->"]
+        secure_random = secrets.SystemRandom()
 
         # Insert comments at strategic positions
         if "<script>" in payload.lower():
-            payload = payload.replace("<script>", f"<script{random.choice(comments)}>")
+            payload = payload.replace(
+                "<script>", f"<script{secure_random.choice(comments)}>"
+            )
         if "javascript:" in payload.lower():
             payload = payload.replace(
-                "javascript:", f"java{random.choice(comments)}script:"
+                "javascript:", f"java{secure_random.choice(comments)}script:"
             )
         if "alert(" in payload.lower():
-            payload = payload.replace("alert(", f"alert{random.choice(comments)}(")
+            payload = payload.replace(
+                "alert(", f"alert{secure_random.choice(comments)}("
+            )
 
         return payload
 
@@ -305,11 +312,12 @@ class AdvancedEncoder:
         """Manipulate whitespace for evasion."""
         # Replace spaces with various whitespace alternatives
         whitespace_chars = ["\t", "\n", "\r", "\f", "\v", " "]
+        secure_random = secrets.SystemRandom()
 
         result = ""
         for c in payload:
             if c == " ":
-                result += random.choice(whitespace_chars)
+                result += secure_random.choice(whitespace_chars)
             else:
                 result += c
 
@@ -322,9 +330,10 @@ class AdvancedEncoder:
 
         # Split into random chunks and concatenate
         chunks = []
+        secure_random = secrets.SystemRandom()
         i = 0
         while i < len(payload):
-            chunk_size = random.randint(1, 3)
+            chunk_size = secure_random.randint(1, 3)
             chunks.append(f"'{payload[i:i+chunk_size]}'")
             i += chunk_size
 
@@ -484,9 +493,10 @@ class ContextAwareEncoder:
 
         # Generate multi-encoding variants
         remaining = variant_count - len(variants)
+        secure_random = secrets.SystemRandom()
         for _ in range(remaining):
-            chain_length = random.randint(2, 3)
-            encoding_chain = random.sample(
+            chain_length = secure_random.randint(2, 3)
+            encoding_chain = secure_random.sample(
                 preferred_encodings, min(chain_length, len(preferred_encodings))
             )
             try:

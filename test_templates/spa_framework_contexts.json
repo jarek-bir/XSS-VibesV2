@@ -1,16 +1,1 @@
-{
-  "template": "spa_framework",
-  "contexts": [
-    "template_rendering",
-    "router_injection",
-    "component_props",
-    "virtual_dom",
-    "event_listener",
-    "custom_event",
-    "module_code"
-  ],
-  "payload_marker": "{{PAYLOAD}}",
-  "description": "Modern SPA framework patterns testing",
-  "generated_at": "2025-07-29",
-  "file": "test_templates/spa_framework_template.html"
-}
+{"template":"spa_framework","contexts":["template_rendering","router_injection","component_props","virtual_dom","event_listener","custom_event","module_code"],"payload_marker":"{{PAYLOAD}}","description":"Modern SPA framework patterns testing","generated_at":"2025-07-29","file":"test_templates/spa_framework_template.html"}

@@ -2,7 +2,20 @@
 
 import json
 import csv
-import xml.etree.ElementTree as ET
+
+# Use defusedxml for secure XML parsing
+try:
+    import defusedxml.ElementTree as ET
+except ImportError:
+    # Fallback to standard library with warning
+    import xml.etree.ElementTree as ET
+    import warnings
+
+    warnings.warn(
+        "defusedxml not available. Consider installing for better security.",
+        UserWarning,
+        stacklevel=2,
+    )
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional, Any

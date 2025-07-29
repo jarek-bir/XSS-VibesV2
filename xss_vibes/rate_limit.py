@@ -1,7 +1,7 @@
 """Rate limiting and stealth mode for XSS scanner."""
 
 import asyncio
-import random
+import secrets  # Secure random generator
 import time
 from typing import Optional, Tuple
 from dataclasses import dataclass
@@ -67,7 +67,9 @@ class RateLimiter:
 
         # Add jitter if enabled
         if self.config.jitter_enabled:
-            jitter = random.uniform(self.config.jitter_min, self.config.jitter_max)
+            jitter = secrets.SystemRandom().uniform(
+                self.config.jitter_min, self.config.jitter_max
+            )
             await asyncio.sleep(jitter)
             logger.debug(f"Applied jitter: {jitter:.2f}s")
 
@@ -76,7 +78,9 @@ class RateLimiter:
 
     async def _stealth_delay(self) -> None:
         """Apply stealth mode delays."""
-        base_delay = random.uniform(self.config.min_delay, self.config.max_delay)
+        base_delay = secrets.SystemRandom().uniform(
+            self.config.min_delay, self.config.max_delay
+        )
 
         # Add adaptive timing
         if self.config.adaptive_timing:

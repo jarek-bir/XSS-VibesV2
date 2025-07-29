@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Service Worker - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>Service Worker XSS Test</h2>
+    <div id="output"></div>
+    
+    <script>
+        var payload = "{{PAYLOAD}}";
+        
+        // Service Worker registration with payload
+        if ('serviceWorker' in navigator) {
+            var swScript = `
+                self.addEventListener('fetch', function(event) {
+                    if (event.request.url.includes('xss-test')) {
+                        event.respondWith(
+                            new Response('<script>${payload}</script>', {
+                                headers: {'Content-Type': 'text/html'}
+                            })
+                        );
+                    }
+                });
+            `;
+            
+            var blob = new Blob([swScript], {type: 'application/javascript'});
+            var swUrl = URL.createObjectURL(blob);
+            
+            navigator.serviceWorker.register(swUrl).then(function(registration) {
+                console.log('SW registered:', registration);
+            }).catch(function(error) {
+                console.log('SW registration failed:', error);
+            });
+        }
+        
+        // Fetch with service worker interception
+        fetch('/xss-test?payload=' + encodeURIComponent(payload))
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('output').innerHTML = html;
+            })
+            .catch(err => console.log('Fetch error:', err));
+    </script>
+</body>
+</html>

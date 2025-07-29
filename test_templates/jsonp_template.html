@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSONP - DPE Test</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <h2>JSONP XSS Test</h2>
+    <div id="output"></div>
+    
+    <script>
+        var payload = "{{PAYLOAD}}";
+        
+        // Vulnerable: Direct callback execution
+        function jsonpCallback(data) {
+            document.getElementById('output').innerHTML = data.message;
+        }
+        
+        // Method 1: Direct script injection via JSONP
+        var script1 = document.createElement('script');
+        script1.src = 'data:text/javascript,jsonpCallback({"message":"' + payload + '"})';
+        document.head.appendChild(script1);
+        
+        // Method 2: JSONP with eval
+        function executeJsonp(response) {
+            eval('var result = ' + response + '; jsonpCallback(result);');
+        }
+        
+        executeJsonp('{"message":"' + payload + '"}');
+    </script>
+</body>
+</html>
