@@ -129,6 +129,22 @@ fofa_results.json
 *_targets_*.json
 *_discovery_*.json
 
+# DPE GENERATORS & ADVANCED TEMPLATES
+scripts/dpe_template_generator.py
+scripts/contextual_generator.py
+scripts/xss-dpe
+scripts/*dpe*.py
+scripts/*advanced*.py
+scripts/*ultimate*.py
+*dpe_templates*/
+test_templates/
+
+# HIEROGLYPHIC & EXOTIC PAYLOADS
+archive/delivered_payloads_*/
+*hieroglificzne*.csv
+*pakiet*.csv
+exotic_payloads/
+
 # 🚨 RECONNAISSANCE INTELLIGENCE - CRITICAL SECURITY
 # ================================================
 # Real IP addresses and reconnaissance data
