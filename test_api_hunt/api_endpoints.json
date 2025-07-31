@@ -1,0 +1,23 @@
+[
+  {
+    "url": "https://m.ctrip.com/restapi/soa2/11470/getToken.json",
+    "method": "GET",
+    "status_code": 200,
+    "api_type": "TOKEN_API",
+    "confidence": 95,
+    "risk_level": "HIGH",
+    "data_extracted": {
+      "data.token": "44879439",
+      "data.scriptUrl": "/code/ubt/fp-em9.js"
+    }
+  },
+  {
+    "url": "https://m.ctrip.com/restapi/soa2/18088/getAppConfig.json",
+    "method": "POST",
+    "status_code": 400,
+    "api_type": "CONFIG_API",
+    "confidence": 85,
+    "risk_level": "MEDIUM",
+    "data_extracted": {}
+  }
+]

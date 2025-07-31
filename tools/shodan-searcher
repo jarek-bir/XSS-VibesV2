@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - Shodan Integration
+Advanced Shodan search capabilities for target discovery
+"""
+
+import asyncio
+import aiohttp
+import json
+import base64
+import sys
+from pathlib import Path
+from typing import List, Dict, Optional
+import argparse
+
+# Add parent directory for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+import logging
+
+
+def setup_logger(name: str):
+    """Simple logger setup"""
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    return logger
+
+
+class ShodanSearcher:
+    def __init__(self, api_key: str | None = None):
+        self.api_key = api_key or self.load_api_key()
+        self.base_url = "https://api.shodan.io"
+        self.logger = setup_logger("ShodanSearcher")
+        self.session = None
+
+        # Predefined queries for travel/booking sites
+        self.travel_queries = {
+            "ctrip_like": 'http.title:"携程" OR http.title:"ctrip" OR http.title:"trip.com"',
+            "booking_sites": 'http.title:"booking" OR http.title:"hotel" OR http.title:"travel"',
+            "soa2_endpoints": 'http.html:"restapi/soa2" OR http.html:"/soa2/"',
+            "admin_panels": 'http.title:"admin" OR http.title:"管理" OR http.title:"后台"',
+            "dev_interfaces": 'http.title:"test" OR http.title:"dev" OR http.title:"staging"',
+            "api_endpoints": 'http.html:"api" AND (http.html:"json" OR http.html:"xml")',
+            "chinese_travel": 'country:CN AND (http.title:"旅游" OR http.title:"酒店" OR http.title:"机票")',
+        }
+
+    def load_api_key(self) -> str:
+        """Load Shodan API key from file or environment"""
+        try:
+            # Try to load from config file
+            config_file = Path(__file__).parent.parent / "config" / "shodan_api_key.txt"
+            if config_file.exists():
+                return config_file.read_text().strip()
+        except:
+            pass
+
+        # Try environment variable
+        import os
+
+        return os.getenv("SHODAN_API_KEY", "")
+
+    async def init_session(self):
+        """Initialize aiohttp session"""
+        self.session = aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=30),
+            headers={"User-Agent": "XSS-Vibes-V2-Shodan-Scanner"},
+        )
+
+    async def close_session(self):
+        """Close aiohttp session"""
+        if self.session:
+            await self.session.close()
+
+    async def search(self, query: str, limit: int = 100) -> List[Dict]:
+        """Search Shodan with query"""
+        if not self.api_key:
+            self.logger.error("No Shodan API key provided")
+            return []
+
+        if not self.session:
+            await self.init_session()
+
+        if self.session is None:
+            self.logger.error("Failed to initialize session")
+            return []
+
+        try:
+            url = f"{self.base_url}/shodan/host/search"
+            params = {
+                "key": self.api_key,
+                "query": query,
+                "limit": limit,
+                "format": "json",
+            }
+
+            self.logger.info(f"🔍 Searching Shodan: {query}")
+
+            async with self.session.get(url, params=params) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    results = data.get("matches", [])
+                    self.logger.info(f"Found {len(results)} Shodan results")
+                    return results
+                elif response.status == 401:
+                    self.logger.error("Invalid Shodan API key")
+                    return []
+                else:
+                    self.logger.error(f"Shodan API error: {response.status}")
+                    return []
+
+        except Exception as e:
+            self.logger.error(f"Shodan search error: {e}")
+            return []
+
+    def extract_targets_from_results(self, results: List[Dict]) -> List[str]:
+        """Extract target URLs from Shodan results"""
+        targets = []
+
+        for result in results:
+            try:
+                # Get basic info
+                ip = result.get("ip_str", "")
+                port = result.get("port", 80)
+
+                # Determine protocol
+                ssl = result.get("ssl", {})
+                protocol = "https" if ssl or port == 443 else "http"
+
+                # Try to extract hostname from SSL cert
+                hostname = None
+                if ssl and "cert" in ssl:
+                    cert = ssl["cert"]
+                    if "subject" in cert and "CN" in cert["subject"]:
+                        hostname = cert["subject"]["CN"]
+
+                # Extract from HTTP data
+                http = result.get("http", {})
+                if http:
+                    # Try to get hostname from Host header
+                    if "host" in http:
+                        hostname = http["host"]
+
+                    # Check redirects for hostname
+                    if "redirects" in http:
+                        for redirect in http["redirects"]:
+                            if "host" in redirect:
+                                hostname = redirect["host"]
+                                break
+
+                # Create target URLs
+                if hostname:
+                    targets.append(f"{protocol}://{hostname}")
+                    if port not in [80, 443]:
+                        targets.append(f"{protocol}://{hostname}:{port}")
+
+                # Always include IP-based target
+                if port in [80, 443]:
+                    targets.append(f"{protocol}://{ip}")
+                else:
+                    targets.append(f"{protocol}://{ip}:{port}")
+
+            except Exception as e:
+                self.logger.warning(f"Error processing Shodan result: {e}")
+                continue
+
+        # Remove duplicates and return
+        unique_targets = list(set(targets))
+        self.logger.info(f"Extracted {len(unique_targets)} unique targets from Shodan")
+        return unique_targets
+
+    async def search_for_soa2_targets(self, limit: int = 50) -> List[str]:
+        """Search specifically for SOA2-like targets"""
+        all_targets = []
+
+        # Search for SOA2 endpoints
+        soa2_results = await self.search(self.travel_queries["soa2_endpoints"], limit)
+        all_targets.extend(self.extract_targets_from_results(soa2_results))
+
+        # Search for Chinese travel sites
+        travel_results = await self.search(self.travel_queries["chinese_travel"], limit)
+        all_targets.extend(self.extract_targets_from_results(travel_results))
+
+        # Search for Ctrip-like sites
+        ctrip_results = await self.search(self.travel_queries["ctrip_like"], limit)
+        all_targets.extend(self.extract_targets_from_results(ctrip_results))
+
+        return list(set(all_targets))
+
+    async def search_custom_query(self, query: str, limit: int = 100) -> Dict:
+        """Search with custom query and return detailed results"""
+        results = await self.search(query, limit)
+        targets = self.extract_targets_from_results(results)
+
+        return {
+            "query": query,
+            "total_results": len(results),
+            "targets": targets,
+            "raw_results": results[:10],  # Include first 10 for analysis
+        }
+
+    def save_results(self, results: Dict, output_file: str = "shodan_results.json"):
+        """Save results to file"""
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=2)
+
+        self.logger.info(f"📁 Shodan results saved to: {output_path}")
+
+
+async def main():
+    """Main function for CLI usage"""
+    parser = argparse.ArgumentParser(description="XSS Vibes V2 - Shodan Searcher")
+    parser.add_argument("-q", "--query", required=True, help="Shodan search query")
+    parser.add_argument(
+        "-l", "--limit", type=int, default=100, help="Result limit (default: 100)"
+    )
+    parser.add_argument("-k", "--key", help="Shodan API key")
+    parser.add_argument(
+        "-o", "--output", default="shodan_results.json", help="Output file"
+    )
+    parser.add_argument(
+        "--soa2", action="store_true", help="Search for SOA2 targets specifically"
+    )
+    parser.add_argument(
+        "--preset",
+        choices=list(ShodanSearcher().travel_queries.keys()),
+        help="Use preset query",
+    )
+
+    args = parser.parse_args()
+
+    print("🌐 XSS Vibes V2 - Shodan Integration")
+    print("=" * 50)
+
+    searcher = ShodanSearcher(args.key)
+
+    try:
+        if args.soa2:
+            print("🎯 Searching for SOA2 targets...")
+            targets = await searcher.search_for_soa2_targets(args.limit)
+            results = {
+                "search_type": "soa2_targets",
+                "targets": targets,
+                "total_targets": len(targets),
+            }
+        elif args.preset:
+            query = searcher.travel_queries[args.preset]
+            print(f"🔍 Using preset query: {args.preset}")
+            print(f"Query: {query}")
+            results = await searcher.search_custom_query(query, args.limit)
+        else:
+            results = await searcher.search_custom_query(args.query, args.limit)
+
+        # Print summary
+        if "targets" in results:
+            print(f"\n📊 Found {len(results['targets'])} targets")
+            print("\n🎯 Top targets:")
+            for i, target in enumerate(results["targets"][:10], 1):
+                print(f"   {i}. {target}")
+
+        # Save results
+        searcher.save_results(results, args.output)
+
+    finally:
+        await searcher.close_session()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

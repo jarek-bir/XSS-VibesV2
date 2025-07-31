@@ -1,0 +1,13 @@
+name: summary
+desc: Run all the clean up script and generate summary report
+
+steps:
+  # cleaning some result
+  - scripts:
+    - GenMarkdownReport("{{Data}}/markdown/general-template.md", "{{Output}}/summary.html")
+
+  - scripts:
+      - PushFolder("{{Storages}}/summary/")
+      - PushFolder("{{Storages}}/subdomain/")
+      - PushFolder("{{Storages}}/http/")
+      - PushFolder("{{Storages}}/assets/")

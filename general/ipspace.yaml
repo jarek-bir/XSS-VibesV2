@@ -1,0 +1,56 @@
+name: ipspace
+desc: Discovery IP Space of the target
+
+report:
+  final:
+    - "{{Output}}/ipspace/{{Workspace}}-ip.txt"
+    - "{{Output}}/ipspace/{{Workspace}}-range.txt"
+    - "{{Workspace}}-ipspace-summary.txt"
+    - "{{Output}}/ipspace/{{Workspace}}-noncdn.txt"
+    - "{{Output}}/ipspace/{{Workspace}}-related.txt"
+    - "{{Storages}}/summary/{{Workspace}}/ipspace-{{Workspace}}.txt"
+
+params:
+  - ipTimeout: "30m" # Zmniejszono z 2h do 30m
+  - ipFile: "{{Output}}/ipspace/{{Workspace}}-ip.txt"
+  - maxAsn: "10" # Limit ASN do sprawdzenia
+pre_run:
+  - CreateFolder("{{Output}}/ipspace")
+
+steps:
+  # check with exactly domain first
+  - required:
+      - "{{Binaries}}/metabigor"
+      - "{{Binaries}}/amass"
+    timeout: "{{ipTimeout}}"
+    commands:
+      - "timeout -k 1m 10m {{Binaries}}/amass intel -org '{{Org}}' | head -{{maxAsn}} | awk -F ', ' '{print $1}' | timeout -k 1m 15m {{Binaries}}/metabigor net --asn -o {{Output}}/ipspace/{{Workspace}}-range.txt > /dev/null 2>&1"
+      - "echo '{{Org}}' | timeout -k 1m 15m {{Binaries}}/metabigor netd --org -o {{Output}}/ipspace/{{Workspace}}-range.txt > /dev/null 2>&1"
+      - "timeout -k 1m 10m sh -c 'cat {{ipFile}} | {{Binaries}}/metabigor ipc --json -o {{Output}}/ipspace/{{Workspace}}-ipspace-summary.txt' > /dev/null 2>&1 || true"
+    scripts:
+      - SortU('{{Output}}/ipspace/{{Workspace}}-range.txt')
+      - ExecCmd("test -f {{Output}}/ipspace/{{Workspace}}-ipspace-summary.txt && cat {{Output}}/ipspace/{{Workspace}}-ipspace-summary.txt > {{Storages}}/summary/{{Workspace}}/ipsum-{{Workspace}}.txt || echo 'No ipspace summary generated' > {{Storages}}/summary/{{Workspace}}/ipsum-{{Workspace}}.txt")
+
+  # join result of metabigor with amass + probing module
+  - scripts:
+      - Append("{{Output}}/ipspace/{{Workspace}}-range.txt", "{{Output}}/ipspace/{{Workspace}}-amass-range.txt")
+      - Append("{{Output}}/ipspace/{{Workspace}}-ipspace.txt", "{{Output}}/ipspace/{{Workspace}}-range.txt")
+      - Append("{{Output}}/ipspace/{{Workspace}}-ipspace.txt", "{{ipFile}}")
+      - SortU("{{Output}}/ipspace/{{Workspace}}-ipspace.txt")
+
+  # strip CDN IP first
+  - required:
+      - "{{ipFile}}"
+      - "{{Binaries}}/cdnstrip"
+    timeout: "{{ipTimeout}}"
+    commands:
+      - "cat {{ipFile}} | timeout -k 1m {{ipTimeout}} {{Binaries}}/cdnstrip -cdn {{Output}}/ipspace/{{Workspace}}-cdn.txt -n {{Output}}/ipspace/{{Workspace}}-noncdn.txt"
+
+  # in case strip CDN fail
+  - conditions:
+      - "FileLength('{{Output}}/ipspace/{{Workspace}}-noncdn.txt') <= 0"
+    commands:
+      - "cp {{ipFile}} {{Output}}/ipspace/{{Workspace}}-noncdn.txt"
+
+post_run:
+  - PushFolder("{{Storages}}/summary/")

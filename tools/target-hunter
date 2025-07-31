@@ -1,0 +1,355 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - Target Hunter
+Combined Shodan + Fofa + Wordlist target discovery
+"""
+
+import asyncio
+import json
+import sys
+from pathlib import Path
+import argparse
+from datetime import datetime
+
+# Add parent directory for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+# Import our modules differently to avoid path issues
+import sys
+import importlib.util
+
+
+def import_module_from_path(module_name: str, file_path: str):
+    """Import module from file path"""
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+# Import our searchers
+tools_dir = Path(__file__).parent
+fofa_module = import_module_from_path("fofa_searcher", tools_dir / "fofa-searcher")
+shodan_module = import_module_from_path(
+    "shodan_searcher", tools_dir / "shodan-searcher"
+)
+wordlist_module = import_module_from_path(
+    "wordlist_hunter", tools_dir / "wordlist-hunter"
+)
+
+FofaSearcher = fofa_module.FofaSearcher
+ShodanSearcher = shodan_module.ShodanSearcher
+WordlistHunter = wordlist_module.WordlistHunter
+
+import logging
+
+
+def setup_logger(name: str):
+    """Simple logger setup"""
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    if not logger.handlers:
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+    return logger
+
+
+class TargetHunter:
+    def __init__(
+        self, fofa_email: str = None, fofa_key: str = None, shodan_key: str = None
+    ):
+        self.fofa = (
+            FofaSearcher(fofa_email, fofa_key) if fofa_email and fofa_key else None
+        )
+        self.shodan = ShodanSearcher(shodan_key) if shodan_key else None
+        self.wordlist = WordlistHunter()
+        self.logger = setup_logger("TargetHunter")
+
+        # Combined search strategies
+        self.search_strategies = {
+            "soa2_discovery": {
+                "fofa_queries": [
+                    'body="restapi/soa2"',
+                    'body="/soa2/"',
+                    'body="soa2" && title="api"',
+                ],
+                "shodan_queries": ['http.html:"restapi/soa2"', 'http.html:"/soa2/"'],
+            },
+            "chinese_travel": {
+                "fofa_queries": [
+                    'country="CN" && (title="旅游" || title="酒店" || title="机票")',
+                    'title="携程" || title="ctrip" || title="trip.com"',
+                    'title="booking" || title="hotel" || title="travel"',
+                ],
+                "shodan_queries": [
+                    'country:CN AND (http.title:"旅游" OR http.title:"酒店" OR http.title:"机票")',
+                    'http.title:"携程" OR http.title:"ctrip" OR http.title:"trip.com"',
+                ],
+            },
+            "admin_panels": {
+                "fofa_queries": [
+                    'title="admin" || title="管理" || title="后台"',
+                    'body="admin" && body="login"',
+                ],
+                "shodan_queries": [
+                    'http.title:"admin" OR http.title:"管理" OR http.title:"后台"'
+                ],
+            },
+            "api_endpoints": {
+                "fofa_queries": [
+                    'body="api" && (body="json" || body="xml")',
+                    'body="/api/" && body="v1"',
+                ],
+                "shodan_queries": [
+                    'http.html:"api" AND (http.html:"json" OR http.html:"xml")'
+                ],
+            },
+        }
+
+    async def discover_targets_multi_source(
+        self, strategy: str = "soa2_discovery", limit: int = 50
+    ) -> dict:
+        """Discover targets using multiple sources"""
+        results = {
+            "strategy": strategy,
+            "timestamp": datetime.now().isoformat(),
+            "fofa_targets": [],
+            "shodan_targets": [],
+            "combined_targets": [],
+            "stats": {},
+        }
+
+        if strategy not in self.search_strategies:
+            self.logger.error(f"Unknown strategy: {strategy}")
+            return results
+
+        strategy_config = self.search_strategies[strategy]
+
+        # Fofa search
+        if self.fofa and "fofa_queries" in strategy_config:
+            self.logger.info(f"🔍 Starting Fofa search for strategy: {strategy}")
+            fofa_targets = []
+
+            for query in strategy_config["fofa_queries"]:
+                try:
+                    search_result = await self.fofa.search_custom_query(query, limit)
+                    fofa_targets.extend(search_result.get("targets", []))
+                    await asyncio.sleep(1)  # Be nice to Fofa
+                except Exception as e:
+                    self.logger.error(f"Fofa search error: {e}")
+
+            results["fofa_targets"] = list(set(fofa_targets))
+            self.logger.info(
+                f"📊 Fofa found {len(results['fofa_targets'])} unique targets"
+            )
+
+        # Shodan search
+        if self.shodan and "shodan_queries" in strategy_config:
+            self.logger.info(f"🌐 Starting Shodan search for strategy: {strategy}")
+            shodan_targets = []
+
+            for query in strategy_config["shodan_queries"]:
+                try:
+                    search_results = await self.shodan.search(query, limit)
+                    extracted_targets = self.shodan.extract_targets_from_results(
+                        search_results
+                    )
+                    shodan_targets.extend(extracted_targets)
+                    await asyncio.sleep(1)  # Be nice to Shodan
+                except Exception as e:
+                    self.logger.error(f"Shodan search error: {e}")
+
+            results["shodan_targets"] = list(set(shodan_targets))
+            self.logger.info(
+                f"📊 Shodan found {len(results['shodan_targets'])} unique targets"
+            )
+
+        # Combine all targets
+        all_targets = results["fofa_targets"] + results["shodan_targets"]
+        results["combined_targets"] = list(set(all_targets))
+
+        # Generate stats
+        results["stats"] = {
+            "fofa_count": len(results["fofa_targets"]),
+            "shodan_count": len(results["shodan_targets"]),
+            "total_unique": len(results["combined_targets"]),
+            "overlap": len(results["fofa_targets"])
+            + len(results["shodan_targets"])
+            - len(results["combined_targets"]),
+        }
+
+        self.logger.info(
+            f"🎯 Combined discovery: {results['stats']['total_unique']} unique targets"
+        )
+
+        return results
+
+    async def hunt_discovered_targets(
+        self, targets: list, hunt_type: str = "soa2"
+    ) -> dict:
+        """Hunt the discovered targets using our hunting tools"""
+        self.logger.info(
+            f"🎯 Starting {hunt_type} hunt on {len(targets)} discovered targets"
+        )
+
+        if hunt_type == "soa2":
+            # Use SOA2 hunting patterns
+            hunt_results = []
+
+            for target in targets:
+                try:
+                    # Extract domain from target
+                    from urllib.parse import urlparse
+
+                    parsed = urlparse(target)
+                    domain = parsed.netloc.replace("www.", "").replace("m.", "")
+
+                    # Use wordlist hunter for SOA2 patterns
+                    domain_results = await self.wordlist.wordlist_hunt(
+                        domain, "soa2", max_concurrent=3
+                    )
+                    hunt_results.extend(domain_results.get("soa2_endpoints", []))
+
+                except Exception as e:
+                    self.logger.warning(f"Error hunting target {target}: {e}")
+
+            return {
+                "hunt_type": hunt_type,
+                "targets_hunted": len(targets),
+                "endpoints_found": len(hunt_results),
+                "results": hunt_results,
+            }
+
+        return {"error": f"Unknown hunt type: {hunt_type}"}
+
+    async def full_discovery_and_hunt(
+        self, strategy: str = "soa2_discovery", limit: int = 50
+    ) -> dict:
+        """Complete discovery and hunting pipeline"""
+        self.logger.info(f"🚀 Starting full discovery and hunt pipeline")
+
+        # Step 1: Discover targets
+        discovery_results = await self.discover_targets_multi_source(strategy, limit)
+
+        # Step 2: Hunt discovered targets
+        if discovery_results["combined_targets"]:
+            hunt_results = await self.hunt_discovered_targets(
+                discovery_results["combined_targets"], "soa2"
+            )
+        else:
+            hunt_results = {"error": "No targets discovered"}
+
+        # Combine results
+        final_results = {
+            "pipeline": "full_discovery_and_hunt",
+            "discovery": discovery_results,
+            "hunting": hunt_results,
+            "summary": {
+                "targets_discovered": len(discovery_results["combined_targets"]),
+                "endpoints_found": hunt_results.get("endpoints_found", 0),
+                "success": hunt_results.get("endpoints_found", 0) > 0,
+            },
+        }
+
+        return final_results
+
+    def save_results(
+        self, results: dict, output_file: str = "target_hunt_results.json"
+    ):
+        """Save comprehensive results"""
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(output_path, "w") as f:
+            json.dump(results, f, indent=2, ensure_ascii=False)
+
+        self.logger.info(f"📁 Results saved to: {output_path}")
+
+
+async def main():
+    """Main function"""
+    parser = argparse.ArgumentParser(description="XSS Vibes V2 - Target Hunter")
+    parser.add_argument(
+        "-s",
+        "--strategy",
+        choices=list(TargetHunter().search_strategies.keys()),
+        default="soa2_discovery",
+        help="Discovery strategy",
+    )
+    parser.add_argument(
+        "-l", "--limit", type=int, default=50, help="Result limit per source"
+    )
+    parser.add_argument("--fofa-email", help="Fofa email")
+    parser.add_argument("--fofa-key", help="Fofa API key")
+    parser.add_argument("--shodan-key", help="Shodan API key")
+    parser.add_argument(
+        "-o", "--output", default="target_hunt_results.json", help="Output file"
+    )
+    parser.add_argument(
+        "--discovery-only", action="store_true", help="Only discover targets, dont hunt"
+    )
+    parser.add_argument(
+        "--full-pipeline",
+        action="store_true",
+        help="Run full discovery + hunting pipeline",
+    )
+
+    args = parser.parse_args()
+
+    print("🎯 XSS Vibes V2 - Target Hunter")
+    print("=" * 50)
+    print("Combined Shodan + Fofa + Wordlist Discovery")
+    print("")
+
+    hunter = TargetHunter(args.fofa_email, args.fofa_key, args.shodan_key)
+
+    try:
+        if args.full_pipeline:
+            results = await hunter.full_discovery_and_hunt(args.strategy, args.limit)
+
+            print(f"\n🎉 Full Pipeline Complete!")
+            print("=" * 50)
+            summary = results["summary"]
+            print(f"📊 Targets Discovered: {summary['targets_discovered']}")
+            print(f"📊 Endpoints Found: {summary['endpoints_found']}")
+            print(f"📊 Success: {'✅' if summary['success'] else '❌'}")
+
+        elif args.discovery_only:
+            results = await hunter.discover_targets_multi_source(
+                args.strategy, args.limit
+            )
+
+            print(f"\n🎉 Discovery Complete!")
+            print("=" * 50)
+            stats = results["stats"]
+            print(f"📊 Fofa Targets: {stats['fofa_count']}")
+            print(f"📊 Shodan Targets: {stats['shodan_count']}")
+            print(f"📊 Unique Total: {stats['total_unique']}")
+            print(f"📊 Overlap: {stats['overlap']}")
+
+            print("\n🎯 Top discovered targets:")
+            for i, target in enumerate(results["combined_targets"][:10], 1):
+                print(f"   {i}. {target}")
+
+        else:
+            print("Please specify --discovery-only or --full-pipeline")
+            return
+
+        # Save results
+        hunter.save_results(results, args.output)
+
+    finally:
+        if hunter.fofa:
+            await hunter.fofa.close_session()
+        if hunter.shodan:
+            await hunter.shodan.close_session()
+        if hunter.wordlist:
+            await hunter.wordlist.close_session()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

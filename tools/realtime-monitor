@@ -1,0 +1,482 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - Real-time Monitoring Pipeline
+Continuous monitoring for new targets and vulnerabilities
+"""
+
+import asyncio
+import json
+import logging
+import argparse
+import time
+from pathlib import Path
+from typing import Dict, List, Set, Any
+from datetime import datetime, timedelta
+import subprocess
+import sqlite3
+from dataclasses import dataclass
+
+
+@dataclass
+class MonitoringConfig:
+    fofa_queries: List[str]
+    shodan_queries: List[str]
+    scan_interval: int = 3600  # 1 hour
+    nuclei_templates: List[str] | None = None
+    notification_webhook: str | None = None
+    max_targets_per_run: int = 100
+
+
+class MonitoringDatabase:
+    def __init__(self, db_path: str = "monitoring.db"):
+        self.db_path = db_path
+        self.init_database()
+
+    def init_database(self):
+        """Initialize SQLite database for monitoring"""
+        conn = sqlite3.connect(self.db_path)
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS discovered_targets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                target TEXT UNIQUE,
+                source TEXT,
+                first_seen TIMESTAMP,
+                last_scanned TIMESTAMP,
+                status TEXT DEFAULT 'pending'
+            )
+        """
+        )
+
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS scan_results (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                target TEXT,
+                template_id TEXT,
+                severity TEXT,
+                finding TEXT,
+                timestamp TIMESTAMP,
+                FOREIGN KEY (target) REFERENCES discovered_targets (target)
+            )
+        """
+        )
+
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS monitoring_stats (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TIMESTAMP,
+                new_targets INTEGER,
+                scanned_targets INTEGER,
+                vulnerabilities_found INTEGER,
+                scan_duration INTEGER
+            )
+        """
+        )
+
+        conn.commit()
+        conn.close()
+
+    def add_targets(self, targets: List[str], source: str):
+        """Add new targets to database"""
+        conn = sqlite3.connect(self.db_path)
+        now = datetime.now()
+        new_count = 0
+
+        for target in targets:
+            try:
+                cursor = conn.execute(
+                    "INSERT OR IGNORE INTO discovered_targets (target, source, first_seen) VALUES (?, ?, ?)",
+                    (target, source, now),
+                )
+                if cursor.rowcount > 0:
+                    new_count += 1
+            except sqlite3.Error:
+                continue
+
+        conn.commit()
+        conn.close()
+        return new_count
+
+    def get_pending_targets(self, limit: int = 100) -> List[str]:
+        """Get targets that need scanning"""
+        conn = sqlite3.connect(self.db_path)
+        cursor = conn.execute(
+            "SELECT target FROM discovered_targets WHERE status = 'pending' OR last_scanned IS NULL LIMIT ?",
+            (limit,),
+        )
+        targets = [row[0] for row in cursor.fetchall()]
+        conn.close()
+        return targets
+
+    def update_scan_status(self, target: str, status: str = "scanned"):
+        """Update target scan status"""
+        conn = sqlite3.connect(self.db_path)
+        conn.execute(
+            "UPDATE discovered_targets SET status = ?, last_scanned = ? WHERE target = ?",
+            (status, datetime.now(), target),
+        )
+        conn.commit()
+        conn.close()
+
+    def add_scan_results(self, results: List[Dict[str, Any]]):
+        """Add scan results to database"""
+        conn = sqlite3.connect(self.db_path)
+        for result in results:
+            conn.execute(
+                "INSERT INTO scan_results (target, template_id, severity, finding, timestamp) VALUES (?, ?, ?, ?, ?)",
+                (
+                    result.get("target"),
+                    result.get("template_id"),
+                    result.get("severity"),
+                    json.dumps(result),
+                    datetime.now(),
+                ),
+            )
+        conn.commit()
+        conn.close()
+
+    def get_stats(self) -> Dict[str, Any]:
+        """Get monitoring statistics"""
+        conn = sqlite3.connect(self.db_path)
+
+        # Total targets
+        cursor = conn.execute("SELECT COUNT(*) FROM discovered_targets")
+        total_targets = cursor.fetchone()[0]
+
+        # Pending targets
+        cursor = conn.execute(
+            "SELECT COUNT(*) FROM discovered_targets WHERE status = 'pending'"
+        )
+        pending_targets = cursor.fetchone()[0]
+
+        # Total vulnerabilities
+        cursor = conn.execute("SELECT COUNT(*) FROM scan_results")
+        total_vulns = cursor.fetchone()[0]
+
+        # Recent vulnerabilities (last 24h)
+        yesterday = datetime.now() - timedelta(days=1)
+        cursor = conn.execute(
+            "SELECT COUNT(*) FROM scan_results WHERE timestamp > ?", (yesterday,)
+        )
+        recent_vulns = cursor.fetchone()[0]
+
+        conn.close()
+
+        return {
+            "total_targets": total_targets,
+            "pending_targets": pending_targets,
+            "total_vulnerabilities": total_vulns,
+            "recent_vulnerabilities": recent_vulns,
+        }
+
+
+class RealTimeMonitor:
+    def __init__(self, config: MonitoringConfig):
+        self.config = config
+        self.setup_logging()
+        self.db = MonitoringDatabase()
+        self.running = False
+
+    def setup_logging(self):
+        """Setup logging configuration"""
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            handlers=[logging.FileHandler("monitoring.log"), logging.StreamHandler()],
+        )
+        self.logger = logging.getLogger("RealTimeMonitor")
+
+    async def discover_targets(self) -> Dict[str, List[str]]:
+        """Discover new targets using Fofa and Shodan"""
+        self.logger.info("🔍 Starting target discovery...")
+        discovered = {"fofa": [], "shodan": []}
+
+        # Run Fofa discovery
+        for query in self.config.fofa_queries:
+            try:
+                self.logger.info(f"🔍 Fofa query: {query}")
+                result = await self.run_fofa_search(query)
+                discovered["fofa"].extend(result)
+                await asyncio.sleep(2)  # Rate limiting
+            except Exception as e:
+                self.logger.error(f"Fofa query failed: {e}")
+
+        # Run Shodan discovery
+        for query in self.config.shodan_queries:
+            try:
+                self.logger.info(f"🌐 Shodan query: {query}")
+                result = await self.run_shodan_search(query)
+                discovered["shodan"].extend(result)
+                await asyncio.sleep(2)  # Rate limiting
+            except Exception as e:
+                self.logger.error(f"Shodan query failed: {e}")
+
+        return discovered
+
+    async def run_fofa_search(self, query: str) -> List[str]:
+        """Run Fofa search"""
+        cmd = ["./tools/fofa-searcher", "-q", query, "--max-results", "50"]
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            cwd="/home/jarek/xss_vibes",
+        )
+
+        stdout, stderr = await process.communicate()
+
+        if process.returncode == 0:
+            # Parse results from JSON output
+            try:
+                with open("fofa_results.json", "r") as f:
+                    data = json.load(f)
+                    return data.get("targets", [])
+            except Exception:
+                return []
+        return []
+
+    async def run_shodan_search(self, query: str) -> List[str]:
+        """Run Shodan search"""
+        cmd = ["./tools/shodan-searcher", "-q", query, "--max-results", "50"]
+        process = await asyncio.create_subprocess_exec(
+            *cmd,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            cwd="/home/jarek/xss_vibes",
+        )
+
+        stdout, stderr = await process.communicate()
+
+        if process.returncode == 0:
+            # Parse results from JSON output
+            try:
+                with open("shodan_results.json", "r") as f:
+                    data = json.load(f)
+                    return data.get("targets", [])
+            except Exception:
+                return []
+        return []
+
+    async def scan_targets(self, targets: List[str]) -> List[Dict[str, Any]]:
+        """Scan targets with nuclei"""
+        if not targets:
+            return []
+
+        self.logger.info(f"🎯 Scanning {len(targets)} targets with nuclei...")
+
+        # Run nuclei scan
+        cmd = ["./tools/nuclei-runner", "-t", "targets.tmp", "--templates", "xss"]
+
+        # Write targets to temp file
+        with open("targets.tmp", "w") as f:
+            for target in targets:
+                f.write(f"{target}\n")
+
+        try:
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                cwd="/home/jarek/xss_vibes",
+            )
+
+            stdout, stderr = await process.communicate()
+
+            if process.returncode == 0:
+                # Parse nuclei results
+                try:
+                    with open("nuclei_results.json", "r") as f:
+                        data = json.load(f)
+                        return data.get("vulnerabilities", [])
+                except Exception:
+                    return []
+        except Exception as e:
+            self.logger.error(f"Nuclei scan failed: {e}")
+        finally:
+            # Cleanup
+            Path("targets.tmp").unlink(missing_ok=True)
+
+        return []
+
+    async def send_notification(self, message: str):
+        """Send notification (webhook, email, etc.)"""
+        if self.config.notification_webhook:
+            try:
+                # Simple webhook notification
+                import aiohttp
+
+                async with aiohttp.ClientSession() as session:
+                    await session.post(
+                        self.config.notification_webhook,
+                        json={"text": message, "timestamp": datetime.now().isoformat()},
+                    )
+            except Exception as e:
+                self.logger.error(f"Notification failed: {e}")
+
+    async def monitoring_cycle(self):
+        """Single monitoring cycle"""
+        cycle_start = time.time()
+        self.logger.info("🚀 Starting monitoring cycle...")
+
+        # Discovery phase
+        discovered = await self.discover_targets()
+
+        # Add new targets to database
+        new_fofa = self.db.add_targets(discovered["fofa"], "fofa")
+        new_shodan = self.db.add_targets(discovered["shodan"], "shodan")
+        total_new = new_fofa + new_shodan
+
+        self.logger.info(
+            f"📊 Discovered {total_new} new targets (Fofa: {new_fofa}, Shodan: {new_shodan})"
+        )
+
+        # Get targets to scan
+        targets_to_scan = self.db.get_pending_targets(self.config.max_targets_per_run)
+
+        vulnerabilities = []
+        if targets_to_scan:
+            # Scanning phase
+            scan_results = await self.scan_targets(targets_to_scan)
+            vulnerabilities = scan_results
+
+            # Update database
+            self.db.add_scan_results(scan_results)
+            for target in targets_to_scan:
+                self.db.update_scan_status(target)
+
+        # Statistics
+        cycle_duration = int(time.time() - cycle_start)
+        stats = self.db.get_stats()
+
+        self.logger.info(
+            f"📊 Cycle complete - Duration: {cycle_duration}s, New targets: {total_new}, Scanned: {len(targets_to_scan)}, Vulns: {len(vulnerabilities)}"
+        )
+
+        # Send notifications for new vulnerabilities
+        if vulnerabilities:
+            high_severity = [
+                v
+                for v in vulnerabilities
+                if v.get("info", {}).get("severity") in ["high", "critical"]
+            ]
+            if high_severity:
+                message = f"🚨 Found {len(high_severity)} high/critical vulnerabilities in monitoring cycle"
+                await self.send_notification(message)
+
+        return {
+            "cycle_duration": cycle_duration,
+            "new_targets": total_new,
+            "scanned_targets": len(targets_to_scan),
+            "vulnerabilities": len(vulnerabilities),
+            "stats": stats,
+        }
+
+    async def start_monitoring(self):
+        """Start continuous monitoring"""
+        self.running = True
+        self.logger.info(
+            f"🎯 Starting real-time monitoring (interval: {self.config.scan_interval}s)"
+        )
+
+        cycle_count = 0
+        while self.running:
+            try:
+                cycle_count += 1
+                self.logger.info(f"🔄 Monitoring cycle #{cycle_count}")
+
+                # Run monitoring cycle
+                cycle_results = await self.monitoring_cycle()
+
+                # Wait for next cycle
+                self.logger.info(
+                    f"⏰ Waiting {self.config.scan_interval}s for next cycle..."
+                )
+                await asyncio.sleep(self.config.scan_interval)
+
+            except KeyboardInterrupt:
+                self.logger.info("🛑 Monitoring stopped by user")
+                break
+            except Exception as e:
+                self.logger.error(f"❌ Monitoring cycle error: {e}")
+                await asyncio.sleep(60)  # Wait 1 minute before retry
+
+    def stop_monitoring(self):
+        """Stop monitoring"""
+        self.running = False
+
+
+def load_monitoring_config(config_file: str) -> MonitoringConfig:
+    """Load monitoring configuration"""
+    default_config = {
+        "fofa_queries": [
+            'body="restapi/soa2"',
+            'body="/soa2/"',
+            'title="admin"',
+            'title="login"',
+        ],
+        "shodan_queries": [
+            'http.title:"admin"',
+            'http.title:"login"',
+            'http.component:"nginx"',
+        ],
+        "scan_interval": 3600,
+        "max_targets_per_run": 50,
+    }
+
+    if Path(config_file).exists():
+        try:
+            with open(config_file, "r") as f:
+                user_config = json.load(f)
+                default_config.update(user_config)
+        except Exception as e:
+            print(f"Warning: Error loading config file: {e}")
+
+    return MonitoringConfig(**default_config)
+
+
+async def main():
+    parser = argparse.ArgumentParser(description="XSS Vibes V2 - Real-time Monitoring")
+    parser.add_argument(
+        "-c", "--config", default="monitoring_config.json", help="Configuration file"
+    )
+    parser.add_argument(
+        "--interval", type=int, default=3600, help="Scan interval in seconds"
+    )
+    parser.add_argument(
+        "--max-targets", type=int, default=50, help="Maximum targets per scan cycle"
+    )
+    parser.add_argument(
+        "--once", action="store_true", help="Run single monitoring cycle"
+    )
+
+    args = parser.parse_args()
+
+    print("🎯 XSS Vibes V2 - Real-time Monitoring Pipeline")
+    print("=" * 50)
+
+    # Load configuration
+    config = load_monitoring_config(args.config)
+    config.scan_interval = args.interval
+    config.max_targets_per_run = args.max_targets
+
+    # Create monitor
+    monitor = RealTimeMonitor(config)
+
+    if args.once:
+        # Single cycle
+        print("🔄 Running single monitoring cycle...")
+        results = await monitor.monitoring_cycle()
+        print("✅ Cycle complete!")
+        print(f"📊 Results: {results}")
+    else:
+        # Continuous monitoring
+        try:
+            await monitor.start_monitoring()
+        except KeyboardInterrupt:
+            print("\n🛑 Monitoring stopped")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -19,6 +19,10 @@ service_status.json
 *.log
 temp/
 
+# Large hunt result files
+ultimate_hunt_*/*.json
+*_hunt_*/*.json
+
 # Generated URLs and scan results
 *_urls.txt
 subdomains.txt
@@ -318,3 +322,9 @@ logs/
 *.pfx
 credentials.txt
 api_keys.txt
+
+# API Configuration
+config/*.txt
+config/*.key
+config/shodan_*
+config/fofa_*

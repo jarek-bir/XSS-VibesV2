@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - API Hunter CLI
+Quick launcher for API endpoint discovery
+"""
+
+import asyncio
+import argparse
+import sys
+from pathlib import Path
+
+# Add parent directory for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from xss_vibes.api_hunter import APIEndpointHunter
+
+
+def print_banner():
+    """Print banner"""
+    print("🔍 XSS Vibes V2 - API Endpoint Hunter")
+    print("=" * 50)
+    print("Advanced reconnaissance for API discovery")
+    print("Based on Ctrip.com findings by XSS Vibes team")
+    print("")
+
+
+def main():
+    """Main CLI function"""
+    parser = argparse.ArgumentParser(description="Hunt for API endpoints")
+    parser.add_argument("domains", nargs="+", help="Target domains to hunt")
+    parser.add_argument(
+        "-o", "--output", default="api_hunt_results", help="Output directory"
+    )
+    parser.add_argument(
+        "-c", "--concurrent", type=int, default=20, help="Max concurrent requests"
+    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
+
+    args = parser.parse_args()
+
+    print_banner()
+
+    if args.verbose:
+        import logging
+
+        logging.basicConfig(level=logging.DEBUG)
+
+    print(f"🎯 Target domains: {', '.join(args.domains)}")
+    print(f"📁 Output directory: {args.output}")
+    print(f"⚡ Concurrent requests: {args.concurrent}")
+    print("")
+
+    async def run_hunt():
+        hunter = APIEndpointHunter()
+        results = await hunter.hunt_api_endpoints(args.domains, args.concurrent)
+        hunter.save_api_results(results, args.output)
+
+        print("\n🎉 API Hunt completed!")
+        print(f"📊 Found {len(results)} API endpoints")
+
+        # Show results by risk level
+        high_risk = [r for r in results if r.get("risk_level") == "HIGH"]
+        medium_risk = [r for r in results if r.get("risk_level") == "MEDIUM"]
+        low_risk = [r for r in results if r.get("risk_level") == "LOW"]
+
+        if high_risk:
+            print(f"\n🔥 HIGH RISK APIs ({len(high_risk)}):")
+            for result in high_risk[:5]:
+                print(f"  • {result['url']}")
+                print(f"    Type: {result.get('api_type', 'Unknown')}")
+                print(f"    Confidence: {result['confidence']}%")
+                if result.get("data_extracted"):
+                    print(f"    Exposed Data: {len(result['data_extracted'])} fields")
+                print()
+
+        if medium_risk:
+            print(f"🟡 MEDIUM RISK APIs: {len(medium_risk)}")
+
+        if low_risk:
+            print(f"🟢 LOW RISK APIs: {len(low_risk)}")
+
+        print(f"\n📁 Full results saved to: {args.output}/")
+        print(f"🌐 HTML report: {args.output}/api_endpoints.html")
+        print(f"📄 Text report: {args.output}/api_report.txt")
+
+    # Run the hunt
+    try:
+        asyncio.run(run_hunt())
+    except KeyboardInterrupt:
+        print("\n⚠️  Hunt interrupted by user")
+    except Exception as e:
+        print(f"\n❌ Error during hunt: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,304 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - Wordlist Hunter
+Use custom wordlists for targeted hunting
+"""
+
+import asyncio
+import aiohttp
+import json
+import sys
+from pathlib import Path
+import argparse
+from itertools import product
+
+# Add parent directory for imports
+sys.path.append(str(Path(__file__).parent.parent))
+
+from xss_vibes.api_hunter import APIEndpointHunter
+
+
+class WordlistHunter(APIEndpointHunter):
+    def __init__(self):
+        super().__init__()
+        self.wordlist_dir = Path(__file__).parent.parent / "wordlists"
+
+    def load_wordlist(self, filename: str) -> list:
+        """Load wordlist from file"""
+        wordlist_path = self.wordlist_dir / filename
+
+        if not wordlist_path.exists():
+            self.logger.error(f"Wordlist not found: {wordlist_path}")
+            return []
+
+        words = []
+        with open(wordlist_path, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    words.append(line)
+
+        self.logger.info(f"Loaded {len(words)} entries from {filename}")
+        return words
+
+    def generate_soa2_targets(
+        self,
+        domain: str,
+        service_ids: list | None = None,
+        endpoints: list | None = None,
+    ) -> list:
+        """Generate SOA2 targets from wordlists"""
+        if not service_ids:
+            service_ids = self.load_wordlist("soa2_service_ids.txt")
+
+        if not endpoints:
+            endpoints = self.load_wordlist("soa2_endpoints.txt")
+
+        targets = []
+        base_urls = [
+            f"https://m.{domain}",
+            f"https://www.{domain}",
+            f"http://m.{domain}",
+            f"http://www.{domain}",
+        ]
+
+        for base_url, service_id, endpoint in product(
+            base_urls, service_ids, endpoints
+        ):
+            target = f"{base_url}/restapi/soa2/{service_id}/{endpoint}"
+            targets.append(target)
+
+        return targets
+
+    def generate_api_targets(self, domain: str, endpoints: list | None = None) -> list:
+        """Generate general API targets from wordlists"""
+        if not endpoints:
+            endpoints = self.load_wordlist("api_endpoints.txt")
+
+        targets = []
+        base_urls = [
+            f"https://{domain}",
+            f"https://www.{domain}",
+            f"https://api.{domain}",
+            f"https://m.{domain}",
+            f"http://{domain}",
+            f"http://www.{domain}",
+        ]
+
+        for base_url, endpoint in product(base_urls, endpoints):
+            # Clean up endpoint formatting
+            if endpoint.startswith("/"):
+                target = f"{base_url}{endpoint}"
+            else:
+                target = f"{base_url}/{endpoint}"
+            targets.append(target)
+
+        return targets
+
+    def generate_dev_targets(self, domain: str, interfaces: list | None = None) -> list:
+        """Generate development interface targets"""
+        if not interfaces:
+            interfaces = self.load_wordlist("dev_interfaces.txt")
+
+        targets = []
+        base_domain = domain
+
+        for interface in interfaces:
+            if interface.startswith("/"):
+                # Path-based
+                targets.extend(
+                    [
+                        f"https://{base_domain}{interface}",
+                        f"https://www.{base_domain}{interface}",
+                        f"http://{base_domain}{interface}",
+                        f"http://www.{base_domain}{interface}",
+                    ]
+                )
+            elif interface.startswith(":"):
+                # Port-based
+                targets.extend(
+                    [
+                        f"https://{base_domain}{interface}",
+                        f"http://{base_domain}{interface}",
+                    ]
+                )
+            elif "." in interface:
+                # File-based
+                targets.extend(
+                    [
+                        f"https://{base_domain}/{interface}",
+                        f"https://www.{base_domain}/{interface}",
+                        f"http://{base_domain}/{interface}",
+                        f"http://www.{base_domain}/{interface}",
+                    ]
+                )
+            else:
+                # Subdomain-based
+                targets.extend(
+                    [
+                        f"https://{interface}.{base_domain}",
+                        f"http://{interface}.{base_domain}",
+                    ]
+                )
+
+        return targets
+
+    async def wordlist_hunt(
+        self, domain: str, hunt_type: str = "all", max_concurrent: int = 5
+    ) -> dict:
+        """Hunt using wordlists"""
+        results = {
+            "domain": domain,
+            "hunt_type": hunt_type,
+            "soa2_endpoints": [],
+            "api_endpoints": [],
+            "dev_interfaces": [],
+            "summary": {},
+        }
+
+        await self.init_session()
+
+        try:
+            if hunt_type in ["all", "soa2"]:
+                print(f"\n🎯 SOA2 Wordlist Hunt")
+                print("-" * 40)
+
+                targets = self.generate_soa2_targets(domain)
+                print(f"Generated {len(targets)} SOA2 targets")
+
+                # Limit for demo
+                if len(targets) > 1000:
+                    print(f"⚠️  Limiting to first 1000 targets")
+                    targets = targets[:1000]
+
+                soa2_results = await self.hunt_targets(targets, max_concurrent)
+                results["soa2_endpoints"] = soa2_results
+
+                print(f"Found {len(soa2_results)} SOA2 endpoints")
+
+            if hunt_type in ["all", "api"]:
+                print(f"\n🌐 API Wordlist Hunt")
+                print("-" * 40)
+
+                targets = self.generate_api_targets(domain)
+                print(f"Generated {len(targets)} API targets")
+
+                # Limit for demo
+                if len(targets) > 500:
+                    print(f"⚠️  Limiting to first 500 targets")
+                    targets = targets[:500]
+
+                api_results = await self.hunt_targets(targets, max_concurrent)
+                results["api_endpoints"] = api_results
+
+                print(f"Found {len(api_results)} API endpoints")
+
+            if hunt_type in ["all", "dev"]:
+                print(f"\n🛠️ Dev Interface Wordlist Hunt")
+                print("-" * 40)
+
+                targets = self.generate_dev_targets(domain)
+                print(f"Generated {len(targets)} dev targets")
+
+                dev_results = await self.hunt_targets(targets, max_concurrent)
+                results["dev_interfaces"] = dev_results
+
+                print(f"Found {len(dev_results)} dev interfaces")
+
+        finally:
+            await self.close_session()
+
+        # Generate summary
+        results["summary"] = {
+            "soa2_found": len(results["soa2_endpoints"]),
+            "api_found": len(results["api_endpoints"]),
+            "dev_found": len(results["dev_interfaces"]),
+            "total_found": len(results["soa2_endpoints"])
+            + len(results["api_endpoints"])
+            + len(results["dev_interfaces"]),
+        }
+
+        return results
+
+    async def hunt_targets(self, targets: list, max_concurrent: int) -> list:
+        """Hunt a list of targets with concurrency control"""
+        results = []
+        semaphore = asyncio.Semaphore(max_concurrent)
+
+        async def test_target(target):
+            async with semaphore:
+                try:
+                    result = await self.test_api_endpoint(target)
+                    if result and result.get("status_code") in [200, 403, 401]:
+                        results.append(result)
+                        status = result.get("status_code")
+                        confidence = result.get("confidence")
+                        print(f"   ✅ {target} - {status} - {confidence}%")
+
+                        if status == 200 and result.get("data_extracted"):
+                            print(f"      Data: {result.get('data_extracted')}")
+                except Exception:
+                    pass  # Ignore errors
+
+                await asyncio.sleep(0.1)
+
+        tasks = [test_target(target) for target in targets]
+        await asyncio.gather(*tasks, return_exceptions=True)
+
+        return results
+
+
+async def main():
+    """Main function"""
+    parser = argparse.ArgumentParser(description="XSS Vibes V2 - Wordlist Hunter")
+    parser.add_argument("domain", help="Target domain to hunt")
+    parser.add_argument(
+        "-t",
+        "--type",
+        choices=["all", "soa2", "api", "dev"],
+        default="all",
+        help="Hunt type (default: all)",
+    )
+    parser.add_argument(
+        "-c",
+        "--concurrent",
+        type=int,
+        default=5,
+        help="Max concurrent requests (default: 5)",
+    )
+    parser.add_argument("-o", "--output", help="Output directory")
+
+    args = parser.parse_args()
+
+    print("📚 XSS Vibes V2 - Wordlist Hunter")
+    print("=" * 50)
+    print(f"Target: {args.domain}")
+    print(f"Hunt type: {args.type}")
+    print("")
+
+    hunter = WordlistHunter()
+    results = await hunter.wordlist_hunt(args.domain, args.type, args.concurrent)
+
+    # Print summary
+    print(f"\n🎉 Wordlist Hunt Complete!")
+    print("=" * 50)
+
+    summary = results["summary"]
+    print(f"📊 SOA2 Endpoints: {summary['soa2_found']}")
+    print(f"📊 API Endpoints: {summary['api_found']}")
+    print(f"📊 Dev Interfaces: {summary['dev_found']}")
+    print(f"📊 Total Found: {summary['total_found']}")
+
+    # Save results
+    if summary["total_found"] > 0:
+        output_dir = args.output or f"wordlist_hunt_{args.domain.replace('.', '_')}"
+        hunter.save_api_results(
+            results["soa2_endpoints"]
+            + results["api_endpoints"]
+            + results["dev_interfaces"],
+            output_dir,
+        )
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

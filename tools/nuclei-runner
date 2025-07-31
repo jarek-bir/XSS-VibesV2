@@ -1,0 +1,329 @@
+#!/usr/bin/env python3
+"""
+XSS Vibes V2 - Nuclei Integration
+Advanced template runner for discovered targets
+"""
+
+import asyncio
+import json
+import logging
+import argparse
+import subprocess
+import tempfile
+from pathlib import Path
+from typing import List, Dict, Any
+from datetime import datetime
+
+
+class NucleiRunner:
+    def __init__(self):
+        self.setup_logging()
+        self.nuclei_cmd = self.find_nuclei()
+
+    def setup_logging(self):
+        """Setup logging configuration"""
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            handlers=[
+                logging.FileHandler("nuclei_runner.log"),
+                logging.StreamHandler(),
+            ],
+        )
+        self.logger = logging.getLogger("NucleiRunner")
+
+    def find_nuclei(self) -> str:
+        """Find nuclei binary"""
+        try:
+            result = subprocess.run(["which", "nuclei"], capture_output=True, text=True)
+            if result.returncode == 0:
+                return result.stdout.strip()
+            else:
+                self.logger.warning("Nuclei not found in PATH")
+                return "nuclei"  # Hope it's in PATH
+        except Exception as e:
+            self.logger.error(f"Error finding nuclei: {e}")
+            return "nuclei"
+
+    def get_xss_templates(self) -> List[str]:
+        """Get XSS-related nuclei templates"""
+        xss_templates = [
+            "cves/2019/CVE-2019-16097.yaml",  # XSS vulnerabilities
+            "cves/2020/CVE-2020-14144.yaml",
+            "cves/2021/CVE-2021-25003.yaml",
+            "exposures/configs/nginx-status.yaml",
+            "exposures/files/debug-vars.yaml",
+            "exposures/files/exposed-svn.yaml",
+            "exposures/logs/access-log.yaml",
+            "misconfiguration/proxy/open-proxy-internal.yaml",
+            "misconfiguration/proxy/open-proxy-portscan.yaml",
+            "technologies/tech-detect.yaml",
+            "vulnerabilities/generic/basic-xss-prober.yaml",
+            "vulnerabilities/generic/cache-poisoning.yaml",
+            "vulnerabilities/generic/cors-misconfig.yaml",
+            "vulnerabilities/other/reflected-xss.yaml",
+            "vulnerabilities/other/stored-xss.yaml",
+            "vulnerabilities/wordpress/wp-debug.yaml",
+            "default-logins/",  # Directory for default login templates
+            "exposed-panels/",  # Directory for admin panel templates
+        ]
+        return xss_templates
+
+    def get_discovery_templates(self) -> List[str]:
+        """Get discovery and reconnaissance templates"""
+        discovery_templates = [
+            "technologies/",
+            "exposures/",
+            "misconfiguration/",
+            "default-logins/",
+            "exposed-panels/",
+            "vulnerabilities/generic/",
+            "dns/",
+            "ssl/",
+        ]
+        return discovery_templates
+
+    async def run_nuclei_scan(
+        self, targets: List[str], templates: List[str], output_format: str = "json"
+    ) -> Dict[str, Any]:
+        """Run nuclei scan on targets"""
+        self.logger.info(f"🔍 Starting nuclei scan on {len(targets)} targets")
+
+        # Create temporary file for targets
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as f:
+            for target in targets:
+                f.write(f"{target}\n")
+            target_file = f.name
+
+        # Create temporary file for output
+        output_file = tempfile.mktemp(suffix=".json")
+
+        try:
+            # Build nuclei command
+            cmd = [
+                self.nuclei_cmd,
+                "-l",
+                target_file,
+                "-o",
+                output_file,
+                "-json",
+                "-silent",
+                "-timeout",
+                "10",
+                "-retries",
+                "2",
+                "-rate-limit",
+                "50",
+                "-bulk-size",
+                "25",
+                "-c",
+                "20",  # 20 concurrent threads
+            ]
+
+            # Add templates
+            for template in templates:
+                if template.endswith("/"):
+                    cmd.extend(["-t", template])
+                else:
+                    cmd.extend(["-t", template])
+
+            self.logger.info(
+                f"📡 Running: {' '.join(cmd[:5])}... with {len(templates)} templates"
+            )
+
+            # Run nuclei
+            process = await asyncio.create_subprocess_exec(
+                *cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+            )
+
+            stdout, stderr = await process.communicate()
+
+            if process.returncode == 0:
+                self.logger.info("✅ Nuclei scan completed successfully")
+                # Parse results
+                return self.parse_nuclei_output(output_file)
+            else:
+                self.logger.error(f"❌ Nuclei scan failed: {stderr.decode()}")
+                return {"error": stderr.decode(), "results": []}
+
+        except Exception as e:
+            self.logger.error(f"❌ Error running nuclei: {e}")
+            return {"error": str(e), "results": []}
+        finally:
+            # Cleanup
+            Path(target_file).unlink(missing_ok=True)
+            Path(output_file).unlink(missing_ok=True)
+
+    def parse_nuclei_output(self, output_file: str) -> Dict[str, Any]:
+        """Parse nuclei JSON output"""
+        results = {
+            "scan_time": datetime.now().isoformat(),
+            "vulnerabilities": [],
+            "exposures": [],
+            "technologies": [],
+            "summary": {
+                "total": 0,
+                "critical": 0,
+                "high": 0,
+                "medium": 0,
+                "low": 0,
+                "info": 0,
+            },
+        }
+
+        try:
+            with open(output_file, "r") as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            finding = json.loads(line)
+                            results["vulnerabilities"].append(finding)
+
+                            # Categorize finding
+                            severity = (
+                                finding.get("info", {}).get("severity", "info").lower()
+                            )
+                            results["summary"]["total"] += 1
+                            results["summary"][severity] = (
+                                results["summary"].get(severity, 0) + 1
+                            )
+
+                        except json.JSONDecodeError:
+                            continue
+
+        except FileNotFoundError:
+            self.logger.warning("No nuclei output file found")
+
+        return results
+
+    def load_targets_from_file(self, filename: str) -> List[str]:
+        """Load targets from discovery results"""
+        targets = []
+
+        try:
+            if filename.endswith(".json"):
+                with open(filename, "r") as f:
+                    data = json.load(f)
+
+                # Handle different JSON formats
+                if "fofa_targets" in data:
+                    targets.extend(data["fofa_targets"])
+                if "shodan_targets" in data:
+                    targets.extend(data["shodan_targets"])
+                if "unique_targets" in data:
+                    targets.extend(data["unique_targets"])
+                if "targets" in data:
+                    targets.extend(data["targets"])
+
+            else:
+                # Plain text file
+                with open(filename, "r") as f:
+                    targets = [line.strip() for line in f if line.strip()]
+
+        except Exception as e:
+            self.logger.error(f"Error loading targets from {filename}: {e}")
+
+        return list(set(targets))  # Remove duplicates
+
+    def save_results(self, results: Dict[str, Any], output_file: str):
+        """Save scan results"""
+        try:
+            with open(output_file, "w") as f:
+                json.dump(results, f, indent=2)
+            self.logger.info(f"📁 Results saved to: {output_file}")
+        except Exception as e:
+            self.logger.error(f"Error saving results: {e}")
+
+    def print_summary(self, results: Dict[str, Any]):
+        """Print scan summary"""
+        summary = results.get("summary", {})
+
+        print("\n🎯 Nuclei Scan Summary")
+        print("=" * 50)
+        print(f"📊 Total Findings: {summary.get('total', 0)}")
+        print(f"🔴 Critical: {summary.get('critical', 0)}")
+        print(f"🟠 High: {summary.get('high', 0)}")
+        print(f"🟡 Medium: {summary.get('medium', 0)}")
+        print(f"🔵 Low: {summary.get('low', 0)}")
+        print(f"ℹ️  Info: {summary.get('info', 0)}")
+
+        # Show top findings
+        vulns = results.get("vulnerabilities", [])[:10]
+        if vulns:
+            print(f"\n🎯 Top {len(vulns)} Findings:")
+            for i, vuln in enumerate(vulns, 1):
+                template = vuln.get("template-id", "unknown")
+                host = vuln.get("host", "unknown")
+                severity = vuln.get("info", {}).get("severity", "info")
+                print(f"   {i}. [{severity.upper()}] {template} on {host}")
+
+
+async def main():
+    parser = argparse.ArgumentParser(description="XSS Vibes V2 - Nuclei Integration")
+    parser.add_argument("-t", "--targets", help="Target file (from discovery tools)")
+    parser.add_argument(
+        "-o", "--output", default="nuclei_results.json", help="Output file for results"
+    )
+    parser.add_argument(
+        "--templates",
+        choices=["xss", "discovery", "all"],
+        default="xss",
+        help="Template category to use",
+    )
+    parser.add_argument(
+        "--custom-templates", nargs="+", help="Custom template files/directories"
+    )
+
+    args = parser.parse_args()
+
+    runner = NucleiRunner()
+
+    print("🎯 XSS Vibes V2 - Nuclei Integration")
+    print("=" * 50)
+
+    # Load targets
+    if args.targets:
+        targets = runner.load_targets_from_file(args.targets)
+    else:
+        # Try to load from recent discovery results
+        discovery_files = [
+            "simple_target_hunt.json",
+            "fofa_results.json",
+            "shodan_results.json",
+        ]
+        targets = []
+        for file in discovery_files:
+            if Path(file).exists():
+                targets.extend(runner.load_targets_from_file(file))
+                break
+
+    if not targets:
+        print("❌ No targets found. Run discovery first or specify target file.")
+        return
+
+    print(f"📊 Loaded {len(targets)} unique targets")
+
+    # Select templates
+    if args.custom_templates:
+        templates = args.custom_templates
+    elif args.templates == "xss":
+        templates = runner.get_xss_templates()
+    elif args.templates == "discovery":
+        templates = runner.get_discovery_templates()
+    else:  # all
+        templates = runner.get_xss_templates() + runner.get_discovery_templates()
+
+    print(f"📋 Using {len(templates)} template categories")
+
+    # Run scan
+    results = await runner.run_nuclei_scan(targets, templates)
+
+    # Save and display results
+    runner.save_results(results, args.output)
+    runner.print_summary(results)
+
+    print(f"\n🚀 Scan complete! Results saved to: {args.output}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

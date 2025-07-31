@@ -1,0 +1,55 @@
+name: vhostscan
+desc: Virtual Host scan
+
+report:
+  final:
+    - "{{Output}}/vhosts/vhosts-{{Workspace}}.csv"
+    - "{{Output}}/vhosts/beautify-vhosts-{{Workspace}}.txt"
+    - "{{Storages}}/summary/{{Workspace}}/vhosts-{{Workspace}}.txt"
+
+# {{Output}} == {{Workspaces}} + {{Workspace}} but strip "/" char
+pre_run:
+  - CreateFolder("{{Output}}/vhosts")
+  - CreateFolder("{{Storages}}/assets/{{Workspace}}")
+
+params:
+  - domainfile: "{{Output}}/subdomain/final-{{Workspace}}.txt"
+  - dnsFile: "{{Output}}/probing/dns-{{Workspace}}.txt"
+  - ipfile: "{{Output}}/vhosts/{{Workspace}}-ip.txt"
+  - httpfile: "{{Output}}/vhosts/ip-http-{{Workspace}}.txt"
+  - vhthreads: "{{ threads * 5 }}"
+  - vhostTimeout: "4h"
+
+steps:
+  # get the ips first
+  - required:
+      - '{{dnsFile}}'
+    commands:
+      - cat '{{dnsFile}}' | grep ' A ' | awk '{print $3}' | sort -u >> {{Output}}/vhosts/{{Workspace}}-ip.txt
+    scripts:
+      - SortU("{{Output}}/vhosts/{{Workspace}}-ip.txt")
+  # do httprobe ips
+  - required:
+      - "{{ipfile}}"
+    commands:
+      - cat {{ipfile}} | {{Binaries}}/httprobe -c {{vhthreads}} | tee {{httpfile}}
+
+  # do vhosts with ffuf-mod
+  - required:
+      - "{{Binaries}}/ffuf-mod"
+      - "{{domainfile}}"
+      - "{{httpfile}}"
+    commands:
+      - "timeout -k 1m {{vhostTimeout}} {{Binaries}}/ffuf-mod -t {{vhthreads}} -get-hash -s -fc '429,403,400' -o {{Output}}/directory/raw.json  -H 'Host: HOST' -w {{domainfile}}:HOST -w {{httpfile}}:FUZZ -u FUZZ"
+    scripts:
+      - ExecCmd("cat {{Output}}/directory/raw.json | {{Binaries}}/junique -k 'hash' | sort -u > {{Output}}/directory/unique-vhost.json")
+      # get interesting result
+      - ExecCmd("cat unique-vhost.json | jq -r '[.url,.input.HOST,(.status|tostring),(.length|tostring),(.words|tostring),(.lines|tostring),.hash,.redirectlocation] | join(\",\")' |  {{Binaries}}/csvtk uniq -f 7 -I >> {{Output}}/vhosts/vhosts-{{Workspace}}.csv")
+      - SortU("{{Output}}/vhosts/vhosts-{{Workspace}}.csv")
+      - ExecCmd("cat {{Output}}/vhosts/vhosts-{{Workspace}}.csv | {{Binaries}}/csvtk cut -f 1,2,3,4,5,8 -I | {{Binaries}}/csvtk pretty --no-header-row -I -s ' | ' -W 75 >> {{Output}}/vhosts/beautify-vhosts-{{Workspace}}.txt")
+      - SortU("{{Output}}/vhosts/beautify-vhosts-{{Workspace}}.txt")
+  - commands:
+      - "cat {{Output}}/vhosts/beautify-vhosts-{{Workspace}}.txt >> {{Storages}}/summary/{{Workspace}}/beautify-vhost-{{Workspace}}.txt"
+
+post_run:
+  - Cleaning("{{Output}}/vhosts/")
