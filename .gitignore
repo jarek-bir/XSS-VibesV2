@@ -57,6 +57,7 @@ payloads/god_tier_*.json
 payloads/elite_*.json  
 payloads/advanced_*.json
 payloads/private_*.json
+payloads/test_waf_payloads.py
 elite_payloads.py
 advanced_payloads.py
 god_tier_encoded_matrix.json
@@ -68,29 +69,52 @@ tools/automation/               # Mega scale automation
 xss_vibes/encoding_engine.py    # Advanced encoding 
 xss_vibes/payload_mutation.py   # Mutation algorithms
 xss_vibes/advanced_patterns.py
+xss_vibes/advanced_reporting.py
 xss_vibes/waf_detector.py
 
-# SPECIALIZED HUNT TECHNIQUES
-ctrip_specialized_hunt/
-soa2_mass_hunt/
-ultimate_hunt_*/
+# ADVANCED TOOLS & SCRIPTS
+scripts/advanced_*.py           # Advanced generators and encoders
+scripts/enhanced_*.py           # Enhanced tools
+scripts/ultimate_*.py           # Ultimate tools
+tools/advanced_*.py             # Advanced crawlers and obfuscators
+tools/ultimate-*                # Ultimate hunting tools
 
-# PREMIUM INTELLIGENCE
+# SPECIALIZED HUNT TECHNIQUES & RESULTS
+ctrip_specialized_hunt/         # SOA2 endpoint discoveries
+soa2_mass_hunt/                 # Mass reconnaissance data  
+ultimate_hunt_*/                # Major platform hunt results
+test_api_hunt/                  # API hunting test results
+simple_target_hunt.json         # Hunt result files
+*_hunt_*.json                   # All hunt result files
+
+# PREMIUM INTELLIGENCE & DATABASES
 knoxss_config.json
 waf_list.txt
 All_Payloads.txt
 waf_payloads.json
 
+# ADVANCED PAYLOAD CATEGORIES
+xss_vibes/data/categories/advanced_*.json
+xss_vibes/data/categories/ultimate_*.json
+xss_vibes/data/categories/encoded_*.json
+xss_vibes/data/categories/polyglot*.json
+xss_vibes/data/payloads_enhanced.json
+xss_vibes/data/polyglot_*.json
+
 # SENSITIVE HUNT RESULTS  
 enhanced_xss_hunting_results/
 enhanced_test_results/
 dev_hunt_results/
-test_api_hunt/
 
 # BUSINESS LOGIC & INTEGRATIONS
 xss_vibes/integrations.py
 xss_vibes/knoxss_integration.py
 monitoring.db
+
+# AUTOMATION TESTING
+tools/automation/*_tester.sh
+tools/create_advanced_*
+tools/test_advanced_*
 
 # Images
 *.png
