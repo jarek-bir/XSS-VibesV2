@@ -116,6 +116,16 @@ tools/automation/*_tester.sh
 tools/create_advanced_*
 tools/test_advanced_*
 
+# 🚨 RECONNAISSANCE INTELLIGENCE - CRITICAL SECURITY
+# ================================================
+# Real IP addresses and reconnaissance data
+shodan_results.json
+fofa_results.json
+*_recon_*.json
+*_intelligence_*.json
+*_targets_*.json
+*_discovery_*.json
+
 # Images
 *.png
 *.jpg
