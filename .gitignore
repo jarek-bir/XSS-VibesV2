@@ -49,6 +49,49 @@ merge_*.py
 # Original payload file
 onlinery
 
+# 🔥💀 PRIVATE CROWN JEWELS - NIE PUBLIKUJEMY!
+# ============================================
+
+# CORE SECRET PAYLOADS & ADVANCED TECHNIQUES
+payloads/god_tier_*.json
+payloads/elite_*.json  
+payloads/advanced_*.json
+payloads/private_*.json
+elite_payloads.py
+advanced_payloads.py
+god_tier_encoded_matrix.json
+no-experience-required-xss-signatures-only-fools-dont-use.txt
+
+# WDROZENIA ENHANCEMENTS (Nasze unikalne funkcje)
+xss_vibes/api_hunter.py         # Enhanced fingerprint + token replay
+tools/automation/               # Mega scale automation
+xss_vibes/encoding_engine.py    # Advanced encoding 
+xss_vibes/payload_mutation.py   # Mutation algorithms
+xss_vibes/advanced_patterns.py
+xss_vibes/waf_detector.py
+
+# SPECIALIZED HUNT TECHNIQUES
+ctrip_specialized_hunt/
+soa2_mass_hunt/
+ultimate_hunt_*/
+
+# PREMIUM INTELLIGENCE
+knoxss_config.json
+waf_list.txt
+All_Payloads.txt
+waf_payloads.json
+
+# SENSITIVE HUNT RESULTS  
+enhanced_xss_hunting_results/
+enhanced_test_results/
+dev_hunt_results/
+test_api_hunt/
+
+# BUSINESS LOGIC & INTEGRATIONS
+xss_vibes/integrations.py
+xss_vibes/knoxss_integration.py
+monitoring.db
+
 # Images
 *.png
 *.jpg
