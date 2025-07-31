@@ -113,8 +113,21 @@ monitoring.db
 
 # AUTOMATION TESTING
 tools/automation/*_tester.sh
-tools/create_advanced_*
-tools/test_advanced_*
+tools/automation/xss_hunting_automation.py
+
+# SOA2 MASS HUNTING & SERVICE IDS
+tools/soa2-mass-hunter
+tools/*soa2*
+*soa2*.py
+*service_ids*.json
+
+# RECONNAISSANCE INTELLIGENCE DATA  
+shodan_results.json
+fofa_results.json
+*_recon_*.json
+*_intelligence_*.json
+*_targets_*.json
+*_discovery_*.json
 
 # 🚨 RECONNAISSANCE INTELLIGENCE - CRITICAL SECURITY
 # ================================================
