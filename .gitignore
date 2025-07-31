@@ -145,6 +145,26 @@ archive/delivered_payloads_*/
 *pakiet*.csv
 exotic_payloads/
 
+# OSMEDEUS-STYLE CRAWLERS & CONFIGS
+tools/xss-crawler
+config/crawler_config.yaml
+config/*crawler*.yaml
+tools/*crawler*.py
+tools/advanced_crawler.py
+requirements_crawler.txt
+workspaces/
+*_crawler_*/
+
+# HUNTERS & RECONNAISSANCE TOOLS
+tools/*hunter*
+tools/api-hunter
+tools/target-hunter
+tools/wordlist-hunter
+tools/mass-validator
+tools/ctrip-hunter
+tools/dev-hunter
+tools/simple-target-hunter
+
 # 🚨 RECONNAISSANCE INTELLIGENCE - CRITICAL SECURITY
 # ================================================
 # Real IP addresses and reconnaissance data
